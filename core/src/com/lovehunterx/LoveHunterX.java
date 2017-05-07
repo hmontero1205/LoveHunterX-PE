@@ -16,6 +16,8 @@ public class LoveHunterX extends ApplicationAdapter {
 		img = new Texture("badlogic.jpg");
 	}
 
+	// hello there
+
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(1, 3, 0, 1);
