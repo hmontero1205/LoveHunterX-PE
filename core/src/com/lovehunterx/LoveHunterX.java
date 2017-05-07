@@ -17,7 +17,7 @@ public class LoveHunterX extends ApplicationAdapter {
 	}
 
 	// hello there
-	//my name is pewdiepie xD
+	//my name is pewdiepie xD xD
 
 	@Override
 	public void render () {
