@@ -18,7 +18,7 @@ public class LoveHunterX extends ApplicationAdapter {
 
 	// hello there
 	//my name is pewdiepie xD xD
-
+	//understandable have a great day
 	@Override
 	public void render () {
 		Gdx.gl.glClearColor(1, 0, 0, 1);
