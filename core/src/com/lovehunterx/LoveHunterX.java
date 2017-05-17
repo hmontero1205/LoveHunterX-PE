@@ -15,8 +15,8 @@ public class LoveHunterX extends Game {
 	@Override
 	public void create () {
 		ls = new LoginScreen();
+		Gdx.app.log("Test","Hey");
 		setScreen(ls);
-
 	}
 
 	@Override
