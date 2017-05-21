@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
+import com.lovehunterx.LoveHunterX;
 
 /**
  * Created by omesh on 5/16/2017.
@@ -46,6 +47,7 @@ public class LoginScreen implements Screen {
         logBut.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y){
                 Gdx.app.log("Input","User:"+user.getText()+"; Pass:"+pass.getText());
+                LoveHunterX.connection.getChannel().writeAndFlush("User:"+user.getText()+"; Pass:"+pass.getText());
             }
 
         });
