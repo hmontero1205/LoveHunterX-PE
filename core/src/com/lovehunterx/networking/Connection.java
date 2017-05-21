@@ -25,7 +25,7 @@ import io.netty.handler.codec.string.StringEncoder;
 public class Connection {
     private Channel channel;
     private static final String HOST = "98.113.92.111";
-    private static final int PORT = 8080;
+    private static final int PORT = 8000;
 
     public Connection() throws Exception {
         EventLoopGroup workerGroup = new NioEventLoopGroup();

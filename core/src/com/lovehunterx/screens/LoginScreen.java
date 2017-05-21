@@ -47,7 +47,13 @@ public class LoginScreen implements Screen {
         logBut.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y){
                 Gdx.app.log("Input","User:"+user.getText()+"; Pass:"+pass.getText());
-                LoveHunterX.connection.getChannel().writeAndFlush("User:"+user.getText()+"; Pass:"+pass.getText());
+                LoveHunterX.connection.getChannel().writeAndFlush("auth;"+user.getText()+";"+pass.getText());
+            }
+
+        });
+        regBut.addListener(new ClickListener(){
+            public void clicked(InputEvent e, float x, float y){
+                LoveHunterX.connection.getChannel().writeAndFlush("reg;"+user.getText()+";"+pass.getText());
             }
 
         });
