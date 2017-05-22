@@ -26,7 +26,7 @@ import com.lovehunterx.networking.Packet;
 
 public class LoginScreen implements Screen {
     private Stage stage;
-    private Image icon;
+    private Image back;
     private TextField user;
     private TextField pass;
     private TextButton logBut;
@@ -35,8 +35,9 @@ public class LoginScreen implements Screen {
 
     @Override
     public void show() {
-        icon = new Image(new Texture("LoveHunterXIcon.png"));
-        icon.setPosition(50,50);
+        //icon = new Image(new Texture("LoveHunterXIcon.png"));
+        back = new Image(new Texture("LHX.png"));
+        back.setPosition(0, (Gdx.graphics.getHeight() / 2) + back.getHeight());
         //icon.setScaling(.5);
         Skin mySkin = new Skin(Gdx.files.internal("neon-ui.json"));
         user = new TextField("user pls", mySkin);
@@ -69,7 +70,7 @@ public class LoginScreen implements Screen {
 
         stage = new Stage(new FitViewport(640, 480));
         Gdx.input.setInputProcessor(stage);
-        stage.addActor(icon);
+        stage.addActor(back);
         stage.addActor(user);
         stage.addActor(pass);
         stage.addActor(logBut);
