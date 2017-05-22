@@ -43,7 +43,7 @@ public class LoginScreen implements Screen {
         back = new Image(new Texture("LHX.png"));
         back.setPosition((stage.getWidth() / 2) - back.getWidth() / 2, ((stage.getHeight() / 2) - (back.getHeight() / 2) + 20));
 
-        Skin mySkin = new Skin(Gdx.files.internal("neon-ui.json"));l;
+        Skin mySkin = new Skin(Gdx.files.internal("neon-ui.json"));;
         user = new TextField("user pls", mySkin);
         pass = new TextField("pass pls", mySkin);
         logBut = new TextButton("Log in",mySkin);
@@ -80,7 +80,7 @@ public class LoginScreen implements Screen {
                     public void run() {
                         //Gdx.app.log("", String.valueOf(back.getY()));
                         back.setY(back.getY() + 1);
-                        if(back.getY() > 270) {
+                        if(back.getY() > 350) {
                             this.cancel();
                             stage.addActor(user);
                             stage.addActor(pass);
