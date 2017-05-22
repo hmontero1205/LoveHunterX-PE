@@ -8,11 +8,12 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.lovehunterx.networking.Connection;
+import com.lovehunterx.networking.Packet;
 import com.lovehunterx.screens.LoginScreen;
 import io.netty.buffer.*;
 
 public class LoveHunterX extends Game {
-	private LoginScreen ls;
+	public static LoginScreen ls;
 	public static Connection connection;
 	
 	@Override
@@ -25,6 +26,8 @@ public class LoveHunterX extends Game {
 			e.printStackTrace();
 		}
 		setScreen(ls);
+		Packet p = Packet.createAuthPacket("Hans", "meme");
+		Gdx.app.log("test", p.toJSON());
 	}
 
 	@Override

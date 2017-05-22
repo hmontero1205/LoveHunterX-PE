@@ -1,6 +1,8 @@
 package com.lovehunterx.networking;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.utils.Json;
+import com.lovehunterx.LoveHunterX;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.ByteBuf;
@@ -17,6 +19,7 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
+import io.netty.util.CharsetUtil;
 
 /**
  * Created by Hans on 5/20/2017.
@@ -55,11 +58,38 @@ public class Connection {
     private class Handler extends ChannelInboundHandlerAdapter {
 
         @Override
-        public void channelActive(ChannelHandlerContext ctx) throws Exception {
-            String msg = "OH SHIT!!";
-            ctx.writeAndFlush(msg);
+        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+            String m = (String) msg;
+            //String message = m.toString(CharsetUtil.US_ASCII);
+            //Gdx.app.log("response", m);
+            Json json = new Json();
+            Packet p = json.fromJson(Packet.class, m);
+            //Gdx.app.log("test", p.getAction());
+            interpretPacket(p);
+        }
+
+        private void interpretPacket(Packet p) {
+            if(p.getAction().equals("auth")) {
+                handleAuthentication(p);
+            } else {
+                if(p.getAction().equals("reg")) {
+                    handleRegistration(p);
+                }
+            }
+        }
+
+        private void handleAuthentication(Packet p) {
+            String message = (Boolean.parseBoolean(p.getData("success"))) ? "Log in worked dude what's good" : "log in failed goofy";
+            LoveHunterX.ls.showMessage(message);
+        }
+        private void handleRegistration(Packet p) {
+            String message = (Boolean.parseBoolean(p.getData("success"))) ? "Registration worked dude log in now" : "you goofy this account already exists";
+            LoveHunterX.ls.showMessage(message);
         }
     }
+
+
+
 
     private class ClientChannelInitializer extends ChannelInitializer<SocketChannel> {
 
