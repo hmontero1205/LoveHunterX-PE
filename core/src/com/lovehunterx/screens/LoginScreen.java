@@ -43,17 +43,17 @@ public class LoginScreen implements Screen {
         back = new Image(new Texture("LHX.png"));
         back.setPosition((stage.getWidth() / 2) - back.getWidth() / 2, ((stage.getHeight() / 2) - (back.getHeight() / 2) + 20));
 
-        Skin mySkin = new Skin(Gdx.files.internal("neon-ui.json"));
+        Skin mySkin = new Skin(Gdx.files.internal("neon-ui.json"));l;
         user = new TextField("user pls", mySkin);
         pass = new TextField("pass pls", mySkin);
         logBut = new TextButton("Log in",mySkin);
         regBut = new TextButton("Register",mySkin);
         messLabel = new Label("", mySkin);
         messLabel.setPosition(100,100);
-        user.setPosition(50,450);
-        pass.setPosition(200,450);
-        logBut.setPosition(50,400);
-        regBut.setPosition(200,400);
+        user.setPosition(100,200);
+        pass.setPosition(375,200);
+        logBut.setPosition(100,150);
+        regBut.setPosition(375,150);
         logBut.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y){
                 //Gdx.app.log("Input","User:"+user.getText()+"; Pass:"+pass.getText());
@@ -76,21 +76,22 @@ public class LoginScreen implements Screen {
 
             @Override
             public void run() {
-                stage.addActor(user);
-                stage.addActor(pass);
-                stage.addActor(logBut);
-                stage.addActor(regBut);
-                stage.addActor(messLabel);
+                timer.scheduleTask(new Timer.Task() {
+                    public void run() {
+                        //Gdx.app.log("", String.valueOf(back.getY()));
+                        back.setY(back.getY() + 1);
+                        if(back.getY() > 270) {
+                            this.cancel();
+                            stage.addActor(user);
+                            stage.addActor(pass);
+                            stage.addActor(logBut);
+                            stage.addActor(regBut);
+                            stage.addActor(messLabel);
+                        }
+                    }
+                }, 3, .01F);
             }
         }, 3);
-        timer.scheduleTask(new Timer.Task() {
-            public void run() {
-                Gdx.app.log("", String.valueOf(back.getY()));
-                back.setY(back.getY() + 1);
-                if(back.getY() > 270)
-                    this.cancel();
-            }
-        }, 3, .01F);
         stage.addActor(back);
     }
 
