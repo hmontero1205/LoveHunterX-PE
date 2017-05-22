@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.Json;
+import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.lovehunterx.LoveHunterX;
@@ -32,6 +33,7 @@ public class LoginScreen implements Screen {
     private TextButton logBut;
     private TextButton regBut;
     private Label messLabel;
+    private Timer timer;
 
     @Override
     public void show() {
@@ -39,8 +41,8 @@ public class LoginScreen implements Screen {
         stage = new Stage(new FitViewport(640, 480));
         Gdx.input.setInputProcessor(stage);
         back = new Image(new Texture("LHX.png"));
-        back.setPosition(0, ((stage.getHeight() / 2) - (back.getHeight() / 2) + 20));
-        //icon.setScaling(.5);
+        back.setPosition((stage.getWidth() / 2) - back.getWidth() / 2, ((stage.getHeight() / 2) - (back.getHeight() / 2) + 20));
+
         Skin mySkin = new Skin(Gdx.files.internal("neon-ui.json"));
         user = new TextField("user pls", mySkin);
         pass = new TextField("pass pls", mySkin);
@@ -69,12 +71,27 @@ public class LoginScreen implements Screen {
             }
 
         });
+        timer = new Timer();
+        timer.scheduleTask(new Timer.Task() {
+
+            @Override
+            public void run() {
+                stage.addActor(user);
+                stage.addActor(pass);
+                stage.addActor(logBut);
+                stage.addActor(regBut);
+                stage.addActor(messLabel);
+            }
+        }, 3);
+        timer.scheduleTask(new Timer.Task() {
+            public void run() {
+                Gdx.app.log("", String.valueOf(back.getY()));
+                back.setY(back.getY() + 1);
+                if(back.getY() > 270)
+                    this.cancel();
+            }
+        }, 3, .01F);
         stage.addActor(back);
-        stage.addActor(user);
-        stage.addActor(pass);
-        stage.addActor(logBut);
-        stage.addActor(regBut);
-        stage.addActor(messLabel);
     }
 
     @Override
@@ -118,4 +135,5 @@ public class LoginScreen implements Screen {
     public void showMessage(String m) {
         messLabel.setText(m);
     }
+
 }
