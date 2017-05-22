@@ -36,8 +36,10 @@ public class LoginScreen implements Screen {
     @Override
     public void show() {
         //icon = new Image(new Texture("LoveHunterXIcon.png"));
+        stage = new Stage(new FitViewport(640, 480));
+        Gdx.input.setInputProcessor(stage);
         back = new Image(new Texture("LHX.png"));
-        back.setPosition(0, (Gdx.graphics.getHeight() / 2) + back.getHeight());
+        back.setPosition(0, ((stage.getHeight() / 2) - (back.getHeight() / 2) + 20));
         //icon.setScaling(.5);
         Skin mySkin = new Skin(Gdx.files.internal("neon-ui.json"));
         user = new TextField("user pls", mySkin);
@@ -67,9 +69,6 @@ public class LoginScreen implements Screen {
             }
 
         });
-
-        stage = new Stage(new FitViewport(640, 480));
-        Gdx.input.setInputProcessor(stage);
         stage.addActor(back);
         stage.addActor(user);
         stage.addActor(pass);
