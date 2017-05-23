@@ -1,101 +1,66 @@
 package com.lovehunterx.screens;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
-import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
-import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.Json;
-import com.badlogic.gdx.utils.Timer;
 import com.badlogic.gdx.utils.viewport.FitViewport;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
-import com.lovehunterx.LoveHunterX;
-import com.lovehunterx.networking.Packet;
+import com.lovehunterx.Assets;
+import com.lovehunterx.screens.components.LoginButton;
+import com.lovehunterx.screens.components.RegisterButton;
 
-/**
- * Created by omesh on 5/16/2017.
- */
-
-public class LoginScreen implements Screen {
+public class LoginScreen extends LHXScreen {
     private Stage stage;
-    private Image back;
-    private TextField user;
-    private TextField pass;
-    private TextButton logBut;
-    private TextButton regBut;
-    private Label messLabel;
-    private Timer timer;
 
     @Override
     public void show() {
-        //icon = new Image(new Texture("LoveHunterXIcon.png"));
         stage = new Stage(new FitViewport(640, 480));
         Gdx.input.setInputProcessor(stage);
-        back = new Image(new Texture("LHX.png"));
-        back.setPosition((stage.getWidth() / 2) - back.getWidth() / 2, ((stage.getHeight() / 2) - (back.getHeight() / 2) + 20));
 
-        Skin mySkin = new Skin(Gdx.files.internal("neon-ui.json"));;
-        user = new TextField("user pls", mySkin);
-        pass = new TextField("pass pls", mySkin);
-        logBut = new TextButton("Log in",mySkin);
-        regBut = new TextButton("Register",mySkin);
-        messLabel = new Label("", mySkin);
-        messLabel.setPosition(180,200);
-        user.setPosition(100,300);
-        pass.setPosition(375,300);
-        logBut.setPosition(100,250);
-        regBut.setPosition(375,250);
-        logBut.addListener(new ClickListener(){
-            public void clicked(InputEvent e, float x, float y){
-                //Gdx.app.log("Input","User:"+user.getText()+"; Pass:"+pass.getText());
-                Packet p = Packet.createAuthPacket(user.getText(), pass.getText());
-                //LoveHunterX.connection.getChannel().writeAndFlush("auth;"+user.getText()+";"+pass.getText());
-                if(!LoveHunterX.connection.send(p)) {
-                    showMessage("Connection to server failed >:(");
-                }
-            }
-
-        });
-        regBut.addListener(new ClickListener(){
-            public void clicked(InputEvent e, float x, float y){
-                Packet p = Packet.createRegPacket(user.getText(), pass.getText());
-                if(!LoveHunterX.connection.send(p)) {
-                    showMessage("Connection to server failed >:(");
-                }
-
-            }
-
-        });
-        timer = new Timer();
-        timer.scheduleTask(new Timer.Task() {
-            public void run() {
-                timer.scheduleTask(new Timer.Task() {
-                    public void run() {
-                        //Gdx.app.log("", String.valueOf(back.getY()));
-                        back.setY(back.getY() + 1);
-                        if(back.getY() > 350) {
-                            this.cancel();
-                            stage.addActor(user);
-                            stage.addActor(pass);
-                            stage.addActor(logBut);
-                            stage.addActor(regBut);
-                            stage.addActor(messLabel);
-                        }
-                    }
-                }, 3, .01F);
-            }
-        }, 3);
+        Image back = new Image(Assets.LHX_LOGO);
+        back.setPosition(centerX(back), centerY(back) + 20);
         stage.addActor(back);
+
+        final TextField user = new TextField("username", Assets.SKIN);
+        user.setPosition(centerX(user), 230);
+
+        final TextField pass = new TextField("password", Assets.SKIN);
+        pass.setPosition(centerX(pass), 200);
+
+        LoginButton logBut = new LoginButton(user, pass, centerX(user) - 3, 150);
+        RegisterButton regBut = new RegisterButton(user, pass, centerX(user) + (logBut.getWidth() / 2) + 30, 150);
+
+        final Group ui = new Group();
+        ui.addActor(user);
+        ui.addActor(pass);
+        ui.addActor(logBut);
+        ui.addActor(regBut);
+
+        // animation
+        MoveToAction moveTo = Actions.moveTo(back.getX(), 250, 1, Interpolation.pow2Out);
+        SequenceAction seq = Actions.sequence(Actions.delay(2), moveTo, Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                stage.addActor(ui);
+            }
+        }));
+
+        back.addAction(seq);
+    }
+
+    private float centerX(Actor a) {
+        return (stage.getWidth() / 2) - (a.getWidth() / 2);
+    }
+
+    private float centerY(Actor a) {
+        return (stage.getHeight() / 2) - (a.getHeight() / 2);
     }
 
     @Override
@@ -104,11 +69,6 @@ public class LoginScreen implements Screen {
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
-
-//        icon.setX(icon.getX() + 1);
-//        if (icon.getX() > Gdx.graphics.getWidth() / 2) {
-//            icon.remove();
-//        }
     }
 
     @Override
@@ -136,8 +96,8 @@ public class LoginScreen implements Screen {
         stage.dispose();
     }
 
-    public void showMessage(String m) {
-        messLabel.setText(m);
+    @Override
+    public Stage getStage() {
+        return stage;
     }
-
 }

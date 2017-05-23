@@ -1,36 +1,46 @@
 package com.lovehunterx;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.Gdx;
 import com.lovehunterx.networking.Connection;
-import com.lovehunterx.networking.Packet;
+import com.lovehunterx.screens.LHXScreen;
 import com.lovehunterx.screens.LoginScreen;
-import io.netty.buffer.*;
 
 public class LoveHunterX extends Game {
-	public static LoginScreen ls;
-	public static Connection connection;
+    public static final LoginScreen LOGIN_SCREEN = new LoginScreen();
+    private static LoveHunterX lhx;
+    private static Connection connection;
 
-	@Override
-	public void create () {
-		ls = new LoginScreen();
-		setScreen(ls);
-		try {
-			connection = new Connection();
-			connection.init();
-		} catch (Exception e) {
-			Gdx.app.log("Error:", "Server connection failed >:(");
-			ls.showMessage("Server connection failed try again ok?");
-			e.printStackTrace();
-		}
-	}
+    public static Connection getConnection() {
+        return connection;
+    }
 
-	@Override
-	public void dispose () {
-	}
+    public static void changeScreen(LHXScreen screen) {
+        lhx.setScreen(screen);
+    }
+
+    public static void displayNotification(String message) {
+        LHXScreen screen = (LHXScreen) lhx.getScreen();
+        screen.displayNotification(message);
+    }
+
+    @Override
+    public void create() {
+        lhx = this;
+
+        try {
+            connection = new Connection();
+            connection.init();
+        } catch (Exception e) {
+            Gdx.app.log("Error:", "Server connection failed >:(");
+            e.printStackTrace();
+        }
+
+        changeScreen(LOGIN_SCREEN);
+    }
+
+    @Override
+    public void dispose() {
+        connection.end();
+    }
 }

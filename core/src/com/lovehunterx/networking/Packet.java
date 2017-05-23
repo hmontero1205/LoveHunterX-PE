@@ -5,10 +5,6 @@ import com.badlogic.gdx.utils.JsonWriter;
 
 import java.util.HashMap;
 
-/**
- * Created by Hans on 5/21/2017.
- */
-
 public class Packet {
     private String action;
     private HashMap<String, String> data;
@@ -19,7 +15,6 @@ public class Packet {
     }
 
     public Packet() {
-
     }
 
     public static Packet createAuthPacket(String user, String pass) {
@@ -51,6 +46,5 @@ public class Packet {
     public String getData(String key) {
         return this.data.get(key);
     }
-
 
 }

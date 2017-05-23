@@ -2,10 +2,10 @@ package com.lovehunterx.networking;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
-import com.lovehunterx.LoveHunterX;
+
+import java.util.HashMap;
 
 import io.netty.bootstrap.Bootstrap;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
@@ -19,44 +19,44 @@ import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
-import io.netty.util.CharsetUtil;
-
-import static com.lovehunterx.LoveHunterX.connection;
-
-/**
- * Created by Hans on 5/20/2017.
- */
 
 public class Connection {
-    private Channel channel;
     private static final String HOST = "144.217.84.58";
     private static final int PORT = 8080;
+    private Channel channel;
+
+    private HashMap<String, Listener> listeners;
 
     public void init() throws InterruptedException {
         EventLoopGroup workerGroup = new NioEventLoopGroup();
+
+        Bootstrap b = new Bootstrap();
+        b.group(workerGroup);
+        b.channel(NioSocketChannel.class);
+        b.option(ChannelOption.SO_KEEPALIVE, true);
+        b.handler(new ClientChannelInitializer());
+
+        listeners = new HashMap<String, Listener>();
+
+        // Start the client.
+        ChannelFuture f = b.connect(HOST, PORT).sync();
+        channel = f.channel();
+    }
+
+    public void end() {
         try {
-            Bootstrap b = new Bootstrap();
-            b.group(workerGroup);
-            b.channel(NioSocketChannel.class);
-            b.option(ChannelOption.SO_KEEPALIVE, true);
-            b.handler(new ClientChannelInitializer());
-            // Start the client.
-            ChannelFuture f = b.connect(HOST, PORT).sync();
-            channel = f.channel();
-
-            // Wait until the connection is closed.
-            //f.channel().closeFuture();
-
-        } finally {
-            //workerGroup.shutdownGracefully();
+            channel.close().sync();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
+
     public Channel getChannel() {
         return this.channel;
     }
 
-    public boolean send(Packet p){
-        if(channel == null || !channel.isActive()) {
+    public boolean send(Packet p) {
+        if (channel == null || !channel.isActive()) {
             return false;
         }
 
@@ -64,43 +64,34 @@ public class Connection {
         return true;
     }
 
-
+    public void registerListener(String name, Listener listener) {
+        listeners.put(name, listener);
+    }
 
     private class Handler extends ChannelInboundHandlerAdapter {
 
         @Override
         public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
             String m = (String) msg;
-            //String message = m.toString(CharsetUtil.US_ASCII);
-            //Gdx.app.log("response", m);
             Json json = new Json();
             Packet p = json.fromJson(Packet.class, m);
-            //Gdx.app.log("test", p.getAction());
             interpretPacket(p);
         }
 
-        private void interpretPacket(Packet p) {
-            if(p.getAction().equals("auth")) {
-                handleAuthentication(p);
-            } else {
-                if(p.getAction().equals("reg")) {
-                    handleRegistration(p);
-                }
+        private void interpretPacket(final Packet p) {
+            final Listener listener = listeners.get(p.getAction());
+            if (listener == null) {
+                return;
             }
-        }
 
-        private void handleAuthentication(Packet p) {
-            String message = (Boolean.parseBoolean(p.getData("success"))) ? "Log in worked dude what's good" : "log in failed goofy";
-            LoveHunterX.ls.showMessage(message);
-        }
-        private void handleRegistration(Packet p) {
-            String message = (Boolean.parseBoolean(p.getData("success"))) ? "Registration worked dude log in now" : "you goofy this account already exists";
-            LoveHunterX.ls.showMessage(message);
+            Gdx.app.postRunnable(new Runnable() {
+                @Override
+                public void run() {
+                    listener.handle(p);
+                }
+            });
         }
     }
-
-
-
 
     private class ClientChannelInitializer extends ChannelInitializer<SocketChannel> {
 
@@ -112,6 +103,4 @@ public class Connection {
             pipeline.addLast("handler", new Handler());
         }
     }
-
-
 }
