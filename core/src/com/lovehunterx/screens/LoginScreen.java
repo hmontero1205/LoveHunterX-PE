@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -59,22 +60,24 @@ public class LoginScreen implements Screen {
                 //Gdx.app.log("Input","User:"+user.getText()+"; Pass:"+pass.getText());
                 Packet p = Packet.createAuthPacket(user.getText(), pass.getText());
                 //LoveHunterX.connection.getChannel().writeAndFlush("auth;"+user.getText()+";"+pass.getText());
-                LoveHunterX.connection.getChannel().writeAndFlush(p.toJSON());
+                if(!LoveHunterX.connection.send(p)) {
+                    showMessage("Connection to server failed >:(");
+                }
             }
 
         });
         regBut.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y){
                 Packet p = Packet.createRegPacket(user.getText(), pass.getText());
-                LoveHunterX.connection.getChannel().writeAndFlush(p.toJSON());
+                if(!LoveHunterX.connection.send(p)) {
+                    showMessage("Connection to server failed >:(");
+                }
 
             }
 
         });
         timer = new Timer();
         timer.scheduleTask(new Timer.Task() {
-
-            @Override
             public void run() {
                 timer.scheduleTask(new Timer.Task() {
                     public void run() {

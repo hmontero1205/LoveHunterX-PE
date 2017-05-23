@@ -21,6 +21,8 @@ import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.CharsetUtil;
 
+import static com.lovehunterx.LoveHunterX.connection;
+
 /**
  * Created by Hans on 5/20/2017.
  */
@@ -30,7 +32,7 @@ public class Connection {
     private static final String HOST = "144.217.84.58";
     private static final int PORT = 8080;
 
-    public Connection() throws Exception {
+    public void init() throws InterruptedException {
         EventLoopGroup workerGroup = new NioEventLoopGroup();
         try {
             Bootstrap b = new Bootstrap();
@@ -49,10 +51,19 @@ public class Connection {
             //workerGroup.shutdownGracefully();
         }
     }
-
     public Channel getChannel() {
         return this.channel;
     }
+
+    public boolean send(Packet p){
+        if(channel == null || !channel.isActive()) {
+            return false;
+        }
+
+        channel.writeAndFlush(p.toJSON());
+        return true;
+    }
+
 
 
     private class Handler extends ChannelInboundHandlerAdapter {

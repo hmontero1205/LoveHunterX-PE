@@ -19,13 +19,15 @@ public class LoveHunterX extends Game {
 	@Override
 	public void create () {
 		ls = new LoginScreen();
+		setScreen(ls);
 		try {
 			connection = new Connection();
+			connection.init();
 		} catch (Exception e) {
 			Gdx.app.log("Error:", "Server connection failed >:(");
+			ls.showMessage("Server connection failed try again ok?");
 			e.printStackTrace();
 		}
-		setScreen(ls);
 	}
 
 	@Override
