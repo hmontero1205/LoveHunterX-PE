@@ -49,11 +49,11 @@ public class LoginScreen implements Screen {
         logBut = new TextButton("Log in",mySkin);
         regBut = new TextButton("Register",mySkin);
         messLabel = new Label("", mySkin);
-        messLabel.setPosition(100,100);
-        user.setPosition(100,200);
-        pass.setPosition(375,200);
-        logBut.setPosition(100,150);
-        regBut.setPosition(375,150);
+        messLabel.setPosition(180,200);
+        user.setPosition(100,300);
+        pass.setPosition(375,300);
+        logBut.setPosition(100,250);
+        regBut.setPosition(375,250);
         logBut.addListener(new ClickListener(){
             public void clicked(InputEvent e, float x, float y){
                 //Gdx.app.log("Input","User:"+user.getText()+"; Pass:"+pass.getText());

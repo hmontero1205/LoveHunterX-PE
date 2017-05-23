@@ -20,14 +20,12 @@ public class LoveHunterX extends Game {
 	public void create () {
 		ls = new LoginScreen();
 		try {
-			//connection = new Connection();
+			connection = new Connection();
 		} catch (Exception e) {
 			Gdx.app.log("Error:", "Server connection failed >:(");
 			e.printStackTrace();
 		}
 		setScreen(ls);
-		Packet p = Packet.createAuthPacket("Hans", "meme");
-		Gdx.app.log("test", p.toJSON());
 	}
 
 	@Override
