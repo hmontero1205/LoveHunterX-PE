@@ -23,7 +23,7 @@ public class LoginScreen extends LHXScreen {
 
     @Override
     public void show() {
-
+        //
         stage = new Stage(new FitViewport(640, 480));
         Gdx.input.setInputProcessor(stage);
 
