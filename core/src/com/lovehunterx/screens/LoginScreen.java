@@ -23,6 +23,7 @@ public class LoginScreen extends LHXScreen {
 
     @Override
     public void show() {
+
         stage = new Stage(new FitViewport(640, 480));
         Gdx.input.setInputProcessor(stage);
 
@@ -34,6 +35,8 @@ public class LoginScreen extends LHXScreen {
         //user.setPosition(centerX(user), 230);
 
         final TextField pass = new TextField("password", Assets.SKIN);
+        pass.setPasswordCharacter('*');
+        pass.setPasswordMode(true);
         //pass.setPosition(centerX(pass), 200);
 
         LoginButton logBut = new LoginButton(user, pass, centerX(user) - 3, 150);
