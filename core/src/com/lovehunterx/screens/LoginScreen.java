@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveToAction;
 import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lovehunterx.Assets;
@@ -29,22 +30,32 @@ public class LoginScreen extends LHXScreen {
         stage.addActor(back);
 
         final TextField user = new TextField("username", Assets.SKIN);
-        user.setPosition(centerX(user), 230);
+        //user.setPosition(centerX(user), 230);
 
         final TextField pass = new TextField("password", Assets.SKIN);
-        pass.setPosition(centerX(pass), 200);
+        //pass.setPosition(centerX(pass), 200);
 
         LoginButton logBut = new LoginButton(user, pass, centerX(user) - 3, 150);
         RegisterButton regBut = new RegisterButton(user, pass, centerX(user) + (logBut.getWidth() / 2) + 30, 150);
 
+        Table fields = new Table();
+        fields.setPosition(centerX(fields),centerY(fields)+40);
+        fields.add(user).height(40).width(200);
+        fields.row();
+        fields.add(pass).height(40).width(200);
+
+        Table buttons = new Table();
+        buttons.setPosition(centerX(fields),centerY(fields)-40);
+        buttons.add(logBut).height(50).width(100).fillX();
+        buttons.add(regBut).height(50).width(100).fillX();
+
+
         final Group ui = new Group();
-        ui.addActor(user);
-        ui.addActor(pass);
-        ui.addActor(logBut);
-        ui.addActor(regBut);
+        ui.addActor(fields);
+        ui.addActor(buttons);
 
         // animation
-        MoveToAction moveTo = Actions.moveTo(back.getX(), 250, 1, Interpolation.pow2Out);
+        MoveToAction moveTo = Actions.moveTo(back.getX(), 350, 1, Interpolation.pow2Out);
         SequenceAction seq = Actions.sequence(Actions.delay(2), moveTo, Actions.run(new Runnable() {
             @Override
             public void run() {
