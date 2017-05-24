@@ -31,10 +31,7 @@ public class LoginScreen extends LHXScreen {
         stage.addActor(back);
 
         final TextField user = new TextField("username", Assets.SKIN);
-        //user.setPosition(centerX(user), 230);
-
         final TextField pass = new TextField("password", Assets.SKIN);
-        //pass.setPosition(centerX(pass), 200);
 
         LoginButton logBut = new LoginButton(user, pass, centerX(user) - 3, 150);
         RegisterButton regBut = new RegisterButton(user, pass, centerX(user) + (logBut.getWidth() / 2) + 30, 150);
@@ -49,7 +46,6 @@ public class LoginScreen extends LHXScreen {
         buttons.setPosition(centerX(fields),centerY(fields)-40);
         buttons.add(logBut).height(50).width(100).fillX();
         buttons.add(regBut).height(50).width(100).fillX();
-
 
         final Group ui = new Group();
         ui.addActor(fields);

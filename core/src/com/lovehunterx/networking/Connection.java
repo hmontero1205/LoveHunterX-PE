@@ -98,13 +98,14 @@ public class Connection {
                 return;
             }
 
-            for (final Listener l : responders)
+            for (final Listener l : responders) {
                 Gdx.app.postRunnable(new Runnable() {
                     @Override
                     public void run() {
                         l.handle(p);
                     }
                 });
+            }
         }
     }
 

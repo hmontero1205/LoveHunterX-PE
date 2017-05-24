@@ -6,9 +6,12 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.game.entities.Player;
+import com.lovehunterx.networking.Listener;
+import com.lovehunterx.networking.Packet;
 
 public class RoomScreen extends LHXScreen {
     private Stage stage;
+    private String room;
 
     @Override
     public void show() {
@@ -16,6 +19,17 @@ public class RoomScreen extends LHXScreen {
         Gdx.input.setInputProcessor(stage);
 
         stage.addActor(new Player(LoveHunterX.getUsername()));
+
+        LoveHunterX.getConnection().registerListener("join", new Listener() {
+            @Override
+            public void handle(Packet packet) {
+                if (packet.getData("player").equals(LoveHunterX.getUsername())) {
+                    room = packet.getData("room");
+                }
+
+                stage.addActor(new Player(packet.getData("username")));
+            }
+        });
     }
 
     @Override
