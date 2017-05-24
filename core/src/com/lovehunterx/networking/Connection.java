@@ -3,6 +3,8 @@ package com.lovehunterx.networking;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 
 import io.netty.bootstrap.Bootstrap;
@@ -25,7 +27,7 @@ public class Connection {
     private static final int PORT = 8080;
     private Channel channel;
 
-    private HashMap<String, Listener> listeners;
+    private HashMap<String, ArrayList<Listener>> listeners;
 
     public void init() throws InterruptedException {
         EventLoopGroup workerGroup = new NioEventLoopGroup();
@@ -36,7 +38,7 @@ public class Connection {
         b.option(ChannelOption.SO_KEEPALIVE, true);
         b.handler(new ClientChannelInitializer());
 
-        listeners = new HashMap<String, Listener>();
+        listeners = new HashMap<String, ArrayList<Listener>>();
 
         // Start the client.
         ChannelFuture f = b.connect(HOST, PORT).sync();
@@ -44,6 +46,10 @@ public class Connection {
     }
 
     public void end() {
+        if (channel != null || !channel.isActive()) {
+            return;
+        }
+
         try {
             channel.close().sync();
         } catch (InterruptedException e) {
@@ -65,7 +71,15 @@ public class Connection {
     }
 
     public void registerListener(String name, Listener listener) {
-        listeners.put(name, listener);
+        if (listeners.get(name) != null) {
+            listeners.get(name).add(listener);
+        } else {
+            listeners.put(name, new ArrayList<Listener>(Arrays.asList(listener)));
+        }
+    }
+
+    public void clearListeners() {
+        listeners.clear();
     }
 
     private class Handler extends ChannelInboundHandlerAdapter {
@@ -79,17 +93,18 @@ public class Connection {
         }
 
         private void interpretPacket(final Packet p) {
-            final Listener listener = listeners.get(p.getAction());
-            if (listener == null) {
+            final ArrayList<Listener> responders = listeners.get(p.getAction());
+            if (responders == null) {
                 return;
             }
 
-            Gdx.app.postRunnable(new Runnable() {
-                @Override
-                public void run() {
-                    listener.handle(p);
-                }
-            });
+            for (final Listener l : responders)
+                Gdx.app.postRunnable(new Runnable() {
+                    @Override
+                    public void run() {
+                        l.handle(p);
+                    }
+                });
         }
     }
 

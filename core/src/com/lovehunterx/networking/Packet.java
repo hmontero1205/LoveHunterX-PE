@@ -33,6 +33,12 @@ public class Packet {
 
     }
 
+    public static Packet createMovementPacket(int dir) {
+        HashMap<String, String> moveData = new HashMap<String, String>();
+        moveData.put("direction", String.valueOf(dir));
+        return new Packet("move", moveData);
+    }
+
     public String toJSON() {
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);

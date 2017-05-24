@@ -13,8 +13,9 @@ import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lovehunterx.Assets;
-import com.lovehunterx.screens.components.LoginButton;
-import com.lovehunterx.screens.components.RegisterButton;
+import com.lovehunterx.LoveHunterX;
+import com.lovehunterx.screens.ui.LoginButton;
+import com.lovehunterx.screens.ui.RegisterButton;
 
 public class LoginScreen extends LHXScreen {
     private Stage stage;
@@ -88,7 +89,7 @@ public class LoginScreen extends LHXScreen {
 
     @Override
     public void hide() {
-
+        LoveHunterX.getConnection().clearListeners();
     }
 
     @Override

@@ -5,11 +5,23 @@ import com.badlogic.gdx.Gdx;
 import com.lovehunterx.networking.Connection;
 import com.lovehunterx.screens.LHXScreen;
 import com.lovehunterx.screens.LoginScreen;
+import com.lovehunterx.screens.RoomScreen;
 
 public class LoveHunterX extends Game {
     public static final LoginScreen LOGIN_SCREEN = new LoginScreen();
+    public static final RoomScreen ROOM_SCREEN = new RoomScreen();
     private static LoveHunterX lhx;
     private static Connection connection;
+
+    private static String username;
+
+    public static String getUsername() {
+        return username;
+    }
+
+    public static void setUsername(String username) {
+        LoveHunterX.username = username;
+    }
 
     public static Connection getConnection() {
         return connection;
@@ -28,15 +40,20 @@ public class LoveHunterX extends Game {
     public void create() {
         lhx = this;
 
+        boolean connected = true;
         try {
             connection = new Connection();
             connection.init();
         } catch (Exception e) {
             Gdx.app.log("Error:", "Server connection failed >:(");
+            connected = false;
             e.printStackTrace();
         }
 
         changeScreen(LOGIN_SCREEN);
+        if (!connected) {
+            displayNotification("Server connection failed >:(");
+        }
     }
 
     @Override
