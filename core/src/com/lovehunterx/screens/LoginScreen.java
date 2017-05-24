@@ -56,7 +56,7 @@ public class LoginScreen extends LHXScreen {
         ui.addActor(buttons);
 
         // animation
-        MoveToAction moveTo = Actions.moveTo(back.getX(), 350, 1, Interpolation.pow2Out);
+        MoveToAction moveTo = Actions.moveTo(back.getX(), 325, 1, Interpolation.pow2Out);
         SequenceAction seq = Actions.sequence(Actions.delay(2), moveTo, Actions.run(new Runnable() {
             @Override
             public void run() {
@@ -77,7 +77,7 @@ public class LoginScreen extends LHXScreen {
 
     @Override
     public void render(float delta) {
-        Gdx.gl.glClearColor(1, 1, 1, 1);
+        Gdx.gl.glClearColor(1f, .914f, .91f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
