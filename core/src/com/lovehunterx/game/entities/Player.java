@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.networking.Listener;
@@ -20,6 +21,11 @@ public class Player extends Group {
     public Player(final String name) {
         walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES);
         setName(name);
+
+        TextButton tag = new TextButton(name, Assets.SKIN);
+        tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
+        tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
+        addActor(tag);
 
         LoveHunterX.getConnection().registerListener("move", new Listener() {
             @Override
