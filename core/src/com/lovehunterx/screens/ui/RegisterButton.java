@@ -12,9 +12,8 @@ import com.lovehunterx.networking.Packet;
 public class RegisterButton extends TextButton {
 
 
-    public RegisterButton(final TextField user, final TextField pass, float x, float y) {
+    public RegisterButton(final TextField user, final TextField pass) {
         super("Register", Assets.SKIN);
-        setPosition(x, y);
 
         addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {

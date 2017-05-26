@@ -1,6 +1,5 @@
 package com.lovehunterx.game.entities;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,23 +14,31 @@ public class Player extends Group {
     private Animation<TextureRegion> walkAnimation;
     private Image body;
     private float stateTime;
-    private int lastDirection, direction;
-    private String name;
+    private int lastDirection = 1;
+    private int direction;
 
     public Player(final String name) {
         walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES);
-        this.name = name;
-
-        changeDirection(1);
+        setName(name);
 
         LoveHunterX.getConnection().registerListener("move", new Listener() {
             @Override
             public void handle(Packet packet) {
+                System.out.println(packet.toJSON());
                 if (!packet.getData("user").equals(name)) {
                     return;
                 }
 
                 changeDirection(Integer.valueOf(packet.getData("direction")));
+            }
+        });
+
+        LoveHunterX.getConnection().registerListener("leave", new Listener() {
+            @Override
+            public void handle(Packet packet) {
+                if (packet.getData("player").equals(name)) {
+                    remove();
+                }
             }
         });
     }
@@ -49,15 +56,12 @@ public class Player extends Group {
         super.act(deltaTime);
 
         stateTime += deltaTime;
-        if (Gdx.input.justTouched()) {
-            changeDirection(direction == -1 ? 1 : -1);
-        }
-
-        setX(getX() + direction * 3);
+        setX(getX() + direction * 30 * deltaTime);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
         TextureRegion tex = walkAnimation.getKeyFrame(direction == 0 ? 0.32f : stateTime, true);
         if ((lastDirection == -1 && !tex.isFlipX()) || (lastDirection == 1 && tex.isFlipX())) {
             tex.flip(true, false);

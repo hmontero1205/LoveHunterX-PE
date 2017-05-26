@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
+import com.lovehunterx.screens.ui.FixedGroup;
 import com.lovehunterx.screens.ui.LoginButton;
 import com.lovehunterx.screens.ui.RegisterButton;
 
@@ -23,7 +24,6 @@ public class LoginScreen extends LHXScreen {
 
     @Override
     public void show() {
-        //
         stage = new Stage(new FitViewport(640, 480));
         Gdx.input.setInputProcessor(stage);
 
@@ -32,22 +32,22 @@ public class LoginScreen extends LHXScreen {
         stage.addActor(back);
 
         final TextField user = new TextField("username", Assets.SKIN);
+        user.setScale(2);
         final TextField pass = new TextField("password", Assets.SKIN);
-
         pass.setPasswordCharacter('*');
         pass.setPasswordMode(true);
 
-        LoginButton logBut = new LoginButton(user, pass, centerX(user) - 3, 150);
-        RegisterButton regBut = new RegisterButton(user, pass, centerX(user) + (logBut.getWidth() / 2) + 30, 150);
+        LoginButton logBut = new LoginButton(user, pass);
+        RegisterButton regBut = new RegisterButton(user, pass);
 
         Table fields = new Table();
-        fields.setPosition(centerX(fields),centerY(fields)+40);
+        fields.setPosition(centerX(fields), centerY(fields) + 40);
         fields.add(user).height(40).width(200);
         fields.row();
         fields.add(pass).height(40).width(200);
 
         Table buttons = new Table();
-        buttons.setPosition(centerX(fields),centerY(fields)-40);
+        buttons.setPosition(centerX(fields), centerY(fields) - 40);
         buttons.add(logBut).height(50).width(100).fillX();
         buttons.add(regBut).height(50).width(100).fillX();
 
@@ -65,6 +65,9 @@ public class LoginScreen extends LHXScreen {
         }));
 
         back.addAction(seq);
+
+        FixedGroup fixed = new FixedGroup();
+        stage.addActor(fixed);
     }
 
     private float centerX(Actor a) {

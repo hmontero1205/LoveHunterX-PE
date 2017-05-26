@@ -11,9 +11,8 @@ import com.lovehunterx.networking.Packet;
 
 public class LoginButton extends TextButton {
 
-    public LoginButton(final TextField user, final TextField pass, float x, float y) {
+    public LoginButton(final TextField user, final TextField pass) {
         super("Login", Assets.SKIN);
-        setPosition(x, y);
 
         addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {

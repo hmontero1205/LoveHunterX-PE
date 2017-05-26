@@ -46,7 +46,7 @@ public class Connection {
     }
 
     public void end() {
-        if (channel != null || !channel.isActive()) {
+        if (channel == null || !channel.isActive()) {
             return;
         }
 

@@ -360,7 +360,7 @@ com.badlogic.gdx.scenes.scene2d.ui.SplitPane$SplitPaneStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 	default: {
-		font: font
+		font: roboto
 		fontColor: text
 		downFontColor: text-selected
 		up: button-c
@@ -370,7 +370,7 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
 	default: {
-		font: font
+		font: roboto
 		fontColor: text
 		background: textfield-c
 		focusedBackground: textfield-selected-c

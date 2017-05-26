@@ -2,7 +2,6 @@ package com.lovehunterx.networking;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
-import com.lovehunterx.LoveHunterX;
 
 import java.util.HashMap;
 
@@ -15,6 +14,11 @@ public class Packet {
         this.data = d;
     }
 
+    public Packet(String a) {
+        this.action = a;
+        this.data = new HashMap<String, String>();
+    }
+
     public Packet() {
     }
 
@@ -23,7 +27,6 @@ public class Packet {
         authData.put("user", user);
         authData.put("pass", pass);
         return new Packet("auth", authData);
-
     }
 
     public static Packet createRegPacket(String user, String pass) {
@@ -31,13 +34,18 @@ public class Packet {
         regData.put("user", user);
         regData.put("pass", pass);
         return new Packet("reg", regData);
-
     }
 
     public static Packet createMovementPacket(int dir) {
         HashMap<String, String> moveData = new HashMap<String, String>();
         moveData.put("direction", String.valueOf(dir));
         return new Packet("move", moveData);
+    }
+
+    public static Packet createJoinRoomPacket(String room) {
+        HashMap<String, String> joinData = new HashMap<String, String>();
+        joinData.put("room", room);
+        return new Packet("join", joinData);
     }
 
     public String toJSON() {
@@ -52,6 +60,10 @@ public class Packet {
 
     public String getData(String key) {
         return this.data.get(key);
+    }
+
+    public void addData(String key, String val) {
+        this.data.put(key, val);
     }
 
 }
