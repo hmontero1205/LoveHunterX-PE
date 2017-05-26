@@ -42,7 +42,7 @@ public class Player extends Group {
         LoveHunterX.getConnection().registerListener("leave", new Listener() {
             @Override
             public void handle(Packet packet) {
-                if (packet.getData("player").equals(name)) {
+                if (packet.getData("user").equals(name)) {
                     remove();
                 }
             }

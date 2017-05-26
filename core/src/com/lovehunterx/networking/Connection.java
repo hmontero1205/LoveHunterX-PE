@@ -19,6 +19,7 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.json.JsonObjectDecoder;
 import io.netty.handler.codec.string.StringDecoder;
 import io.netty.handler.codec.string.StringEncoder;
 
@@ -114,8 +115,9 @@ public class Connection {
         @Override
         protected void initChannel(SocketChannel socketChannel) throws Exception {
             ChannelPipeline pipeline = socketChannel.pipeline();
-            pipeline.addLast("decoder", new StringDecoder());
-            pipeline.addLast("encoder", new StringEncoder());
+            pipeline.addLast("json_framer", new JsonObjectDecoder());
+            pipeline.addLast("string_decoder", new StringDecoder());
+            pipeline.addLast("string_encoder", new StringEncoder());
             pipeline.addLast("handler", new Handler());
         }
     }
