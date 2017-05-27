@@ -34,6 +34,7 @@ public class Assets {
     public static final TextureRegion[] WALK_FRAMES = new TextureRegion[8];
     static {
         Texture walks = new Texture(Gdx.files.internal("walk.png"));
+        //Texture walks = new Texture(Gdx.files.internal("boyWalk.png"));
         TextureRegion[][] tmp = TextureRegion.split(walks, walks.getWidth() / 8, walks.getHeight());
         System.arraycopy(tmp[0], 0, WALK_FRAMES, 0, tmp[0].length);
     }

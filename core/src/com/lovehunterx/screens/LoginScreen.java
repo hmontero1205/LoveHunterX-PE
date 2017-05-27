@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextField;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
+import com.lovehunterx.screens.ui.Field;
 import com.lovehunterx.screens.ui.FixedGroup;
 import com.lovehunterx.screens.ui.LoginButton;
 import com.lovehunterx.screens.ui.RegisterButton;
@@ -31,9 +32,9 @@ public class LoginScreen extends LHXScreen {
         back.setPosition(centerX(back), centerY(back) + 20);
         stage.addActor(back);
 
-        final TextField user = new TextField("username", Assets.SKIN);
+        final Field user = new Field("username", Assets.SKIN);
         user.setScale(2);
-        final TextField pass = new TextField("password", Assets.SKIN);
+        final Field pass = new Field("password", Assets.SKIN);
         pass.setPasswordCharacter('*');
         pass.setPasswordMode(true);
 

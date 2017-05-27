@@ -12,11 +12,15 @@ import com.lovehunterx.networking.Packet;
 public class RegisterButton extends TextButton {
 
 
-    public RegisterButton(final TextField user, final TextField pass) {
+    public RegisterButton(final Field user, final Field pass) {
         super("Register", Assets.SKIN);
 
         addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
+                if(user.getText().equals("username") && pass.getText().equals("password")){
+                    LoveHunterX.displayNotification("make a legit account please");
+                    return;
+                }
                 Packet p = Packet.createRegPacket(user.getText(), pass.getText());
                 if (!LoveHunterX.getConnection().send(p)) {
                     LoveHunterX.displayNotification("Connection to server failed >:(");
