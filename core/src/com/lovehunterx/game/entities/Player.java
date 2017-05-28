@@ -30,7 +30,6 @@ public class Player extends Group {
         LoveHunterX.getConnection().registerListener("move", new Listener() {
             @Override
             public void handle(Packet packet) {
-                System.out.println(packet.toJSON());
                 if (!packet.getData("user").equals(name)) {
                     return;
                 }

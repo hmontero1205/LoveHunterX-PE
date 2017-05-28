@@ -48,6 +48,10 @@ public class Packet {
         return new Packet("join", joinData);
     }
 
+    public static Packet createDisconnectPacket() {
+        return new Packet("disconnect", new HashMap<String, String>());
+    }
+
     public String toJSON() {
         Json json = new Json();
         json.setOutputType(JsonWriter.OutputType.json);

@@ -3,53 +3,53 @@ package com.lovehunterx.networking;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
 
+import java.net.InetSocketAddress;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 import io.netty.bootstrap.Bootstrap;
+import io.netty.buffer.ByteBuf;
+import io.netty.buffer.Unpooled;
 import io.netty.channel.Channel;
-import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.channel.ChannelInboundHandlerAdapter;
-import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelOption;
-import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
+import io.netty.channel.SimpleChannelInboundHandler;
 import io.netty.channel.nio.NioEventLoopGroup;
-import io.netty.channel.socket.SocketChannel;
-import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.json.JsonObjectDecoder;
-import io.netty.handler.codec.string.StringDecoder;
-import io.netty.handler.codec.string.StringEncoder;
+import io.netty.channel.socket.DatagramPacket;
+import io.netty.channel.socket.nio.NioDatagramChannel;
+import io.netty.util.CharsetUtil;
+import io.netty.util.internal.SocketUtils;
 
 public class Connection {
-    private static final String HOST = "144.217.84.58";
+    private static final String HOST = "255.255.255.255"; // 144.217.84.58
     private static final int PORT = 8080;
+    private static final InetSocketAddress SERVER_ADDRESS = SocketUtils.socketAddress(HOST, PORT);
     private Channel channel;
 
     private HashMap<String, ArrayList<Listener>> listeners;
 
     public void init() throws InterruptedException {
-        EventLoopGroup workerGroup = new NioEventLoopGroup();
-
-        Bootstrap b = new Bootstrap();
-        b.group(workerGroup);
-        b.channel(NioSocketChannel.class);
-        b.option(ChannelOption.SO_KEEPALIVE, true);
-        b.handler(new ClientChannelInitializer());
-
         listeners = new HashMap<String, ArrayList<Listener>>();
 
-        // Start the client.
-        ChannelFuture f = b.connect(HOST, PORT).sync();
-        channel = f.channel();
+        EventLoopGroup workerGroup = new NioEventLoopGroup();
+        Bootstrap b = new Bootstrap();
+        b.group(workerGroup)
+         .option(ChannelOption.SO_BROADCAST, true)
+         .channel(NioDatagramChannel.class)
+         .handler(new Handler());
+
+        channel = b.bind(0).sync().channel();
     }
 
     public void end() {
         if (channel == null || !channel.isActive()) {
             return;
         }
+
+        Packet dc = Packet.createDisconnectPacket();
+        send(dc);
 
         try {
             channel.close().sync();
@@ -58,16 +58,20 @@ public class Connection {
         }
     }
 
-    public Channel getChannel() {
-        return this.channel;
-    }
-
     public boolean send(Packet p) {
         if (channel == null || !channel.isActive()) {
             return false;
         }
 
-        channel.writeAndFlush(p.toJSON());
+        System.out.println("Sending: " + p.toJSON());
+
+        ByteBuf buf = Unpooled.copiedBuffer(p.toJSON(), CharsetUtil.UTF_8);
+
+        try {
+            channel.writeAndFlush(new DatagramPacket(buf, SERVER_ADDRESS)).sync();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return true;
     }
 
@@ -83,11 +87,12 @@ public class Connection {
         listeners.clear();
     }
 
-    private class Handler extends ChannelInboundHandlerAdapter {
+    private class Handler extends SimpleChannelInboundHandler<DatagramPacket> {
 
         @Override
-        public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-            String m = (String) msg;
+        protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
+            String m = (String) packet.content().toString(CharsetUtil.US_ASCII);
+
             Json json = new Json();
             Packet p = json.fromJson(Packet.class, m);
             interpretPacket(p);
@@ -107,18 +112,6 @@ public class Connection {
                     }
                 });
             }
-        }
-    }
-
-    private class ClientChannelInitializer extends ChannelInitializer<SocketChannel> {
-
-        @Override
-        protected void initChannel(SocketChannel socketChannel) throws Exception {
-            ChannelPipeline pipeline = socketChannel.pipeline();
-            pipeline.addLast("json_framer", new JsonObjectDecoder());
-            pipeline.addLast("string_decoder", new StringDecoder());
-            pipeline.addLast("string_encoder", new StringEncoder());
-            pipeline.addLast("handler", new Handler());
         }
     }
 }
