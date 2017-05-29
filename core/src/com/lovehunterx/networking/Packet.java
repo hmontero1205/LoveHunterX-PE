@@ -36,9 +36,10 @@ public class Packet {
         return new Packet("reg", regData);
     }
 
-    public static Packet createMovementPacket(int dir) {
+    public static Packet createMovementPacket(float velX, float velY) {
         HashMap<String, String> moveData = new HashMap<String, String>();
-        moveData.put("direction", String.valueOf(dir));
+        moveData.put("vel_x", String.valueOf(velX));
+        moveData.put("vel_y", String.valueOf(velY));
         return new Packet("move", moveData);
     }
 

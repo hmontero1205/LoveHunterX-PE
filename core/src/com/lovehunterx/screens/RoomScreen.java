@@ -3,15 +3,13 @@ package com.lovehunterx.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.Table;
-import com.badlogic.gdx.utils.viewport.ExtendViewport;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.game.entities.Player;
 import com.lovehunterx.networking.Listener;
 import com.lovehunterx.networking.Packet;
-import com.lovehunterx.screens.ui.Arrow;
 import com.lovehunterx.screens.ui.FixedGroup;
+import com.lovehunterx.screens.ui.Movepad;
 
 public class RoomScreen extends LHXScreen {
     private Stage stage;
@@ -19,7 +17,8 @@ public class RoomScreen extends LHXScreen {
 
     @Override
     public void show() {
-        stage = new Stage(new ExtendViewport(640, 480));
+        stage = new Stage(new StretchViewport(640, 480));
+
         Gdx.input.setInputProcessor(stage);
 
         LoveHunterX.getConnection().registerListener("join", new Listener() {
@@ -40,14 +39,13 @@ public class RoomScreen extends LHXScreen {
         Packet join = Packet.createJoinRoomPacket("main");
         LoveHunterX.getConnection().send(join);
 
-        Arrow right = new Arrow(Arrow.RIGHT);
-        right.setPosition(stage.getWidth() - right.getWidth() - 10, 20);
-        Arrow left = new Arrow(Arrow.LEFT);
-        left.setPosition(stage.getWidth() - right.getWidth() - left.getWidth() - 20, 20);
+        Movepad pad = new Movepad();
+        pad.setSize(100, 100);
+        pad.setX(stage.getWidth() - pad.getWidth() - 10);
+        pad.setY(10);
 
         FixedGroup fixed = new FixedGroup();
-        fixed.addActor(left);
-        fixed.addActor(right);
+        fixed.addActor(pad);
         stage.addActor(fixed);
     }
 

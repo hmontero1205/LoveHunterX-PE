@@ -16,6 +16,7 @@ public class Arrow extends Image {
         super(dir == LEFT ? Assets.LEFT_ARROW : Assets.RIGHT_ARROW);
         this.direction = dir;
 
+        /*
         addListener(new InputListener() {
             @Override
             public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
@@ -30,6 +31,7 @@ public class Arrow extends Image {
                 LoveHunterX.getConnection().send(packet);
             }
         });
+        */
     }
 
 }

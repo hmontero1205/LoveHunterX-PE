@@ -402,7 +402,6 @@ com.badlogic.gdx.scenes.scene2d.ui.TextTooltip$TextTooltipStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Touchpad$TouchpadStyle: {
 	default: {
-		background: touchpad-c
 		knob: touchpad-knob-c
 	}
 }
