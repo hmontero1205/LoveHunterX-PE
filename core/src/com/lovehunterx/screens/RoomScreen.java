@@ -5,12 +5,16 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.InputListener;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+import com.badlogic.gdx.scenes.scene2d.actions.DelayAction;
 import com.badlogic.gdx.scenes.scene2d.actions.MoveByAction;
+import com.badlogic.gdx.scenes.scene2d.actions.SequenceAction;
 import com.badlogic.gdx.scenes.scene2d.ui.Cell;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -271,9 +275,21 @@ public class RoomScreen extends LHXScreen {
         private String desc;
         private boolean optsToggled;
         private TextButton xBut;
+        private boolean dragUp;
+        private SequenceAction timeout;
 
         public Furniture(float ix, float iy, String desc) {
             final Furniture fRef = this;
+            Action delay = Actions.delay(3);
+            timeout = Actions.sequence(delay, new Action() {
+                @Override
+                public boolean act(float delta) {
+                    if(optsToggled)
+                        toggleOpts();
+                    return true;
+                }
+            });
+            //addAction(timeout);
             this.x = ix;
             this.y = iy;
             this.desc = desc;
@@ -297,22 +313,36 @@ public class RoomScreen extends LHXScreen {
                     if(optsToggled) {
                         float deltaY = y - getHeight() / 2;
                         float deltaX = x - getWidth() / 2;
-                        if (getY() + deltaY <= 60 && getY() + deltaY >= 30 && getX() + deltaX <= 470 && getX() + deltaX >= 0) {
-                            moveBy(deltaX, deltaY);
-                        }
+                        moveBy(deltaX, deltaY);
+                        //removeAction(timeOut);
+
                     }
                 }
 
                 @Override
                 public void dragStop(InputEvent event, float x, float y, int pointer) {
-                    toggleOpts();
+                    if(optsToggled) {
+                        if (getX() > 470)
+                            setX(470);
+                        if (getX() < 0)
+                            setX(0);
+                        if (getY() < 30)
+                            setY(30);
+                        if (getY() > 60)
+                            setY(60);
+                        dragUp = true;
+                    }
                 }
             });
 
             addListener(new ClickListener() {
                 @Override
-                public void clicked(InputEvent event, float x, float y) {
-                    toggleOpts();
+                public void clicked(InputEvent e, float x, float y) {
+                    Gdx.app.log("status",Boolean.toString(dragUp));
+                    if(dragUp)
+                        dragUp = false;
+                    else
+                        toggleOpts();
                 }
 
             });
