@@ -18,7 +18,6 @@ public class Player extends Group {
     private float stateTime;
     private int lastDirection = 1;
     private Vector2 velocity;
-    private int direction;
 
     public Player(final String name) {
         walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES);
@@ -34,13 +33,27 @@ public class Player extends Group {
         LoveHunterX.getConnection().registerListener("move", new Listener() {
             @Override
             public void handle(Packet packet) {
+                System.out.println("Called: " + packet.toJSON());
                 if (!packet.getData("user").equals(name)) {
                     return;
                 }
 
                 // changeDirection(Integer.valueOf(packet.getData("direction")));
-                setVelocityX(Float.valueOf(packet.getData("vel_x")));
-                setVelocityY(Float.valueOf(packet.getData("vel_y")));
+                if (packet.getData("x") != null) {
+                    setX(Float.valueOf(packet.getData("x")));
+                }
+
+                if (packet.getData("y") != null) {
+                    setY(Float.valueOf(packet.getData("y")));
+                }
+
+                if (packet.getData("vel_x") != null) {
+                    setVelocityX(Float.valueOf(packet.getData("vel_x")));
+                }
+
+                if (packet.getData("vel_y") != null) {
+                    setVelocityY(Float.valueOf(packet.getData("vel_y")));
+                }
             }
         });
 
@@ -54,14 +67,6 @@ public class Player extends Group {
         });
     }
 
-    public void changeDirection(int dir) {
-        if (dir != 0) {
-            lastDirection = dir;
-        }
-
-        direction = dir;
-    }
-
     public void setVelocityX(float velocityX) {
         this.velocity.x = velocityX;
     }
@@ -73,20 +78,19 @@ public class Player extends Group {
     @Override
     public void act(float deltaTime) {
         super.act(deltaTime);
-
         stateTime += deltaTime;
-        // setX(getX() + direction * 30 * deltaTime);
 
-        Vector2 curr = new Vector2(getX(), getY()).mulAdd(velocity, deltaTime * 100);
-        setX(curr.x);
-        setY(curr.y);
+        setX(getX() + velocity.x * deltaTime * 100);
+        setY(Math.max(0, getY() + velocity.y * deltaTime * 200));
+
+        velocity.y = getY() != 0 ? velocity.y - 2F * deltaTime : 0;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        TextureRegion tex = walkAnimation.getKeyFrame(velocity.x == 0 && velocity.y == 0 ? 0.32f : stateTime, true);
-        if ((velocity.x < 0 && !tex.isFlipX()) || (velocity.x > 0 && tex.isFlipX())) {
+        TextureRegion tex = walkAnimation.getKeyFrame(velocity.x == 0 && velocity.y == 0 || getY() != 0 ? 0.32f : stateTime, true);
+        if ((velocity.x < 0 && !tex.isFlipX()) || (velocity.x >= 0 && tex.isFlipX())) {
             tex.flip(true, false);
         }
 

@@ -2,6 +2,7 @@ package com.lovehunterx.networking;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.Json;
+import com.lovehunterx.LoveHunterX;
 
 import java.net.InetSocketAddress;
 import java.util.ArrayList;
@@ -23,7 +24,7 @@ import io.netty.util.CharsetUtil;
 import io.netty.util.internal.SocketUtils;
 
 public class Connection {
-    private static final String HOST = "255.255.255.255"; // 144.217.84.58
+    private static final String HOST = "144.217.84.58";
     private static final int PORT = 8080;
     private static final InetSocketAddress SERVER_ADDRESS = SocketUtils.socketAddress(HOST, PORT);
     private Channel channel;
@@ -63,14 +64,12 @@ public class Connection {
             return false;
         }
 
-        System.out.println("Sending: " + p.toJSON());
-
         ByteBuf buf = Unpooled.copiedBuffer(p.toJSON(), CharsetUtil.UTF_8);
 
         try {
             channel.writeAndFlush(new DatagramPacket(buf, SERVER_ADDRESS)).sync();
         } catch (Exception e) {
-            e.printStackTrace();
+            LoveHunterX.displayNotification("Connected failed u goofy >;(");
         }
         return true;
     }
