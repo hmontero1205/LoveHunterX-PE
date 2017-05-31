@@ -17,7 +17,7 @@ public class RegisterButton extends TextButton {
 
         addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                if(user.getText().equals("username") && pass.getText().equals("password")){
+                if(user.getText().equals("username") || pass.getText().equals("password")){
                     LoveHunterX.displayNotification("make a legit account please");
                     return;
                 }

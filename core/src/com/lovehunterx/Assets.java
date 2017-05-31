@@ -31,6 +31,8 @@ public class Assets {
         LHX_LOGO.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
+
+
     public static final TextureRegion[] WALK_FRAMES = new TextureRegion[8];
     static {
         Texture walks = new Texture(Gdx.files.internal("walk.png"));
