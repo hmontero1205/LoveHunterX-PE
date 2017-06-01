@@ -45,6 +45,10 @@ public abstract class LHXScreen implements Screen {
             MoveByAction act = Actions.moveBy(0, -btn.getHeight() - 5, .25F, Interpolation.smoother);
             btn.addAction(act);
 
+            MoveByAction dissapear = Actions.moveBy(0, btn.getHeight(), .25F, Interpolation.smoother);
+            btn.addAction(Actions.sequence(Actions.delay(3), dissapear, Actions.removeActor()));
+
+            /*
             new Timer().scheduleTask(new Timer.Task() {
 
                 @Override
@@ -60,6 +64,7 @@ public abstract class LHXScreen implements Screen {
                     }));
                 }
             },3);
+            */
         }
 
     }

@@ -13,26 +13,21 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.lovehunterx.Assets;
-import com.lovehunterx.screens.ui.Arrow;
 
 import java.util.ArrayList;
 
-/**
- * Created by micha on 5/30/2017.
- */
-
 public class CharacterScreen extends LHXScreen {
-    public Stage stage;
-    private ArrayList<Texture> sprite;
     private final static int NEXT = 0;
     private final static int PREV = 1;
+    public Stage stage;
+    private ArrayList<Texture> sprite;
     private Image slot1;
     private Image slot2;
     private Image slot3;
     private int cSprite = 1;
 
     @Override
-    Stage getStage() {
+    public Stage getStage() {
         return stage;
     }
 
@@ -42,37 +37,37 @@ public class CharacterScreen extends LHXScreen {
         stage = new Stage(new StretchViewport(640, 480));
         Gdx.input.setInputProcessor(stage);
         Image back = new Image(new Texture(Gdx.files.internal("customizeBack.png")));
-        back.setSize(645,485);
+        back.setSize(645, 485);
         stage.addActor(back);
 
         //button set up
         Image left = new Image(new Texture(Gdx.files.internal("arrowLeft.png")));
-        left.setSize(100,50);
-        left.setPosition(centerX(left)-100,centerY(left)-150);
+        left.setSize(100, 50);
+        left.setPosition(centerX(left) - 100, centerY(left) - 150);
 
         Image right = new Image(new Texture(Gdx.files.internal("arrowRight.png")));
-        right.setSize(100,50);
-        right.setPosition(centerX(right)+100,centerY(right)-150);
+        right.setSize(100, 50);
+        right.setPosition(centerX(right) + 100, centerY(right) - 150);
 
         final TextButton button = new TextButton("Select", Assets.SKIN);
         button.setTransform(true);
         button.setScale(1.5f);
-        button.setPosition(centerX(button)-15,centerY(button)-150);
+        button.setPosition(centerX(button) - 15, centerY(button) - 150);
 
-        left.addListener(new ClickListener(){
+        left.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 button.setText("left");
                 loopSprites(PREV);
             }
         });
 
-        button.addListener(new ClickListener(){
+        button.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-               button.setText("clicked");
+                button.setText("clicked");
             }
         });
 
-        right.addListener(new ClickListener(){
+        right.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 button.setText("right");
                 loopSprites(NEXT);
@@ -93,17 +88,17 @@ public class CharacterScreen extends LHXScreen {
         slot1 = new Image(s1);
         slot1.setWidth(150);
         slot1.setHeight(150);
-        slot1.setPosition(centerX(slot1)-200,centerY(slot1)+100);
+        slot1.setPosition(centerX(slot1) - 200, centerY(slot1) + 100);
 
         slot2 = new Image(s2);
         slot2.setWidth(150);
         slot2.setHeight(150);
-        slot2.setPosition(centerX(slot2),centerY(slot2));
+        slot2.setPosition(centerX(slot2), centerY(slot2));
 
         slot3 = new Image(s3);
         slot3.setWidth(150);
         slot3.setHeight(150);
-        slot3.setPosition(centerX(slot3)+200,centerY(slot3)+100);
+        slot3.setPosition(centerX(slot3) + 200, centerY(slot3) + 100);
 
         stage.addActor(right);
         stage.addActor(left);
@@ -115,15 +110,17 @@ public class CharacterScreen extends LHXScreen {
 
     }
 
-    public void loopSprites(int dir){
-        if(dir == NEXT){
-            slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite+1)%sprite.size()))));
-            slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite+2)%sprite.size()))));
-            slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite+3)%sprite.size()))));
+    public void loopSprites(int dir) {
+        if (dir == NEXT) {
+            slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite + 1) % sprite.size()))));
+            slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite + 2) % sprite.size()))));
+            slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite + 3) % sprite.size()))));
             cSprite = cSprite + 1 % sprite.size();
-        }else{
-            //using mods to loop?
-
+        } else {
+            slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite - 1) % sprite.size()))));
+            slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite - 2) % sprite.size()))));
+            slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite - 3) % sprite.size()))));
+            cSprite = cSprite -1 % sprite.size();
         }
     }
 
