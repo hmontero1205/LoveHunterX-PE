@@ -117,8 +117,10 @@ public class CharacterScreen extends LHXScreen {
             slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite + 3) % sprite.size()))));
             cSprite = cSprite + 1 % sprite.size();
         } else {
-            //using mods to loop?
-
+            slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite - 1) % sprite.size()))));
+            slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite - 2) % sprite.size()))));
+            slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite - 3) % sprite.size()))));
+            cSprite = cSprite -1 % sprite.size();
         }
     }
 
