@@ -52,7 +52,7 @@ public class LoveHunterX extends Game {
             e.printStackTrace();
         }
 
-        changeScreen(CHAR_SCREEN);
+        changeScreen(LOGIN_SCREEN);
         if (!connected) {
             displayNotification("Server connection failed >:(");
         }
