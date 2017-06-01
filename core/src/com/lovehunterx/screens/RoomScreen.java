@@ -73,9 +73,24 @@ public class RoomScreen extends LHXScreen {
             public void handle(Packet packet) {
                 Gdx.app.log("inventory", packet.toJSON());
                 for(int a = 0; a < Integer.parseInt(packet.getData("amount")); a++){
-                    Furniture f = new Furniture(200, 30, packet.getData("type"),-1);
+                    Furniture f = new Furniture(200, 30, packet.getData("type"),"-1");
                     inventory.add(f);
                     invBar.addItem(f);
+                }
+            }
+        });
+
+        LoveHunterX.getConnection().registerListener("set_furniture", new Listener() {
+            @Override
+            public void handle(Packet packet) {
+                Gdx.app.log("furniture", packet.toJSON());
+                if(stage.getRoot() == null)
+                    Gdx.app.log("test","am null xD");
+                Actor furn = stage.getRoot().findActor(packet.getData("uid"));
+                if(furn == null) {
+                    stage.addActor(new Furniture(Float.parseFloat(packet.getData("x")),Float.parseFloat(packet.getData("y")),packet.getData("type"),packet.getData("uid")));
+                } else {
+                    furn.setPosition(Float.parseFloat(packet.getData("x")),Float.parseFloat(packet.getData("y")));
                 }
             }
         });
@@ -222,9 +237,8 @@ public class RoomScreen extends LHXScreen {
         private class SideBarItem extends Table {
             private Actor bar;
 
-            public SideBarItem(Furniture f) {
+            public SideBarItem(final Furniture f) {
                 final String itemName = f.getDesc();
-                final Furniture fObj = f;
                 Image item = new Image(new Texture(Gdx.files.internal(itemName + " Icon.png")));
                 Label desc = new Label(itemName, Assets.SKIN);
                 desc.setFontScale(.65f);
@@ -242,7 +256,7 @@ public class RoomScreen extends LHXScreen {
                     public void clicked(InputEvent e, float x, float y) {
                         //remove self and if was top item, removes the bar from its successor
                         list.removeActor(itemRef);
-                        inventory.remove(fObj);
+                        inventory.remove(f);
                         Gdx.app.log("inventory", inventory.toString());
                         Array<Cell> cells = list.getCells();
                         ArrayList<Cell> cellList = new ArrayList<Cell>();
@@ -256,7 +270,9 @@ public class RoomScreen extends LHXScreen {
 
                         //add furniture to scrren
                         //stage.addActor(fObj);
-                        Packet packet = Packet.createFurniturePacket();
+                        Packet packet = Packet.createFurniturePacket(f);
+                        LoveHunterX.getConnection().send(packet);
+                        //clients need to be updated
                         length--;
 
 
@@ -283,11 +299,10 @@ public class RoomScreen extends LHXScreen {
         private boolean dragUp;
         private SequenceAction timeout;
         private final String[] ids = {"Love Sofa", "Tea Table"};
-        private int uniqueId;
 
-        public Furniture(float ix, float iy, String desc, int uid) {
+        public Furniture(float ix, float iy, String desc, String uid) {
             final Furniture fRef = this;
-            uniqueId = uid;
+            setName(uid);
             Action delay = Actions.delay(3);
             timeout = Actions.sequence(delay, new Action() {
                 @Override
@@ -324,6 +339,7 @@ public class RoomScreen extends LHXScreen {
                     //send to server
                     Packet p = Packet.createFurniturePacket(fRef);
                     LoveHunterX.getConnection().send(p);
+                    //clients need to be updated
 
                 }
             });
@@ -390,8 +406,8 @@ public class RoomScreen extends LHXScreen {
             }
         }
 
-        public int getUniqueId() {
-            return uniqueId;
+        public String getUniqueId() {
+            return getName();
         }
 
 
