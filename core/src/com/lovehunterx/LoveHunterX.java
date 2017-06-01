@@ -10,7 +10,6 @@ import com.lovehunterx.screens.RoomScreen;
 
 public class LoveHunterX extends Game {
     public static final LoginScreen LOGIN_SCREEN = new LoginScreen();
-    public static final CharacterScreen CHAR_SCREEN = new CharacterScreen();
     public static final RoomScreen ROOM_SCREEN = new RoomScreen();
     public static final CharacterScreen CHAR_SCREEN = new CharacterScreen();
     private static LoveHunterX lhx;

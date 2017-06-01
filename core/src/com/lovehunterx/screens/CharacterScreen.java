@@ -112,16 +112,24 @@ public class CharacterScreen extends LHXScreen {
 
     public void loopSprites(int dir) {
         if (dir == NEXT) {
-            slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite + 1) % sprite.size()))));
-            slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite + 2) % sprite.size()))));
-            slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite + 3) % sprite.size()))));
+            slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, 1)))));
+            slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, 2)))));
+            slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, 3)))));
             cSprite = cSprite + 1 % sprite.size();
         } else {
-            slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite - 1) % sprite.size()))));
-            slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite - 2) % sprite.size()))));
-            slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get((cSprite - 3) % sprite.size()))));
-            cSprite = cSprite -1 % sprite.size();
+            slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, -1)))));
+            slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, -2)))));
+            slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, -3)))));
+            cSprite = cSprite - 1 % sprite.size();
         }
+    }
+
+    public int correctMod(int a, int b){
+        return (a % b + b) % b;
+    }
+
+    public int getNext(int current, int change) {
+        return correctMod(current+change,sprite.size());
     }
 
     @Override

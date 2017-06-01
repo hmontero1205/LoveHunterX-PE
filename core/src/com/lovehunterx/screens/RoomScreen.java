@@ -256,7 +256,7 @@ public class RoomScreen extends LHXScreen {
 
                         //add furniture to scrren
                         //stage.addActor(fObj);
-                        Packet packet = Packet.createFurniturePacket();
+                        //Packet packet = Packet.createFurniturePacket();
                         length--;
 
 
