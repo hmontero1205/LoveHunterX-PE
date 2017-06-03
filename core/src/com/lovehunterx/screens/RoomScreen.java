@@ -84,12 +84,12 @@ public class RoomScreen extends LHXScreen {
             @Override
             public void handle(Packet packet) {
                 Gdx.app.log("furniture", packet.toJSON());
-                if(stage.getRoot() == null)
-                    Gdx.app.log("test","am null xD");
-                Actor furn = stage.getRoot().findActor(packet.getData("uid"));
-                if(furn == null) {
+                Gdx.app.log("",packet.getData("uid"));
+
+                if(packet.getData("uid") == null || stage.getRoot().findActor(packet.getData("uid")) == null) {
                     stage.addActor(new Furniture(Float.parseFloat(packet.getData("x")),Float.parseFloat(packet.getData("y")),packet.getData("type"),packet.getData("uid")));
                 } else {
+                    Actor furn = stage.getRoot().findActor(packet.getData("uid"));
                     furn.setPosition(Float.parseFloat(packet.getData("x")),Float.parseFloat(packet.getData("y")));
                 }
             }
