@@ -2,6 +2,7 @@ package com.lovehunterx;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.lovehunterx.game.GameState;
 import com.lovehunterx.networking.Connection;
 import com.lovehunterx.screens.CharacterScreen;
 import com.lovehunterx.screens.LHXScreen;
@@ -12,17 +13,13 @@ public class LoveHunterX extends Game {
     public static final LoginScreen LOGIN_SCREEN = new LoginScreen();
     public static final RoomScreen ROOM_SCREEN = new RoomScreen();
     public static final CharacterScreen CHAR_SCREEN = new CharacterScreen();
+    
     private static LoveHunterX lhx;
+    private static GameState state;
     private static Connection connection;
 
-    private static String username;
-
-    public static String getUsername() {
-        return username;
-    }
-
-    public static void setUsername(String username) {
-        LoveHunterX.username = username;
+    public static GameState getState() {
+        return state;
     }
 
     public static Connection getConnection() {
@@ -52,8 +49,11 @@ public class LoveHunterX extends Game {
             e.printStackTrace();
         }
 
-        //changeScreen(LOGIN_SCREEN);
-        changeScreen(CHAR_SCREEN);
+        state = new GameState();
+
+        changeScreen(LOGIN_SCREEN);
+        //changeScreen(CHAR_SCREEN);
+
         if (!connected) {
             displayNotification("Server connection failed >:(");
         }

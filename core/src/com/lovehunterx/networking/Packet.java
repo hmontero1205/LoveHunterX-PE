@@ -43,7 +43,7 @@ public class Packet {
         furData.put("uid", String.valueOf(f.getUniqueId()));
         furData.put("x", String.valueOf(f.getX()));
         furData.put("y", String.valueOf(f.getY()));
-        return new Packet("set_furniture", furData);
+        return new Packet("update_furniture", furData);
     }
 
     public static Packet createMovementPacket(float velX, float velY) {

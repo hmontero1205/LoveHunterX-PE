@@ -17,7 +17,7 @@ public class LoginButton extends TextButton {
         addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 Packet p = Packet.createAuthPacket(user.getText(), pass.getText());
-                LoveHunterX.setUsername(user.getText());
+                LoveHunterX.getState().setUsername(user.getText());
                 if (!LoveHunterX.getConnection().send(p)) {
                     LoveHunterX.displayNotification("Connection to server failed >:(");
                 }

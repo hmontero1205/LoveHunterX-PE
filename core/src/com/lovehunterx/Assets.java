@@ -31,8 +31,6 @@ public class Assets {
         LHX_LOGO.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
-
-
     public static final TextureRegion[] WALK_FRAMES = new TextureRegion[8];
     static {
         Texture walks = new Texture(Gdx.files.internal("walk.png"));
@@ -48,5 +46,9 @@ public class Assets {
         LEFT_ARROW = tmp[0][0];
         RIGHT_ARROW = tmp[0][1];
     }
+
+    public static final Texture SIDE_BAR = new Texture(Gdx.files.internal("tableBack.png"));
+
+
 
 }

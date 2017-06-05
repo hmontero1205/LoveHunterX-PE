@@ -31,15 +31,16 @@ import com.lovehunterx.networking.Listener;
 import com.lovehunterx.networking.Packet;
 import com.lovehunterx.screens.ui.FixedGroup;
 import com.lovehunterx.screens.ui.Movepad;
+import com.lovehunterx.screens.ui.Sidebar;
 
 import java.util.ArrayList;
 
 public class RoomScreen extends LHXScreen {
+    private static int currentId;
     public Stage stage;
     private String room;
     private ArrayList<Furniture> inventory;
     private SideBar invBar;
-    private static int currentId;
 
     @Override
     public void show() {
@@ -52,12 +53,11 @@ public class RoomScreen extends LHXScreen {
         invBar = new SideBar(0, 65, 65, 350);
         stage.addActor(invBar);
 
-
         LoveHunterX.getConnection().registerListener("join", new Listener() {
             @Override
             public void handle(Packet packet) {
                 System.out.println(packet.toJSON());
-                if (packet.getData("user").equals(LoveHunterX.getUsername())) {
+                if (packet.getData("user").equals(LoveHunterX.getState().getUsername())) {
                     room = packet.getData("room");
                 }
 
@@ -72,30 +72,30 @@ public class RoomScreen extends LHXScreen {
             @Override
             public void handle(Packet packet) {
                 Gdx.app.log("inventory", packet.toJSON());
-                for(int a = 0; a < Integer.parseInt(packet.getData("amount")); a++){
-                    Furniture f = new Furniture(200, 30, packet.getData("type"),"-1");
+                for (int a = 0; a < Integer.parseInt(packet.getData("amount")); a++) {
+                    Furniture f = new Furniture(200, 30, packet.getData("type"), "-1");
                     inventory.add(f);
                     invBar.addItem(f);
                 }
             }
         });
 
-        LoveHunterX.getConnection().registerListener("set_furniture", new Listener() {
+        LoveHunterX.getConnection().registerListener("update_furniture", new Listener() {
             @Override
             public void handle(Packet packet) {
                 Gdx.app.log("furniture", packet.toJSON());
-                Gdx.app.log("",packet.getData("uid"));
+                Gdx.app.log("", packet.getData("uid"));
 
-                if(packet.getData("uid") == null || stage.getRoot().findActor(packet.getData("uid")) == null) {
-                    stage.addActor(new Furniture(Float.parseFloat(packet.getData("x")),Float.parseFloat(packet.getData("y")),packet.getData("type"),packet.getData("uid")));
+                if (packet.getData("uid") == null || stage.getRoot().findActor(packet.getData("uid")) == null) {
+                    stage.addActor(new Furniture(Float.parseFloat(packet.getData("x")), Float.parseFloat(packet.getData("y")), packet.getData("type"), packet.getData("uid")));
                 } else {
                     Actor furn = stage.getRoot().findActor(packet.getData("uid"));
-                    furn.setPosition(Float.parseFloat(packet.getData("x")),Float.parseFloat(packet.getData("y")));
+                    furn.setPosition(Float.parseFloat(packet.getData("x")), Float.parseFloat(packet.getData("y")));
                 }
             }
         });
 
-        Packet join = Packet.createJoinRoomPacket("main");
+        Packet join = Packet.createJoinRoomPacket(LoveHunterX.getState().getUsername());
         LoveHunterX.getConnection().send(join);
 
         Movepad pad = new Movepad();
@@ -106,16 +106,6 @@ public class RoomScreen extends LHXScreen {
         FixedGroup fixed = new FixedGroup();
         fixed.addActor(pad);
         stage.addActor(fixed);
-
-//        inventory.add(new Furniture(200, 30, "Love Sofa",0));
-//        inventory.add(new Furniture(200, 30, "Love Sofa",1));
-//        inventory.add(new Furniture(200, 30, "Love Sofa",2));
-//        inventory.add(new Furniture(200, 30, "Love Sofa",3));
-//        inventory.add(new Furniture(200, 30, "Tea Table",4));
-//        for (Furniture f : inventory) {
-//            invBar.addItem(f);
-//        }
-
     }
 
     @Override
@@ -187,6 +177,7 @@ public class RoomScreen extends LHXScreen {
             table.setPosition(-1 * w, y);
             table.top();
             table.pad(3);
+
             list = new Table();
             list.top();
             container = new ScrollPane(list);
@@ -290,6 +281,7 @@ public class RoomScreen extends LHXScreen {
     }
 
     public class Furniture extends Table {
+        private final String[] ids = {"Love Sofa", "Tea Table"};
         private float startX;
         private float startY;
         private String desc;
@@ -298,7 +290,6 @@ public class RoomScreen extends LHXScreen {
         private TextButton cBut;
         private boolean dragUp;
         private SequenceAction timeout;
-        private final String[] ids = {"Love Sofa", "Tea Table"};
 
         public Furniture(float ix, float iy, String desc, String uid) {
             final Furniture fRef = this;
@@ -313,7 +304,7 @@ public class RoomScreen extends LHXScreen {
                 }
             });
             //addAction(timeout);
-            setPosition(ix,iy);
+            setPosition(ix, iy);
             this.desc = desc;
             Image item = new Image(new Texture(Gdx.files.internal(desc + ".png")));
             setSize(170, 150);
@@ -322,7 +313,7 @@ public class RoomScreen extends LHXScreen {
             xBut.addListener(new ClickListener() {
                 public void clicked(InputEvent e, float x, float y) {
                     remove();
-                    if(optsToggled)
+                    if (optsToggled)
                         toggleOpts();
                     inventory.add(fRef);
                     invBar.addItem(fRef);
@@ -402,7 +393,7 @@ public class RoomScreen extends LHXScreen {
             } else {
                 removeActor(xBut);
                 removeActor(cBut);
-                setPosition(startX,startY);
+                setPosition(startX, startY);
             }
         }
 
