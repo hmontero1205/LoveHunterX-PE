@@ -77,8 +77,8 @@ public class CharacterScreen extends LHXScreen {
         //sprite set up
         sprite = new ArrayList<Texture>();
         Texture s1 = new Texture(Gdx.files.internal("sprite1.png"));
-        Texture s2 = new Texture(Gdx.files.internal("sprite2.jpg"));
-        Texture s3 = new Texture(Gdx.files.internal("sprite3.jpg"));
+        Texture s2 = new Texture(Gdx.files.internal("sprite2.png"));
+        Texture s3 = new Texture(Gdx.files.internal("sprite3.png"));
         Texture s4 = new Texture(Gdx.files.internal("sprite4.png"));
         sprite.add(s1);
         sprite.add(s2);
