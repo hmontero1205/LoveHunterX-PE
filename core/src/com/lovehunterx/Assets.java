@@ -38,6 +38,12 @@ public class Assets {
         System.arraycopy(tmp[0], 0, WALK_FRAMES1, 0, tmp[0].length);
     }
 
+    public static final TextureRegion[] WALK_FRAMES2 = new TextureRegion[8];
+    static {
+        Texture walks = new Texture(Gdx.files.internal("walk2.png"));
+        TextureRegion[][] tmp = TextureRegion.split(walks, walks.getWidth() / 8, walks.getHeight());
+        System.arraycopy(tmp[0], 0, WALK_FRAMES2, 0, tmp[0].length);
+    }
 
     public static final TextureRegion[] WALK_FRAMES1g = new TextureRegion[8];
     static {
