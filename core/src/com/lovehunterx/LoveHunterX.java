@@ -51,8 +51,9 @@ public class LoveHunterX extends Game {
 
         state = new GameState();
 
-        changeScreen(LOGIN_SCREEN);
+        //changeScreen(LOGIN_SCREEN);
         //changeScreen(CHAR_SCREEN);
+        changeScreen(ROOM_SCREEN);
 
         if (!connected) {
             displayNotification("Server connection failed >:(");

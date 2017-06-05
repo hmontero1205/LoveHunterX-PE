@@ -31,12 +31,26 @@ public class Assets {
         LHX_LOGO.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
-    public static final TextureRegion[] WALK_FRAMES = new TextureRegion[8];
+    public static final TextureRegion[] WALK_FRAMES1 = new TextureRegion[8];
     static {
-        Texture walks = new Texture(Gdx.files.internal("walk.png"));
-        //Texture walks = new Texture(Gdx.files.internal("boyWalk.png"));
+        Texture walks = new Texture(Gdx.files.internal("walk1.png"));
         TextureRegion[][] tmp = TextureRegion.split(walks, walks.getWidth() / 8, walks.getHeight());
-        System.arraycopy(tmp[0], 0, WALK_FRAMES, 0, tmp[0].length);
+        System.arraycopy(tmp[0], 0, WALK_FRAMES1, 0, tmp[0].length);
+    }
+
+
+    public static final TextureRegion[] WALK_FRAMES1g = new TextureRegion[8];
+    static {
+        Texture walks = new Texture(Gdx.files.internal("walk1g.png"));;
+        TextureRegion[][] tmp = TextureRegion.split(walks, walks.getWidth() / 8, walks.getHeight());
+        System.arraycopy(tmp[0], 0, WALK_FRAMES1g, 0, tmp[0].length);
+    }
+
+    public static final TextureRegion[] WALK_FRAMES2g = new TextureRegion[8];
+    static {
+        Texture walks = new Texture(Gdx.files.internal("walk2g.png"));;
+        TextureRegion[][] tmp = TextureRegion.split(walks, walks.getWidth() / 8, walks.getHeight());
+        System.arraycopy(tmp[0], 0, WALK_FRAMES2g, 0, tmp[0].length);
     }
 
     public static TextureRegion LEFT_ARROW, RIGHT_ARROW;

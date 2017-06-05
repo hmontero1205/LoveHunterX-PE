@@ -20,7 +20,7 @@ public class Player extends Group {
     private Vector2 velocity;
 
     public Player(final String name) {
-        walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES);
+        walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1);
         setName(name);
 
         velocity = new Vector2();

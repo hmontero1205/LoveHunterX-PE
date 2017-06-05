@@ -67,6 +67,7 @@ public class Connection {
 
         ByteBuf buf = Unpooled.copiedBuffer(p.toJSON(), CharsetUtil.UTF_8);
 
+        Gdx.app.log("Sending: ", p.toJSON());
         try {
             channel.writeAndFlush(new DatagramPacket(buf, SERVER_ADDRESS)).sync();
         } catch (Exception e) {
