@@ -66,6 +66,7 @@ public class CharacterScreen extends LHXScreen {
             public void clicked(InputEvent event, float x, float y) {
                 button.setText("clicked");
                 LoveHunterX.getState().setcSprite(cSprite);
+
                 LoveHunterX.changeScreen(LoveHunterX.ROOM_SCREEN);
             }
         });

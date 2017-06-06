@@ -10,6 +10,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 
+import java.util.ArrayList;
+
 public class Assets {
 
     public static final Skin SKIN = new Skin();
@@ -68,7 +70,5 @@ public class Assets {
     }
 
     public static final Texture SIDE_BAR = new Texture(Gdx.files.internal("tableBack.png"));
-
-
 
 }

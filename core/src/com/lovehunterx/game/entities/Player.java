@@ -12,15 +12,24 @@ import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.networking.Listener;
 import com.lovehunterx.networking.Packet;
 
+import java.util.ArrayList;
+
 public class Player extends Group {
     private Animation<TextureRegion> walkAnimation;
     private Image body;
     private float stateTime;
     private int lastDirection = 1;
     private Vector2 velocity;
+    private ArrayList<TextureRegion[]> TR = new ArrayList<TextureRegion[]>();
 
     public Player(final String name) {
-        walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1);
+        //set up sprites
+        TR.add(Assets.WALK_FRAMES1);
+        TR.add(Assets.WALK_FRAMES1g);
+        TR.add(Assets.WALK_FRAMES2);
+        TR.add(Assets.WALK_FRAMES2g);
+
+        walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1g);
         setName(name);
 
         velocity = new Vector2();
@@ -73,6 +82,10 @@ public class Player extends Group {
 
     public void setVelocityY(float velocityY) {
         this.velocity.y = velocityY;
+    }
+
+    public void setWalkAnimation(Animation<TextureRegion> animate){
+        this.walkAnimation = animate;
     }
 
     @Override
