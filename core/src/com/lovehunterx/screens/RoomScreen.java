@@ -335,6 +335,8 @@ public class RoomScreen extends LHXScreen {
                     inventory.add(fRef);
                     invBar.addItem(fRef);
                     //let's let the server know about this.
+                    Packet p = Packet.createRemoveFurniturePacket(fRef);
+                    LoveHunterX.getConnection().send(p);
 
 
                 }

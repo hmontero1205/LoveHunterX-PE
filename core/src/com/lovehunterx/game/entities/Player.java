@@ -30,6 +30,7 @@ public class Player extends Group {
         TR.add(Assets.WALK_FRAMES2g);
 
         walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1g);
+
         setName(name);
 
         velocity = new Vector2();
