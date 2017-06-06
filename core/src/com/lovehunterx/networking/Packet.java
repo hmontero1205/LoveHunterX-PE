@@ -46,7 +46,7 @@ public class Packet {
         return new Packet("update_furniture", furData);
     }
 
-    public static Packet removeFurniturePacket(RoomScreen.Furniture f) {
+    public static Packet createRemoveFurniturePacket(RoomScreen.Furniture f) {
         HashMap<String, String> furData = new HashMap<String, String>();
         furData.put("type", f.getDesc());
         furData.put("uid", String.valueOf(f.getUniqueId()));
