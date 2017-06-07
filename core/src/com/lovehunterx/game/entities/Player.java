@@ -20,16 +20,13 @@ public class Player extends Group {
     private float stateTime;
     private int lastDirection = 1;
     private Vector2 velocity;
-    private ArrayList<TextureRegion[]> TR = new ArrayList<TextureRegion[]>();
 
     public Player(final String name) {
-        //set up sprites
-        TR.add(Assets.WALK_FRAMES1);
-        TR.add(Assets.WALK_FRAMES1g);
-        TR.add(Assets.WALK_FRAMES2);
-        TR.add(Assets.WALK_FRAMES2g);
-
-        walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1g);
+        if (LoveHunterX.getState().getUsername().equals("Hans")) {
+            walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1);
+        } else {
+            walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1g);
+        }
 
         setName(name);
 

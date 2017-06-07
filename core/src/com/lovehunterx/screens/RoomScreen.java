@@ -53,6 +53,21 @@ public class RoomScreen extends LHXScreen {
         invBar = new SideBar(0, 65, 65, 350);
         stage.addActor(invBar);
 
+        //test button
+        final TextButton button = new TextButton("Select", Assets.SKIN);
+        button.setTransform(true);
+        button.setScale(1.5f);
+        button.setPosition(centerX(button) - 15, centerY(button) - 150);
+
+        button.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                button.setText("clicked");
+                LoveHunterX.changeScreen(LoveHunterX.CHAR_SCREEN);
+            }
+        });
+
+        stage.addActor(button);
+
         LoveHunterX.getConnection().registerListener("join", new Listener() {
             @Override
             public void handle(Packet packet) {
@@ -110,7 +125,7 @@ public class RoomScreen extends LHXScreen {
             }
         });
 
-        Packet join = Packet.createJoinRoomPacket(LoveHunterX.getState().getUsername());
+        Packet join = Packet.createJoinRoomPacket("Hans");
         LoveHunterX.getConnection().send(join);
 
         Movepad pad = new Movepad();
@@ -418,8 +433,10 @@ public class RoomScreen extends LHXScreen {
                 startX = getX();
                 startY = getY();
             } else {
-                removeActor(buttons);
-                setPosition(startX, startY);
+                if(!dragUp) {
+                    removeActor(buttons);
+                    setPosition(startX, startY);
+                }
             }
         }
 

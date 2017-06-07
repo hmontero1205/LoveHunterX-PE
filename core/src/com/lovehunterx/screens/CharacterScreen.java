@@ -25,7 +25,7 @@ public class CharacterScreen extends LHXScreen {
     private Image slot1;
     private Image slot2;
     private Image slot3;
-    private int cSprite = 1;
+    private int cSprite = 0;
 
     @Override
     public Stage getStage() {
@@ -66,7 +66,7 @@ public class CharacterScreen extends LHXScreen {
             public void clicked(InputEvent event, float x, float y) {
                 button.setText("clicked");
                 LoveHunterX.getState().setcSprite(cSprite);
-
+                //LoveHunterX.ROOM_SCREEN.getPlayer().setWalkAnimation(Assets.getAnimation());
                 LoveHunterX.changeScreen(LoveHunterX.ROOM_SCREEN);
             }
         });

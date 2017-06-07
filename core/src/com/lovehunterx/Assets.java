@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.files.FileHandle;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 public class Assets {
 
     public static final Skin SKIN = new Skin();
+
     static {
         FileHandle fontFile = Gdx.files.internal("Roboto-Regular.ttf");
         FreeTypeFontGenerator generator = new FreeTypeFontGenerator(fontFile);
@@ -29,11 +31,13 @@ public class Assets {
     }
 
     public static final Texture LHX_LOGO = new Texture(Gdx.files.internal("LHX.png"));
+
     static {
         LHX_LOGO.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
     public static final TextureRegion[] WALK_FRAMES1 = new TextureRegion[8];
+
     static {
         Texture walks = new Texture(Gdx.files.internal("walk1.png"));
         TextureRegion[][] tmp = TextureRegion.split(walks, walks.getWidth() / 8, walks.getHeight());
@@ -41,6 +45,7 @@ public class Assets {
     }
 
     public static final TextureRegion[] WALK_FRAMES2 = new TextureRegion[8];
+
     static {
         Texture walks = new Texture(Gdx.files.internal("walk2.png"));
         TextureRegion[][] tmp = TextureRegion.split(walks, walks.getWidth() / 8, walks.getHeight());
@@ -48,20 +53,25 @@ public class Assets {
     }
 
     public static final TextureRegion[] WALK_FRAMES1g = new TextureRegion[8];
+
     static {
-        Texture walks = new Texture(Gdx.files.internal("walk1g.png"));;
+        Texture walks = new Texture(Gdx.files.internal("test.png"));
+        ;
         TextureRegion[][] tmp = TextureRegion.split(walks, walks.getWidth() / 8, walks.getHeight());
         System.arraycopy(tmp[0], 0, WALK_FRAMES1g, 0, tmp[0].length);
     }
 
     public static final TextureRegion[] WALK_FRAMES2g = new TextureRegion[8];
+
     static {
-        Texture walks = new Texture(Gdx.files.internal("walk2g.png"));;
+        Texture walks = new Texture(Gdx.files.internal("walk2g.png"));
+        ;
         TextureRegion[][] tmp = TextureRegion.split(walks, walks.getWidth() / 8, walks.getHeight());
         System.arraycopy(tmp[0], 0, WALK_FRAMES2g, 0, tmp[0].length);
     }
 
     public static TextureRegion LEFT_ARROW, RIGHT_ARROW;
+
     static {
         Texture arrows = new Texture(Gdx.files.internal("arrows.png"));
         TextureRegion[][] tmp = TextureRegion.split(arrows, arrows.getWidth() / 2, arrows.getHeight());
@@ -71,4 +81,19 @@ public class Assets {
 
     public static final Texture SIDE_BAR = new Texture(Gdx.files.internal("tableBack.png"));
 
+    public static final Animation<TextureRegion> getAnimation() {
+        switch (LoveHunterX.getState().getcSprite()) {
+            case 0:
+                return new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1);
+            case 1:
+                return new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1g);
+            case 2:
+                return new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES2);
+            case 3:
+                return new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES2g);
+            default: return new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1);
+        }
+    }
 }
+
+
