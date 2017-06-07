@@ -21,12 +21,9 @@ public class Player extends Group {
     private int lastDirection = 1;
     private Vector2 velocity;
 
-    public Player(final String name) {
-        if (LoveHunterX.getState().getUsername().equals("Hans")) {
-            walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1);
-        } else {
-            walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1g);
-        }
+    public Player(final String name, Integer sprite) {
+
+        walkAnimation = new Animation<TextureRegion>(0.08f, Assets.getAnimation(sprite));
 
         setName(name);
 
@@ -80,10 +77,6 @@ public class Player extends Group {
 
     public void setVelocityY(float velocityY) {
         this.velocity.y = velocityY;
-    }
-
-    public void setWalkAnimation(Animation<TextureRegion> animate){
-        this.walkAnimation = animate;
     }
 
     @Override

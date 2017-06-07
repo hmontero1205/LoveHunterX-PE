@@ -23,6 +23,13 @@ public class Packet {
     public Packet() {
     }
 
+    public static Packet createChooseSpritePacket(String user, String sprite){
+        HashMap<String, String> regData = new HashMap<String, String>();
+        regData.put("user",user);
+        regData.put("sprite",sprite);
+        return new Packet("choose_sprite",regData);
+    }
+
     public static Packet createAuthPacket(String user, String pass) {
         HashMap<String, String> authData = new HashMap<String, String>();
         authData.put("user", user);

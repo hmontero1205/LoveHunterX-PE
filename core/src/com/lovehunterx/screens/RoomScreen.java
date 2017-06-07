@@ -57,7 +57,7 @@ public class RoomScreen extends LHXScreen {
         final TextButton button = new TextButton("Select", Assets.SKIN);
         button.setTransform(true);
         button.setScale(1.5f);
-        button.setPosition(centerX(button) - 15, centerY(button) - 150);
+        button.setPosition(centerX(button) - 15, centerY(button) + 150);
 
         button.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
@@ -76,7 +76,7 @@ public class RoomScreen extends LHXScreen {
                     room = packet.getData("room");
                 }
 
-                Player player = new Player(packet.getData("user"));
+                Player player = new Player(packet.getData("user"), Integer.valueOf(packet.getData("sprite")));
                 player.setX(Float.valueOf(packet.getData("x")));
                 player.setY(Float.valueOf(packet.getData("y")));
                 stage.addActor(player);
