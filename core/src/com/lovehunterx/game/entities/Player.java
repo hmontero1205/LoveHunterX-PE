@@ -1,16 +1,23 @@
 package com.lovehunterx.game.entities;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.networking.Listener;
 import com.lovehunterx.networking.Packet;
+import com.lovehunterx.screens.RoomScreen;
 
 public class Player extends Group {
     private Animation<TextureRegion> walkAnimation;
@@ -28,6 +35,23 @@ public class Player extends Group {
         TextButton tag = new TextButton(name, Assets.SKIN);
         tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
         tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
+        Table menu = new Table();
+        menu.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("tableBack.png")))));
+        menu.setSize(50, 100);
+        float menX = tag.getX();
+        if (tag.getX() + menu.getWidth() < 500) {
+            menX += 100;
+        }
+        else {
+            menX -= 100;
+        }
+        menu.setPosition(menX, tag.getY() - 100);
+        addActor(menu);
+        tag.addListener(new ClickListener() {
+                public void clicked(InputEvent e, float x, float y) {
+                    //make menu appear
+                }
+            });
         addActor(tag);
 
         LoveHunterX.getConnection().registerListener("move", new Listener() {
@@ -54,6 +78,8 @@ public class Player extends Group {
                 if (packet.getData("vel_y") != null) {
                     setVelocityY(Float.valueOf(packet.getData("vel_y")));
                 }
+
+
             }
         });
 
@@ -96,4 +122,12 @@ public class Player extends Group {
 
         batch.draw(tex, getX(), getY(), tex.getRegionWidth(), tex.getRegionHeight());
     }
+
+//    public class PlayerMenu extends Group {
+//        private Table items;
+//        private TextButton close;
+//        public PlayerMenu (float x, float y) {
+//
+//        }
+//    }
 }

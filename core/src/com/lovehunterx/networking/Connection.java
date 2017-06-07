@@ -43,6 +43,7 @@ public class Connection {
          .handler(new Handler());
 
         channel = b.bind(0).sync().channel();
+        System.out.println(channel.remoteAddress());
     }
 
     public void end() {

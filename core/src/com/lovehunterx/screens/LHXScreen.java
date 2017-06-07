@@ -17,6 +17,7 @@ import com.badlogic.gdx.utils.Timer;
 import com.lovehunterx.Assets;
 import com.lovehunterx.screens.ui.FixedGroup;
 
+
 public abstract class LHXScreen implements Screen {
 
     abstract Stage getStage();
