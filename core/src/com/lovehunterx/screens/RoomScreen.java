@@ -379,7 +379,7 @@ public class RoomScreen extends LHXScreen {
             buttons.add(xBut);
             buttons.center();
             row();
-            addListener(new DragListener() {
+            item.addListener(new DragListener() {
                 public void drag(InputEvent event, float x, float y, int pointer) {
                     if (optsToggled) {
                         float deltaY = y - getHeight() / 2;
@@ -392,7 +392,9 @@ public class RoomScreen extends LHXScreen {
 
                 @Override
                 public void dragStop(InputEvent event, float x, float y, int pointer) {
+                    //toggleOpts();
                     if (optsToggled) {
+                        dragUp = true;
                         if (getX() > 470)
                             setX(470);
                         if (getX() < 0)
@@ -401,7 +403,6 @@ public class RoomScreen extends LHXScreen {
                             setY(30);
                         if (getY() > 60)
                             setY(60);
-                        dragUp = true;
                     }
                 }
             });
@@ -409,10 +410,11 @@ public class RoomScreen extends LHXScreen {
             item.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent e, float x, float y) {
-                    if (dragUp)
+                    if (dragUp) {
                         dragUp = false;
-                    else
+                    } else {
                         toggleOpts();
+                    }
                 }
 
             });
@@ -427,16 +429,14 @@ public class RoomScreen extends LHXScreen {
 
         public void toggleOpts() {
             optsToggled = !optsToggled;
-            Gdx.app.log("toggle",Boolean.toString(optsToggled));
             if (optsToggled) {
                 addActor(buttons);
                 startX = getX();
                 startY = getY();
             } else {
-                if(!dragUp) {
-                    removeActor(buttons);
-                    setPosition(startX, startY);
-                }
+                removeActor(buttons);
+                setPosition(startX, startY);
+
             }
         }
 

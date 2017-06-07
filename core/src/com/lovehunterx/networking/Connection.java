@@ -26,7 +26,7 @@ import io.netty.util.internal.SocketUtils;
 public class Connection {
     //Kevin's: 144.217.84.58
     //Hans's local: 255.255.255.255
-    private static final String HOST = "144.217.84.58";
+    private static final String HOST = "255.255.255.255";
     private static final int PORT = 8080;
     private static final InetSocketAddress SERVER_ADDRESS = SocketUtils.socketAddress(HOST, PORT);
     private Channel channel;
@@ -68,7 +68,7 @@ public class Connection {
 
         ByteBuf buf = Unpooled.copiedBuffer(p.toJSON(), CharsetUtil.UTF_8);
 
-        Gdx.app.log("Sending: ", p.toJSON());
+        //Gdx.app.log("Sending: ", p.toJSON());
         try {
             channel.writeAndFlush(new DatagramPacket(buf, SERVER_ADDRESS)).sync();
         } catch (Exception e) {
