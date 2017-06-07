@@ -53,6 +53,21 @@ public class RoomScreen extends LHXScreen {
         invBar = new SideBar(0, 65, 65, 350);
         stage.addActor(invBar);
 
+        //test button
+        final TextButton button = new TextButton("Select", Assets.SKIN);
+        button.setTransform(true);
+        button.setScale(1.5f);
+        button.setPosition(centerX(button) - 15, centerY(button) - 150);
+
+        button.addListener(new ClickListener() {
+            public void clicked(InputEvent event, float x, float y) {
+                button.setText("clicked");
+                LoveHunterX.changeScreen(LoveHunterX.CHAR_SCREEN);
+            }
+        });
+
+        stage.addActor(button);
+
         LoveHunterX.getConnection().registerListener("join", new Listener() {
             @Override
             public void handle(Packet packet) {
@@ -95,7 +110,22 @@ public class RoomScreen extends LHXScreen {
             }
         });
 
-        Packet join = Packet.createJoinRoomPacket(LoveHunterX.getState().getUsername());
+        LoveHunterX.getConnection().registerListener("remove_furniture", new Listener() {
+            @Override
+            public void handle(Packet packet) {
+                Gdx.app.log("furniture", packet.toJSON());
+                Gdx.app.log("", packet.getData("uid"));
+
+                if (packet.getData("uid") == null || stage.getRoot().findActor(packet.getData("uid")) == null) {
+                    return;
+                } else {
+                    Actor furn = stage.getRoot().findActor(packet.getData("uid"));
+                    furn.remove();
+                }
+            }
+        });
+
+        Packet join = Packet.createJoinRoomPacket("Hans");
         LoveHunterX.getConnection().send(join);
 
         Movepad pad = new Movepad();
@@ -290,6 +320,7 @@ public class RoomScreen extends LHXScreen {
         private TextButton cBut;
         private boolean dragUp;
         private SequenceAction timeout;
+        private Table buttons;
 
         public Furniture(float ix, float iy, String desc, String uid) {
             final Furniture fRef = this;
@@ -312,11 +343,16 @@ public class RoomScreen extends LHXScreen {
             xBut.setWidth(35);
             xBut.addListener(new ClickListener() {
                 public void clicked(InputEvent e, float x, float y) {
-                    remove();
-                    if (optsToggled)
+                    if (optsToggled) {
+                        //Gdx.app.log("","x clicked");
                         toggleOpts();
+                    }
                     inventory.add(fRef);
                     invBar.addItem(fRef);
+                    //let's let the server know about this.
+                    Packet p = Packet.createRemoveFurniturePacket(fRef);
+                    LoveHunterX.getConnection().send(p);
+
 
                 }
             });
@@ -326,7 +362,10 @@ public class RoomScreen extends LHXScreen {
                 public void clicked(InputEvent e, float x, float y) {
                     startX = getX();
                     startY = getY();
-                    toggleOpts();
+                    if (optsToggled) {
+                        //Gdx.app.log("","/ clicked");
+                        toggleOpts();
+                    }
                     //send to server
                     Packet p = Packet.createFurniturePacket(fRef);
                     LoveHunterX.getConnection().send(p);
@@ -335,8 +374,12 @@ public class RoomScreen extends LHXScreen {
                 }
             });
             add(item);
+            buttons = new Table();
+            buttons.add(cBut);
+            buttons.add(xBut);
+            buttons.center();
             row();
-            addListener(new DragListener() {
+            item.addListener(new DragListener() {
                 public void drag(InputEvent event, float x, float y, int pointer) {
                     if (optsToggled) {
                         float deltaY = y - getHeight() / 2;
@@ -349,7 +392,9 @@ public class RoomScreen extends LHXScreen {
 
                 @Override
                 public void dragStop(InputEvent event, float x, float y, int pointer) {
+                    //toggleOpts();
                     if (optsToggled) {
+                        dragUp = true;
                         if (getX() > 470)
                             setX(470);
                         if (getX() < 0)
@@ -358,19 +403,18 @@ public class RoomScreen extends LHXScreen {
                             setY(30);
                         if (getY() > 60)
                             setY(60);
-                        dragUp = true;
                     }
                 }
             });
 
-            addListener(new ClickListener() {
+            item.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent e, float x, float y) {
-                    Gdx.app.log("status", Boolean.toString(dragUp));
-                    if (dragUp)
+                    if (dragUp) {
                         dragUp = false;
-                    else
+                    } else {
                         toggleOpts();
+                    }
                 }
 
             });
@@ -386,14 +430,13 @@ public class RoomScreen extends LHXScreen {
         public void toggleOpts() {
             optsToggled = !optsToggled;
             if (optsToggled) {
-                addActor(xBut);
-                addActor(cBut);
+                addActor(buttons);
                 startX = getX();
                 startY = getY();
             } else {
-                removeActor(xBut);
-                removeActor(cBut);
+                removeActor(buttons);
                 setPosition(startX, startY);
+
             }
         }
 

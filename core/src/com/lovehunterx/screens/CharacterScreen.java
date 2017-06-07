@@ -13,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.lovehunterx.Assets;
+import com.lovehunterx.LoveHunterX;
 
 import java.util.ArrayList;
 
@@ -24,7 +25,7 @@ public class CharacterScreen extends LHXScreen {
     private Image slot1;
     private Image slot2;
     private Image slot3;
-    private int cSprite = 1;
+    private int cSprite = 0;
 
     @Override
     public Stage getStage() {
@@ -64,6 +65,9 @@ public class CharacterScreen extends LHXScreen {
         button.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
                 button.setText("clicked");
+                LoveHunterX.getState().setcSprite(cSprite);
+                //LoveHunterX.ROOM_SCREEN.getPlayer().setWalkAnimation(Assets.getAnimation());
+                LoveHunterX.changeScreen(LoveHunterX.ROOM_SCREEN);
             }
         });
 

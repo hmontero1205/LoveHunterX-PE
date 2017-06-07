@@ -19,6 +19,8 @@ import com.lovehunterx.networking.Listener;
 import com.lovehunterx.networking.Packet;
 import com.lovehunterx.screens.RoomScreen;
 
+import java.util.ArrayList;
+
 public class Player extends Group {
     private Animation<TextureRegion> walkAnimation;
     private Image body;
@@ -27,7 +29,12 @@ public class Player extends Group {
     private Vector2 velocity;
 
     public Player(final String name) {
-        walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES);
+        if (LoveHunterX.getState().getUsername().equals("Hans")) {
+            walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1);
+        } else {
+            walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1g);
+        }
+
         setName(name);
 
         velocity = new Vector2();
@@ -99,6 +106,10 @@ public class Player extends Group {
 
     public void setVelocityY(float velocityY) {
         this.velocity.y = velocityY;
+    }
+
+    public void setWalkAnimation(Animation<TextureRegion> animate){
+        this.walkAnimation = animate;
     }
 
     @Override

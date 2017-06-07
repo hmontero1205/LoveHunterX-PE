@@ -46,6 +46,15 @@ public class Packet {
         return new Packet("update_furniture", furData);
     }
 
+    public static Packet createRemoveFurniturePacket(RoomScreen.Furniture f) {
+        HashMap<String, String> furData = new HashMap<String, String>();
+        furData.put("type", f.getDesc());
+        furData.put("uid", String.valueOf(f.getUniqueId()));
+        //furData.put("x", String.valueOf(f.getX()));
+        //furData.put("y", String.valueOf(f.getY()));
+        return new Packet("remove_furniture", furData);
+    }
+
     public static Packet createMovementPacket(float velX, float velY) {
         HashMap<String, String> moveData = new HashMap<String, String>();
         moveData.put("vel_x", String.valueOf(velX));
