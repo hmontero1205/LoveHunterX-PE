@@ -33,13 +33,6 @@ public abstract class LHXScreen implements Screen {
             btn.setX(LHXScreen.this.getStage().getWidth() / 2 - btn.getWidth() / 2);
             btn.setY(LHXScreen.this.getStage().getHeight());
 
-//            btn.addListener(new ClickListener() {
-//                @Override
-//                public void clicked(InputEvent e, float x, float y) {
-//                    Notification.this.remove();
-//                }
-//            });
-
             addActor(btn);
 
             MoveByAction act = Actions.moveBy(0, -btn.getHeight() - 5, .25F, Interpolation.smoother);
@@ -48,23 +41,6 @@ public abstract class LHXScreen implements Screen {
             MoveByAction dissapear = Actions.moveBy(0, btn.getHeight(), .25F, Interpolation.smoother);
             btn.addAction(Actions.sequence(Actions.delay(3), dissapear, Actions.removeActor()));
 
-            /*
-            new Timer().scheduleTask(new Timer.Task() {
-
-                @Override
-                public void run() {
-                    MoveByAction act = Actions.moveBy(0, btn.getHeight(), .25F, Interpolation.smoother);
-                    btn.addAction(new SequenceAction(act, new Action() {
-
-                        @Override
-                        public boolean act(float delta) {
-                            removeActor(btn);
-                            return true;
-                        }
-                    }));
-                }
-            },3);
-            */
         }
 
     }
