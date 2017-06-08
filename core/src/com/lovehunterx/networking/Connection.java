@@ -26,6 +26,7 @@ import io.netty.util.internal.SocketUtils;
 public class Connection {
     //Kevin's: 144.217.84.58
     //Hans's local: 255.255.255.255
+
     private static final String HOST = "144.217.84.58";
     private static final int PORT = 8080;
     private static final InetSocketAddress SERVER_ADDRESS = SocketUtils.socketAddress(HOST, PORT);
@@ -47,7 +48,7 @@ public class Connection {
     }
 
     public void end() {
-        if (channel == null || !channel.isActive()) {
+        if (channel == null) {
             return;
         }
 
@@ -62,7 +63,7 @@ public class Connection {
     }
 
     public boolean send(Packet p) {
-        if (channel == null || !channel.isActive()) {
+        if (channel == null) {
             return false;
         }
 

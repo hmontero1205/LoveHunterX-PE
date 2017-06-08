@@ -36,6 +36,7 @@ import com.lovehunterx.screens.ui.Sidebar;
 import java.util.ArrayList;
 
 public class RoomScreen extends LHXScreen {
+    private long hideTime;
     private static int currentId;
     public Stage stage;
     private String room;
@@ -76,7 +77,11 @@ public class RoomScreen extends LHXScreen {
                     room = packet.getData("room");
                 }
 
-                Player player = new Player(packet.getData("user"), Integer.valueOf(packet.getData("sprite")));
+                if (stage.getRoot().findActor(packet.getData("user")) != null) {
+                    return;
+                }
+
+                Player player = new Player(packet.getData("user"), 0);
                 player.setX(Float.valueOf(packet.getData("x")));
                 player.setY(Float.valueOf(packet.getData("y")));
                 stage.addActor(player);
@@ -153,12 +158,15 @@ public class RoomScreen extends LHXScreen {
 
     @Override
     public void pause() {
-
+        hideTime = System.currentTimeMillis();
     }
 
     @Override
     public void resume() {
-
+        long deltaSeconds = (System.currentTimeMillis() - hideTime) / 1000;
+        if (deltaSeconds > 4) {
+            LoveHunterX.changeScreen(LoveHunterX.LOGIN_SCREEN);
+        }
     }
 
     @Override
@@ -443,7 +451,6 @@ public class RoomScreen extends LHXScreen {
         public String getUniqueId() {
             return getName();
         }
-
 
     }
 }
