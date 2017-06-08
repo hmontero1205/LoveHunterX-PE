@@ -126,7 +126,6 @@ public class LoginScreen extends LHXScreen {
 
     @Override
     public void hide() {
-        LoveHunterX.getConnection().clearListeners();
     }
 
     @Override

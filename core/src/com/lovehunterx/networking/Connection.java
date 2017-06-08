@@ -95,14 +95,13 @@ public class Connection {
         @Override
         protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
             String m = (String) packet.content().toString(CharsetUtil.US_ASCII);
-
             Json json = new Json();
             Packet p = json.fromJson(Packet.class, m);
             interpretPacket(p);
         }
 
         private void interpretPacket(final Packet p) {
-            final ArrayList<Listener> responders = listeners.get(p.getAction());
+            ArrayList<Listener> responders = listeners.get(p.getAction());
             if (responders == null) {
                 return;
             }

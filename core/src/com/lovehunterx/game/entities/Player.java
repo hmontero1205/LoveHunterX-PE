@@ -22,8 +22,9 @@ public class Player extends Group {
     private Vector2 velocity;
 
     public Player(final String name, Integer sprite) {
-
         walkAnimation = new Animation<TextureRegion>(0.08f, Assets.getAnimation(sprite));
+
+        TextureRegion frame = Assets.getAnimation(sprite)[0];
 
         setName(name);
 
@@ -33,42 +34,6 @@ public class Player extends Group {
         tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
         tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
         addActor(tag);
-
-        LoveHunterX.getConnection().registerListener("move", new Listener() {
-            @Override
-            public void handle(Packet packet) {
-                System.out.println("Called: " + packet.toJSON());
-                if (!packet.getData("user").equals(name)) {
-                    return;
-                }
-
-                // changeDirection(Integer.valueOf(packet.getData("direction")));
-                if (packet.getData("x") != null) {
-                    setX(Float.valueOf(packet.getData("x")));
-                }
-
-                if (packet.getData("y") != null) {
-                    setY(Float.valueOf(packet.getData("y")));
-                }
-
-                if (packet.getData("vel_x") != null) {
-                    setVelocityX(Float.valueOf(packet.getData("vel_x")));
-                }
-
-                if (packet.getData("vel_y") != null) {
-                    setVelocityY(Float.valueOf(packet.getData("vel_y")));
-                }
-            }
-        });
-
-        LoveHunterX.getConnection().registerListener("leave", new Listener() {
-            @Override
-            public void handle(Packet packet) {
-                if (packet.getData("user").equals(name)) {
-                    remove();
-                }
-            }
-        });
     }
 
     public void setVelocityX(float velocityX) {

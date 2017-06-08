@@ -91,7 +91,8 @@ public class Assets {
                 return WALK_FRAMES2;
             case 3:
                 return WALK_FRAMES2g;
-            default: return WALK_FRAMES1;
+            default:
+                return WALK_FRAMES1;
         }
     }
 }

@@ -2,6 +2,7 @@ package com.lovehunterx.networking;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import com.lovehunterx.game.entities.Furniture;
 import com.lovehunterx.screens.RoomScreen;
 
 import java.util.HashMap;
@@ -44,21 +45,19 @@ public class Packet {
         return new Packet("reg", regData);
     }
 
-    public static Packet createFurniturePacket(RoomScreen.Furniture f) {
+    public static Packet createFurniturePacket(Furniture f) {
         HashMap<String, String> furData = new HashMap<String, String>();
-        furData.put("type", f.getDesc());
+        furData.put("type", f.getType());
         furData.put("uid", String.valueOf(f.getUniqueId()));
         furData.put("x", String.valueOf(f.getX()));
         furData.put("y", String.valueOf(f.getY()));
         return new Packet("update_furniture", furData);
     }
 
-    public static Packet createRemoveFurniturePacket(RoomScreen.Furniture f) {
+    public static Packet createRemoveFurniturePacket(Furniture f) {
         HashMap<String, String> furData = new HashMap<String, String>();
-        furData.put("type", f.getDesc());
+        furData.put("type", f.getType());
         furData.put("uid", String.valueOf(f.getUniqueId()));
-        //furData.put("x", String.valueOf(f.getX()));
-        //furData.put("y", String.valueOf(f.getY()));
         return new Packet("remove_furniture", furData);
     }
 
