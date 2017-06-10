@@ -8,14 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.lovehunterx.LoveHunterX;
-import com.lovehunterx.game.entities.Furniture;
-import com.lovehunterx.networking.Listener;
 import com.lovehunterx.networking.Packet;
 import com.lovehunterx.screens.ui.FixedGroup;
 import com.lovehunterx.screens.ui.Movepad;
-import com.lovehunterx.screens.ui.Sidebar;
-
-import java.util.ArrayList;
 
 public class RoomScreen extends LHXScreen {
     private static int currentId;
@@ -88,7 +83,7 @@ public class RoomScreen extends LHXScreen {
     @Override
     public void resume() {
         long deltaSeconds = (System.currentTimeMillis() - hideTime) / 1000;
-        if (deltaSeconds > 4) {
+        if (deltaSeconds > 4 && !LoveHunterX.getState().isChatting()) {
             LoveHunterX.getState().reset();
             LoveHunterX.changeScreen(LoveHunterX.LOGIN_SCREEN);
         }

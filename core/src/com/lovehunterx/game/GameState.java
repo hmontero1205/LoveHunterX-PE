@@ -1,6 +1,7 @@
 package com.lovehunterx.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
@@ -11,6 +12,8 @@ import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.game.entities.Furniture;
 import com.lovehunterx.game.entities.Player;
+import com.lovehunterx.networking.Packet;
+import com.lovehunterx.networking.listeners.ChatListener;
 import com.lovehunterx.networking.listeners.FurnitureRemoveListener;
 import com.lovehunterx.networking.listeners.FurnitureUpdateListener;
 import com.lovehunterx.networking.listeners.InventoryUpdateListener;
@@ -29,16 +32,20 @@ public class GameState {
 
     private Stage world;
     private Sidebar invContainer;
+    private int invAmount;
+
     private TextButton shopButton;
     private boolean showShop;
     private Shop shopContainer;
-    private int invAmount;
+
+    private TextButton chatButton;
+    private boolean chatting;
 
     private Group players = new Group();
     private Group furniture = new Group();
 
-
     public void registerServerListeners() {
+        LoveHunterX.getConnection().registerListener("chat", new ChatListener());
         LoveHunterX.getConnection().registerListener("join", new PlayerJoinListener());
         LoveHunterX.getConnection().registerListener("move", new PlayerMoveListener());
         LoveHunterX.getConnection().registerListener("leave", new PlayerLeaveListener());
@@ -57,7 +64,9 @@ public class GameState {
         Sidebar sidebar = new Sidebar(0, 65, 65, 350);
         shopContainer = new Shop(80, 57.5f, 480, 365);
         bindInventoryContainer(sidebar);
+
         this.shopButton = createShopButton();
+        this.chatButton = createChatButton();
 
         registerServerListeners();
     }
@@ -130,23 +139,71 @@ public class GameState {
         }
 
         this.room = room;
-        if(username.equals(room)) {
+        if (username.equals(room)) {
             world.addActor(invContainer);
             world.addActor(shopButton);
         } else {
             invContainer.remove();
             shopButton.remove();
         }
+
+        world.addActor(chatButton);
     }
 
-    private TextButton createShopButton () {
+    private TextButton createShopButton() {
         TextButton b = new TextButton("Open Shop", Assets.SKIN);
         b.setPosition(10, world.getHeight() - 50);
         b.addListener(new ClickListener() {
+            @Override
             public void clicked(InputEvent e, float x, float y) {
                 toggleShop();
             }
         });
+
+        return b;
+    }
+
+    private TextButton createChatButton() {
+        TextButton b = new TextButton("Chat", Assets.SKIN);
+        b.setPosition(80, world.getHeight() - 50);
+
+        b.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                chatting = true;
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        while (isChatting()) {
+                            Packet packet = new Packet("alive");
+                            LoveHunterX.getConnection().send(packet);
+
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                            }
+                        }
+                    }
+                }).start();
+
+                Gdx.input.getTextInput(new Input.TextInputListener() {
+                    @Override
+                    public void input(String text) {
+                        Packet chatPacket = Packet.createChatPacket(text);
+                        LoveHunterX.getConnection().send(chatPacket);
+
+                        chatting = false;
+                    }
+
+                    @Override
+                    public void canceled() {
+                        chatting = false;
+                    }
+
+                }, "Chat", "", "");
+            }
+        });
+
 
         return b;
     }
@@ -156,12 +213,16 @@ public class GameState {
         String butText = showShop ? "Exit Shop" : "Open Shop";
         shopButton.setText(butText);
 
-        Gdx.app.log("shop status",Boolean.toString(showShop));
-        if(showShop) {
+        Gdx.app.log("shop status", Boolean.toString(showShop));
+        if (showShop) {
             world.addActor(shopContainer);
         } else {
             shopContainer.remove();
         }
+    }
+
+    public boolean isChatting() {
+        return chatting;
     }
 
     public enum Mode {
