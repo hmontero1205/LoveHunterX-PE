@@ -21,6 +21,7 @@ import com.lovehunterx.networking.listeners.GetMoneyListener;
 import com.lovehunterx.networking.listeners.PlayerJoinListener;
 import com.lovehunterx.networking.listeners.PlayerLeaveListener;
 import com.lovehunterx.networking.listeners.PlayerMoveListener;
+import com.lovehunterx.networking.listeners.StatusListener;
 import com.lovehunterx.screens.ui.Shop;
 import com.lovehunterx.screens.ui.Sidebar;
 
@@ -53,6 +54,7 @@ public class GameState {
         LoveHunterX.getConnection().registerListener("update_inventory", new InventoryUpdateListener());
         LoveHunterX.getConnection().registerListener("update_furniture", new FurnitureUpdateListener());
         LoveHunterX.getConnection().registerListener("remove_furniture", new FurnitureRemoveListener());
+        LoveHunterX.getConnection().registerListener("status", new StatusListener());
         LoveHunterX.getConnection().registerListener("update_money", new GetMoneyListener());
     }
 
