@@ -27,6 +27,8 @@ import com.lovehunterx.networking.Packet;
 public class Sidebar extends Group {
     private Table wrapper;
     private Table container;
+    private TextButton tab;
+    private boolean isOpen;
 
     public Sidebar(float x, float y, float w, float h) {
         setPosition(-w, y);
@@ -41,17 +43,15 @@ public class Sidebar extends Group {
         pane.setOverscroll(false, false);
         wrapper.add(pane);
 
-        final TextButton tab = new TextButton(">", Assets.SKIN);
+        tab = new TextButton(">", Assets.SKIN);
         tab.setWidth(35);
         tab.setPosition(wrapper.getWidth() - 10, wrapper.getY() + (wrapper.getHeight() / 2) - 10);
         tab.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
-                if (tab.getText().toString().equals(">")) {
+                if (tab.getText().toString().equals(">") && LoveHunterX.getState().isInMode(GameState.Mode.PLAY)) {
                     open();
-                    tab.setText("<");
                 } else if (tab.getText().toString().equals("<")) {
                     close();
-                    tab.setText(">");
                 }
             }
         });
@@ -78,7 +78,9 @@ public class Sidebar extends Group {
         }
     }
 
-    private void open() {
+    public void open() {
+        isOpen = true;
+        tab.setText("<");
         MoveByAction act = Actions.moveBy(wrapper.getWidth() - 3, 0, .25F, Interpolation.smoother);
         addAction(act);
 
@@ -86,7 +88,9 @@ public class Sidebar extends Group {
         toggleFurniture();
     }
 
-    private void close() {
+    public void close() {
+        isOpen = false;
+        tab.setText(">");
         MoveByAction act = Actions.moveBy(-wrapper.getWidth() + 3, 0, .25F, Interpolation.smoother);
         addAction(act);
 
@@ -107,6 +111,10 @@ public class Sidebar extends Group {
 
     public void clear() {
         container.clear();
+    }
+
+    public boolean getIsOpen() {
+        return this.isOpen;
     }
 
     public class SidebarItem extends Table {

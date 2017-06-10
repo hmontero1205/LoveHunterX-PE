@@ -42,7 +42,7 @@ public class Player extends Group {
         saying = Actions.sequence(Actions.delay(5), Actions.run(new Runnable() {
             @Override
             public void run() {
-                tag.setText(LoveHunterX.getState().getUsername());
+                tag.setText(getName());
                 tag.setSize(tag.getPrefWidth(), tag.getPrefHeight());
                 tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
                 tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
@@ -86,6 +86,7 @@ public class Player extends Group {
         tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
         tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
 
+        saying.reset();
         saying.restart();
         tag.addAction(saying);
     }

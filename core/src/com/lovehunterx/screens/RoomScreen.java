@@ -3,9 +3,11 @@ package com.lovehunterx.screens;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -86,11 +88,16 @@ public class RoomScreen extends LHXScreen {
 
     @Override
     public void resume() {
-        long deltaSeconds = (System.currentTimeMillis() - hideTime) / 1000;
-        if (deltaSeconds > 4 && !LoveHunterX.getState().isChatting()) {
-            LoveHunterX.getState().reset();
-            LoveHunterX.changeScreen(LoveHunterX.LOGIN_SCREEN);
-        }
+        final long deltaSeconds = (System.currentTimeMillis() - hideTime) / 1000;
+        Action check = Actions.sequence(Actions.delay(.5F), Actions.run(new Runnable() {
+            @Override
+            public void run() {
+                if (deltaSeconds > 4 && !LoveHunterX.getState().isChatting()) {
+                    LoveHunterX.getState().reset();
+                    LoveHunterX.changeScreen(LoveHunterX.LOGIN_SCREEN);
+                }
+            }
+        }));
     }
 
     @Override
