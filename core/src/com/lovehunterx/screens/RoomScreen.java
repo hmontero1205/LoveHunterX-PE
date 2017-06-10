@@ -4,9 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.game.entities.Furniture;
 import com.lovehunterx.networking.Listener;
@@ -37,7 +41,7 @@ public class RoomScreen extends LHXScreen {
         back.setPosition(centerX(back), centerY(back));
         stage.addActor(back);
 
-        /*
+
             //test button
             final TextButton button = new TextButton("Select", Assets.SKIN);
             button.setTransform(true);
@@ -46,13 +50,13 @@ public class RoomScreen extends LHXScreen {
 
             button.addListener(new ClickListener() {
                 public void clicked(InputEvent event, float x, float y) {
-                    button.setText("clicked");
+                    button.setText("clicked")
                     LoveHunterX.changeScreen(LoveHunterX.CHAR_SCREEN);
                 }
             });
 
             stage.addActor(button);
-        */
+
 
         Packet join = Packet.createJoinRoomPacket(LoveHunterX.getState().getUsername());
         LoveHunterX.getConnection().send(join);
