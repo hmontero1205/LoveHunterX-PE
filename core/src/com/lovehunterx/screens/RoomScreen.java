@@ -4,18 +4,17 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
-import com.lovehunterx.game.entities.Furniture;
-import com.lovehunterx.networking.Listener;
 import com.lovehunterx.networking.Packet;
 import com.lovehunterx.screens.ui.FixedGroup;
 import com.lovehunterx.screens.ui.Movepad;
-import com.lovehunterx.screens.ui.Sidebar;
-
-import java.util.ArrayList;
 
 public class RoomScreen extends LHXScreen {
     private static int currentId;
@@ -35,7 +34,7 @@ public class RoomScreen extends LHXScreen {
         back.setPosition(centerX(back), centerY(back));
         stage.addActor(back);
 
-        /*
+
             //test button
             final TextButton button = new TextButton("Select", Assets.SKIN);
             button.setTransform(true);
@@ -50,11 +49,12 @@ public class RoomScreen extends LHXScreen {
             });
 
             stage.addActor(button);
-        */
 
-        Packet join = Packet.createJoinRoomPacket("Hans");
+
+
+        LoveHunterX.getState().joinRoom(LoveHunterX.getState().getUsername());
+        Packet join = Packet.createJoinRoomPacket(LoveHunterX.getState().getUsername());
         LoveHunterX.getConnection().send(join);
-        LoveHunterX.getState().joinRoom("Hans");
 
         Movepad pad = new Movepad();
         pad.setSize(100, 100);
@@ -87,7 +87,7 @@ public class RoomScreen extends LHXScreen {
     @Override
     public void resume() {
         long deltaSeconds = (System.currentTimeMillis() - hideTime) / 1000;
-        if (deltaSeconds > 4) {
+        if (deltaSeconds > 4 && !LoveHunterX.getState().isChatting()) {
             LoveHunterX.getState().reset();
             LoveHunterX.changeScreen(LoveHunterX.LOGIN_SCREEN);
         }

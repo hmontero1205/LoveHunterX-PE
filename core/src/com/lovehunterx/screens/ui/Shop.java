@@ -22,18 +22,18 @@ public class Shop extends Group {
     private Label wallet;
 
     public Shop(float x, float y, float w, float h) {
-        setPosition(x,y);
+        setPosition(x, y);
         wrapper = new Table();
         wrapper.setBackground(new TextureRegionDrawable(new TextureRegion(Assets.SHOP)));
-        wrapper.setSize(w,h);
+        wrapper.setSize(w, h);
         addActor(wrapper);
 
         wallet = new Label("You have $0", Assets.SKIN);
-        wallet.setPosition(w/2 - wallet.getWidth()/2, h/2 + 60);
+        wallet.setPosition(w / 2 - wallet.getWidth() / 2, h / 2 + 60);
         addActor(wallet);
 
         Label sep = new Label("-------------------THIS WEEK'S CATALOGUE-------------------", Assets.SKIN);
-        sep.setPosition(w/2 - sep.getWidth()/2, h/2 + 40);
+        sep.setPosition(w / 2 - sep.getWidth() / 2, h / 2 + 40);
         addActor(sep);
 
         container = new Table();
@@ -42,24 +42,20 @@ public class Shop extends Group {
         //container.setDebug(true);
 
         ScrollPane pane = new ScrollPane(container);
-        pane.setSize(w,h-145);
-        pane.setOverscroll(true,false);
+        pane.setSize(w, h - 145);
+        pane.setOverscroll(true, false);
         wrapper.addActor(pane);
         wrapper.bottom();
 
         container.top();
-        container.add(new ShopItem("Love Sofa","This sofa is mad nice yo buy it please",6.34));
+        container.add(new ShopItem("Love Sofa", "This sofa is mad nice yo buy it please", 6.34));
         container.row();
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
         container.add(new ShopItem("Love Sofa","This sofa is almost mad nice buy it please mad cheap",6.33));
-
-
-
-
     }
 
-    private class ShopItem extends Table{
+    private class ShopItem extends Table {
         private String name;
         private String desc;
         private Double price;
@@ -74,7 +70,7 @@ public class Shop extends Group {
             flavorText.setWrap(true);
             info.add(flavorText).width(260);
             info.row();
-            TextButton purButton = new TextButton("$" + price,Assets.SKIN);
+            TextButton purButton = new TextButton("$" + price, Assets.SKIN);
             info.add(purButton);
             info.right();
             add(info).padLeft(30);

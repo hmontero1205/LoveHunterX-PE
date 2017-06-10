@@ -68,6 +68,12 @@ public class Packet {
         return new Packet("move", moveData);
     }
 
+    public static Packet createChatPacket(String message) {
+        HashMap<String, String> chatData = new HashMap<String, String>();
+        chatData.put("message", message);
+        return new Packet("chat", chatData);
+    }
+
     public static Packet createJoinRoomPacket(String room) {
         HashMap<String, String> joinData = new HashMap<String, String>();
         joinData.put("room", room);
