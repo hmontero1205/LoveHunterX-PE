@@ -17,6 +17,7 @@ import com.lovehunterx.networking.listeners.ChatListener;
 import com.lovehunterx.networking.listeners.FurnitureRemoveListener;
 import com.lovehunterx.networking.listeners.FurnitureUpdateListener;
 import com.lovehunterx.networking.listeners.InventoryUpdateListener;
+import com.lovehunterx.networking.listeners.GetMoneyListener;
 import com.lovehunterx.networking.listeners.PlayerJoinListener;
 import com.lovehunterx.networking.listeners.PlayerLeaveListener;
 import com.lovehunterx.networking.listeners.PlayerMoveListener;
@@ -52,6 +53,7 @@ public class GameState {
         LoveHunterX.getConnection().registerListener("update_inventory", new InventoryUpdateListener());
         LoveHunterX.getConnection().registerListener("update_furniture", new FurnitureUpdateListener());
         LoveHunterX.getConnection().registerListener("remove_furniture", new FurnitureRemoveListener());
+        LoveHunterX.getConnection().registerListener("update_money", new GetMoneyListener());
     }
 
     public void init(Stage stage) {
@@ -220,6 +222,9 @@ public class GameState {
             toggleMode(Mode.SHOP);
             world.addActor(shopContainer);
             shopButton.setText("Exit Shop");
+
+            Packet getMoneyPacket = Packet.createGetMoneyPacket(getUsername());
+            LoveHunterX.getConnection().send(getMoneyPacket);
         }
 
     }
@@ -230,5 +235,9 @@ public class GameState {
 
     public enum Mode {
         PLAY, CONFIG, SHOP;
+    }
+
+    public void updateMoney(double m) {
+        shopContainer.setMoney(m);
     }
 }
