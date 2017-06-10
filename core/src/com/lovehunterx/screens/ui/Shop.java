@@ -20,6 +20,7 @@ public class Shop extends Group {
     private Table wrapper;
     private Table container;
     private Label wallet;
+    private double money;
 
     public Shop(float x, float y, float w, float h) {
         setPosition(x, y);
@@ -28,7 +29,7 @@ public class Shop extends Group {
         wrapper.setSize(w, h);
         addActor(wrapper);
 
-        wallet = new Label("You have $0", Assets.SKIN);
+        wallet = new Label("You have $" + money, Assets.SKIN);
         wallet.setPosition(w / 2 - wallet.getWidth() / 2, h / 2 + 60);
         addActor(wallet);
 
@@ -53,6 +54,10 @@ public class Shop extends Group {
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
         container.add(new ShopItem("Love Sofa","This sofa is almost mad nice buy it please mad cheap",6.33));
+    }
+
+    public void setMoney(double m) {
+        this.money = m;
     }
 
     private class ShopItem extends Table {

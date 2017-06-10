@@ -102,4 +102,9 @@ public class Packet {
         this.data.put(key, val);
     }
 
+    public static Packet createGetMoneyPacket(String username) {
+        HashMap<String, String> moneyData = new HashMap<String, String>();
+        moneyData.put("user", username);
+        return new Packet("get_money", moneyData);
+    }
 }
