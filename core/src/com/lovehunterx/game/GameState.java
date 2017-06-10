@@ -128,6 +128,9 @@ public class GameState {
 
     public void joinRoom(String room) {
         invContainer.clear();
+        if(invContainer.getIsOpen()) {
+            invContainer.close();
+        }
 
         // remove players/furniture from last room
         Iterator<Actor> actors = world.getRoot().getChildren().iterator();
@@ -209,15 +212,14 @@ public class GameState {
     }
 
     private void toggleShop() {
-        showShop = !showShop;
-        String butText = showShop ? "Exit Shop" : "Open Shop";
-        shopButton.setText(butText);
-
-        Gdx.app.log("shop status", Boolean.toString(showShop));
-        if (showShop) {
-            world.addActor(shopContainer);
-        } else {
+        if(isInMode(Mode.SHOP)) {
+            toggleMode(Mode.PLAY);
             shopContainer.remove();
+            shopButton.setText("Open Shop");
+        } else if(isInMode(Mode.PLAY)) {
+            toggleMode(Mode.SHOP);
+            world.addActor(shopContainer);
+            shopButton.setText("Exit Shop");
         }
     }
 
@@ -226,6 +228,6 @@ public class GameState {
     }
 
     public enum Mode {
-        PLAY, CONFIG;
+        PLAY, CONFIG, SHOP;
     }
 }
