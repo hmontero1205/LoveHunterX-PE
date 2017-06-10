@@ -120,6 +120,9 @@ public class GameState {
     }
 
     public void reset() {
+        this.username = null;
+        this.room = null;
+
         invContainer.clear();
         LoveHunterX.getConnection().clearListeners();
     }
@@ -170,7 +173,7 @@ public class GameState {
 
     private TextButton createChatButton() {
         TextButton b = new TextButton("Chat", Assets.SKIN);
-        b.setPosition(80, world.getHeight() - 50);
+        b.setPosition(130, world.getHeight() - 50);
 
         b.addListener(new ClickListener() {
             @Override
@@ -226,7 +229,6 @@ public class GameState {
             Packet getMoneyPacket = Packet.createGetMoneyPacket(getUsername());
             LoveHunterX.getConnection().send(getMoneyPacket);
         }
-
     }
 
     public boolean isChatting() {

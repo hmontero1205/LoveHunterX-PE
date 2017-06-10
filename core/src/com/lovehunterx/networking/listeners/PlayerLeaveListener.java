@@ -14,5 +14,10 @@ public class PlayerLeaveListener implements Listener {
         if (a != null) {
             a.remove();
         }
+
+        if (packet.getData("user").equals(LoveHunterX.getState().getUsername())) {
+            LoveHunterX.getState().reset();
+            LoveHunterX.changeScreen(LoveHunterX.LOGIN_SCREEN);
+        }
     }
 }
