@@ -12,11 +12,11 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
+import com.lovehunterx.game.GameState;
 import com.lovehunterx.networking.Packet;
 
 public class Furniture extends Table {
     private Table options;
-    private boolean configuring, dragging;
     private Vector2 startPosition;
 
     private String type;
@@ -36,7 +36,7 @@ public class Furniture extends Table {
         item.addListener(new DragListener() {
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
-                if (!configuring) {
+                if (!LoveHunterX.getState().isInMode(GameState.Mode.CONFIG)) {
                     return;
                 }
 
@@ -47,7 +47,7 @@ public class Furniture extends Table {
 
             @Override
             public void dragStop(InputEvent event, float x, float y, int pointer) {
-                if (!configuring) {
+                if (!LoveHunterX.getState().isInMode(GameState.Mode.CONFIG)) {
                     return;
                 }
 
@@ -59,17 +59,15 @@ public class Furniture extends Table {
                     setY(30);
                 if (getY() > 60)
                     setY(60);
-
-                dragging = false;
             }
         });
 
         item.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                Furniture.this.clicked();
-
-                toggleConfiguration();
+                if (LoveHunterX.getState().isInMode(GameState.Mode.PLAY)) {
+                    Furniture.this.clicked();
+                }
             }
         });
 
@@ -94,7 +92,9 @@ public class Furniture extends Table {
         cancel.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                toggleConfiguration();
+                if (!allowRemoval()) {
+                    return;
+                }
 
                 LoveHunterX.getState().restockInventory(type);
 
@@ -109,7 +109,6 @@ public class Furniture extends Table {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 saveStart();
-                toggleConfiguration();
 
                 Packet p = Packet.createFurniturePacket(Furniture.this);
                 LoveHunterX.getConnection().send(p);
@@ -122,17 +121,19 @@ public class Furniture extends Table {
     }
 
     public void toggleConfiguration() {
-        if (configuring) {
+        if (LoveHunterX.getState().isInMode(GameState.Mode.PLAY)) {
             removeActor(options);
             saveStart();
-        } else {
+        } else if (LoveHunterX.getState().isInMode(GameState.Mode.CONFIG)) {
             add(options);
             row();
 
             setPosition(startPosition.x, startPosition.y);
         }
+    }
 
-        configuring = !configuring;
+    public boolean allowRemoval() {
+        return true;
     }
 
     private void saveStart() {

@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Interpolation;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -19,6 +20,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
+import com.lovehunterx.game.GameState;
 import com.lovehunterx.game.entities.Furniture;
 import com.lovehunterx.networking.Packet;
 
@@ -45,10 +47,10 @@ public class Sidebar extends Group {
         tab.addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 if (tab.getText().toString().equals(">")) {
-                    slideOut();
+                    open();
                     tab.setText("<");
                 } else if (tab.getText().toString().equals("<")) {
-                    slideIn();
+                    close();
                     tab.setText(">");
                 }
             }
@@ -76,14 +78,31 @@ public class Sidebar extends Group {
         }
     }
 
-    private void slideOut() {
+    private void open() {
         MoveByAction act = Actions.moveBy(wrapper.getWidth() - 3, 0, .25F, Interpolation.smoother);
         addAction(act);
+
+        LoveHunterX.getState().toggleMode(GameState.Mode.CONFIG);
+        toggleFurniture();
     }
 
-    private void slideIn() {
+    private void close() {
         MoveByAction act = Actions.moveBy(-wrapper.getWidth() + 3, 0, .25F, Interpolation.smoother);
         addAction(act);
+
+        LoveHunterX.getState().toggleMode(GameState.Mode.PLAY);
+        toggleFurniture();
+    }
+
+    private void toggleFurniture() {
+        for (Actor a : LoveHunterX.getState().getWorld().getRoot().getChildren()) {
+            if (!(a instanceof Furniture)) {
+                continue;
+            }
+
+            Furniture f = (Furniture) a;
+            f.toggleConfiguration();
+        }
     }
 
     public void clear() {

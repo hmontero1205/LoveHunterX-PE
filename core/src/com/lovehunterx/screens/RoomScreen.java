@@ -52,9 +52,10 @@ public class RoomScreen extends LHXScreen {
             stage.addActor(button);
         */
 
-        Packet join = Packet.createJoinRoomPacket("Hans");
+
+        LoveHunterX.getState().joinRoom(LoveHunterX.getState().getUsername());
+        Packet join = Packet.createJoinRoomPacket(LoveHunterX.getState().getUsername());
         LoveHunterX.getConnection().send(join);
-        LoveHunterX.getState().joinRoom("Hans");
 
         Movepad pad = new Movepad();
         pad.setSize(100, 100);

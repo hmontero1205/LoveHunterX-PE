@@ -20,7 +20,10 @@ import com.lovehunterx.networking.listeners.PlayerMoveListener;
 import com.lovehunterx.screens.ui.Shop;
 import com.lovehunterx.screens.ui.Sidebar;
 
+import java.util.Iterator;
+
 public class GameState {
+    private Mode mode;
     private String username;
     private String room;
 
@@ -49,12 +52,18 @@ public class GameState {
         this.world.addActor(players);
         this.world.addActor(furniture);
 
+        this.mode = Mode.PLAY;
+
         Sidebar sidebar = new Sidebar(0, 65, 65, 350);
         shopContainer = new Shop(80, 57.5f, 480, 365);
         bindInventoryContainer(sidebar);
         this.shopButton = createShopButton();
 
         registerServerListeners();
+    }
+
+    public Stage getWorld() {
+        return world;
     }
 
     public void bindInventoryContainer(Sidebar bar) {
@@ -67,6 +76,14 @@ public class GameState {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public boolean isInMode(Mode mode) {
+        return this.mode == mode;
+    }
+
+    public void toggleMode(Mode mode) {
+        this.mode = mode;
     }
 
     public void restockInventory(String type) {
@@ -87,26 +104,8 @@ public class GameState {
         this.world.addActor(a);
     }
 
-    @Deprecated
-    public void spawnPlayer(Player p) {
-        this.players.addActor(p);
-    }
-
-    @Deprecated
-    public void spawnFurniture(Furniture f) {
-        this.furniture.addActor(f);
-    }
-
-    public Actor getEntity(String name) {
+    public <T extends Actor> T getEntity(String name) {
         return this.world.getRoot().findActor(name);
-    }
-
-    public Player getPlayer(String username) {
-        return this.world.getRoot().findActor(username);
-    }
-
-    public Furniture getFurniture(String uid) {
-        return this.world.getRoot().findActor(uid);
     }
 
     public void reset() {
@@ -114,11 +113,22 @@ public class GameState {
         LoveHunterX.getConnection().clearListeners();
     }
 
-    public String getRoom() {
-        return this.room;
+    public boolean isInRoom(String room) {
+        return this.room.equals(room);
     }
 
     public void joinRoom(String room) {
+        invContainer.clear();
+
+        // remove players/furniture from last room
+        Iterator<Actor> actors = world.getRoot().getChildren().iterator();
+        while (actors.hasNext()) {
+            Actor actor = actors.next();
+            if (actor instanceof Player || actor instanceof Furniture) {
+                actors.remove();
+            }
+        }
+
         this.room = room;
         if(username.equals(room)) {
             world.addActor(invContainer);
@@ -147,10 +157,14 @@ public class GameState {
         shopButton.setText(butText);
 
         Gdx.app.log("shop status",Boolean.toString(showShop));
-        if(showShop)
+        if(showShop) {
             world.addActor(shopContainer);
-        else
+        } else {
             shopContainer.remove();
+        }
     }
 
+    public enum Mode {
+        PLAY, CONFIG;
+    }
 }
