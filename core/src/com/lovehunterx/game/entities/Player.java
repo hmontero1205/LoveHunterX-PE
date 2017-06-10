@@ -8,11 +8,8 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
-<<<<<<< HEAD
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
-=======
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
->>>>>>> b207f117cd17cc27f1dc57a029c655d9ccbfd6d2
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -67,38 +64,12 @@ public class Player extends Group {
 
         saying = Actions.sequence(Actions.delay(5), Actions.run(new Runnable() {
             @Override
-<<<<<<< HEAD
-            public void handle(Packet packet) {
-                System.out.println("Called: " + packet.toJSON());
-                if (!packet.getData("user").equals(name)) {
-                    return;
-                }
 
-                // changeDirection(Integer.valueOf(packet.getData("direction")));
-                if (packet.getData("x") != null) {
-                    setX(Float.valueOf(packet.getData("x")));
-                }
-
-                if (packet.getData("y") != null) {
-                    setY(Float.valueOf(packet.getData("y")));
-                }
-
-                if (packet.getData("vel_x") != null) {
-                    setVelocityX(Float.valueOf(packet.getData("vel_x")));
-                }
-
-                if (packet.getData("vel_y") != null) {
-                    setVelocityY(Float.valueOf(packet.getData("vel_y")));
-                }
-
-
-=======
             public void run() {
                 tag.setText(getName());
                 tag.setSize(tag.getPrefWidth(), tag.getPrefHeight());
                 tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
                 tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
->>>>>>> b207f117cd17cc27f1dc57a029c655d9ccbfd6d2
             }
         }));
     }
@@ -133,15 +104,6 @@ public class Player extends Group {
         batch.draw(tex, getX(), getY(), tex.getRegionWidth(), tex.getRegionHeight());
     }
 
-<<<<<<< HEAD
-//    public class PlayerMenu extends Group {
-//        private Table items;
-//        private TextButton close;
-//        public PlayerMenu (float x, float y) {
-//
-//        }
-//    }
-=======
     public void say(String message) {
         tag.setText(message);
         tag.setSize(tag.getPrefWidth(), tag.getPrefHeight());
@@ -152,5 +114,4 @@ public class Player extends Group {
         saying.restart();
         tag.addAction(saying);
     }
->>>>>>> b207f117cd17cc27f1dc57a029c655d9ccbfd6d2
 }
