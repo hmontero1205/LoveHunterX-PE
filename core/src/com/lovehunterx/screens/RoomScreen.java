@@ -4,9 +4,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
+import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.networking.Packet;
 import com.lovehunterx.screens.ui.FixedGroup;
@@ -30,7 +34,7 @@ public class RoomScreen extends LHXScreen {
         back.setPosition(centerX(back), centerY(back));
         stage.addActor(back);
 
-        /*
+
             //test button
             final TextButton button = new TextButton("Select", Assets.SKIN);
             button.setTransform(true);
@@ -45,7 +49,7 @@ public class RoomScreen extends LHXScreen {
             });
 
             stage.addActor(button);
-        */
+
 
 
         LoveHunterX.getState().joinRoom(LoveHunterX.getState().getUsername());
