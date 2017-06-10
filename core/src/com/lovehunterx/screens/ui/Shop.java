@@ -52,8 +52,7 @@ public class Shop extends Group {
         container.row();
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
-        container.add(new ShopItem("Love Sofa","Style never met and those among great. At no or september sportsmen he perfectly happiness attending. Depending listening delivered off new she procuring satisfied sex existence. Person plenty answer to exeter it if. Law use assistance especially resolution cultivated did out sentiments unsatiable. Way necessary had intention happiness but september delighted his curiosity. Furniture furnished or on strangers neglected remainder engrossed.",69.34));
-
+        container.add(new ShopItem("Love Sofa","This sofa is almost mad nice buy it please mad cheap",6.33));
 
 
 
