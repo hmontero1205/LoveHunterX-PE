@@ -52,10 +52,8 @@ public class Connection {
             return;
         }
 
-        /*
         Packet dc = Packet.createDisconnectPacket();
         send(dc);
-        */
 
         try {
             channel.close().sync();
@@ -71,7 +69,6 @@ public class Connection {
 
         ByteBuf buf = Unpooled.copiedBuffer(p.toJSON(), CharsetUtil.UTF_8);
 
-        //Gdx.app.log("Sending: ", p.toJSON());
         try {
             channel.writeAndFlush(new DatagramPacket(buf, SERVER_ADDRESS)).sync();
         } catch (Exception e) {

@@ -118,6 +118,9 @@ public class GameState {
     }
 
     public void reset() {
+        this.username = null;
+        this.room = null;
+
         invContainer.clear();
         LoveHunterX.getConnection().clearListeners();
     }
