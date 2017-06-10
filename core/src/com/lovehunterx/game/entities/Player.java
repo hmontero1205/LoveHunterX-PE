@@ -42,21 +42,20 @@ public class Player extends Group {
         TextButton tag = new TextButton(name, Assets.SKIN);
         tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
         tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
-        Table menu = new Table();
-        menu.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("tableBack.png")))));
-        menu.setSize(50, 100);
-        float menX = tag.getX();
-        if (tag.getX() + menu.getWidth() < 500) {
-            menX += 100;
-        }
-        else {
-            menX -= 100;
-        }
-        menu.setPosition(menX, tag.getY() - 100);
-        addActor(menu);
         tag.addListener(new ClickListener() {
                 public void clicked(InputEvent e, float x, float y) {
-                    //make menu appear
+                    Table menu = new Table();
+                    menu.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("tableBack.png")))));
+                    menu.setSize(100, 300);
+                    float menX = 0;
+                    if (getX() < 100 ) {
+                        menX += 100;
+                    }
+                    else {
+                        menX -= 100;
+                    }
+                    menu.setPosition(menX, 100);
+                    addActor(menu);
                 }
             });
         addActor(tag);
