@@ -9,7 +9,7 @@ public class PlayerMoveListener implements Listener {
 
     @Override
     public void handle(Packet packet) {
-        Player player = LoveHunterX.getState().getPlayer(packet.getData("user"));
+        Player player = LoveHunterX.getState().getEntity(packet.getData("user"));
         if (player == null) {
             return;
         }

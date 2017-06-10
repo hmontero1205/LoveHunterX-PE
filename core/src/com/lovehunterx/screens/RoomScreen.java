@@ -33,8 +33,6 @@ public class RoomScreen extends LHXScreen {
         LoveHunterX.getState().init(stage);
         Gdx.input.setInputProcessor(stage);
 
-        Sidebar sidebar = new Sidebar(0, 65, 65, 350);
-        LoveHunterX.getState().bindInventoryContainer(sidebar);
 
         // background
         Image back = new Image(new Texture(Gdx.files.internal("roomBack.jpg")));
@@ -58,6 +56,8 @@ public class RoomScreen extends LHXScreen {
             stage.addActor(button);
 
 
+
+        LoveHunterX.getState().joinRoom(LoveHunterX.getState().getUsername());
         Packet join = Packet.createJoinRoomPacket(LoveHunterX.getState().getUsername());
         LoveHunterX.getConnection().send(join);
 
@@ -68,7 +68,6 @@ public class RoomScreen extends LHXScreen {
 
         FixedGroup fixed = new FixedGroup();
         fixed.addActor(pad);
-        fixed.addActor(sidebar);
         stage.addActor(fixed);
     }
 
@@ -94,6 +93,7 @@ public class RoomScreen extends LHXScreen {
     public void resume() {
         long deltaSeconds = (System.currentTimeMillis() - hideTime) / 1000;
         if (deltaSeconds > 4) {
+            LoveHunterX.getState().reset();
             LoveHunterX.changeScreen(LoveHunterX.LOGIN_SCREEN);
         }
     }

@@ -8,9 +8,15 @@ import com.lovehunterx.networking.Packet;
 public class PlayerJoinListener implements Listener {
 
     @Override
+
+    //create the sidebar
     public void handle(Packet packet) {
         if (LoveHunterX.getState().getEntity(packet.getData("user")) != null) {
             return;
+        }
+
+        if(LoveHunterX.getState().getUsername().equals(packet.getData("user"))) {
+
         }
 
         Player player = new Player(packet.getData("user"), 0);
