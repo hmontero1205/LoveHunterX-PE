@@ -52,8 +52,10 @@ public class Connection {
             return;
         }
 
+        /*
         Packet dc = Packet.createDisconnectPacket();
         send(dc);
+        */
 
         try {
             channel.close().sync();

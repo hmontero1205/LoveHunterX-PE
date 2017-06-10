@@ -165,7 +165,7 @@ public class GameState {
 
     private TextButton createChatButton() {
         TextButton b = new TextButton("Chat", Assets.SKIN);
-        b.setPosition(80, world.getHeight() - 50);
+        b.setPosition(130, world.getHeight() - 50);
 
         b.addListener(new ClickListener() {
             @Override

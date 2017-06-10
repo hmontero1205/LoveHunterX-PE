@@ -17,7 +17,6 @@ import com.lovehunterx.screens.ui.FixedGroup;
 import com.lovehunterx.screens.ui.Movepad;
 
 public class RoomScreen extends LHXScreen {
-    private static int currentId;
     public Stage stage;
     private long hideTime;
     private String room;
@@ -51,7 +50,6 @@ public class RoomScreen extends LHXScreen {
             stage.addActor(button);
 
 
-
         LoveHunterX.getState().joinRoom(LoveHunterX.getState().getUsername());
         Packet join = Packet.createJoinRoomPacket(LoveHunterX.getState().getUsername());
         LoveHunterX.getConnection().send(join);
@@ -81,16 +79,10 @@ public class RoomScreen extends LHXScreen {
 
     @Override
     public void pause() {
-        hideTime = System.currentTimeMillis();
     }
 
     @Override
     public void resume() {
-        long deltaSeconds = (System.currentTimeMillis() - hideTime) / 1000;
-        if (deltaSeconds > 4 && !LoveHunterX.getState().isChatting()) {
-            LoveHunterX.getState().reset();
-            LoveHunterX.changeScreen(LoveHunterX.LOGIN_SCREEN);
-        }
     }
 
     @Override
