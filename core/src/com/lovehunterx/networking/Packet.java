@@ -2,6 +2,7 @@ package com.lovehunterx.networking;
 
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
+import com.lovehunterx.game.entities.Furniture;
 import com.lovehunterx.screens.RoomScreen;
 
 import java.util.HashMap;
@@ -23,6 +24,13 @@ public class Packet {
     public Packet() {
     }
 
+    public static Packet createChooseSpritePacket(String user, String sprite){
+        HashMap<String, String> regData = new HashMap<String, String>();
+        regData.put("user",user);
+        regData.put("sprite",sprite);
+        return new Packet("choose_sprite",regData);
+    }
+
     public static Packet createAuthPacket(String user, String pass) {
         HashMap<String, String> authData = new HashMap<String, String>();
         authData.put("user", user);
@@ -37,21 +45,19 @@ public class Packet {
         return new Packet("reg", regData);
     }
 
-    public static Packet createFurniturePacket(RoomScreen.Furniture f) {
+    public static Packet createFurniturePacket(Furniture f) {
         HashMap<String, String> furData = new HashMap<String, String>();
-        furData.put("type", f.getDesc());
+        furData.put("type", f.getType());
         furData.put("uid", String.valueOf(f.getUniqueId()));
         furData.put("x", String.valueOf(f.getX()));
         furData.put("y", String.valueOf(f.getY()));
         return new Packet("update_furniture", furData);
     }
 
-    public static Packet createRemoveFurniturePacket(RoomScreen.Furniture f) {
+    public static Packet createRemoveFurniturePacket(Furniture f) {
         HashMap<String, String> furData = new HashMap<String, String>();
-        furData.put("type", f.getDesc());
+        furData.put("type", f.getType());
         furData.put("uid", String.valueOf(f.getUniqueId()));
-        //furData.put("x", String.valueOf(f.getX()));
-        //furData.put("y", String.valueOf(f.getY()));
         return new Packet("remove_furniture", furData);
     }
 
@@ -60,6 +66,12 @@ public class Packet {
         moveData.put("vel_x", String.valueOf(velX));
         moveData.put("vel_y", String.valueOf(velY));
         return new Packet("move", moveData);
+    }
+
+    public static Packet createChatPacket(String message) {
+        HashMap<String, String> chatData = new HashMap<String, String>();
+        chatData.put("message", message);
+        return new Packet("chat", chatData);
     }
 
     public static Packet createJoinRoomPacket(String room) {
@@ -90,4 +102,9 @@ public class Packet {
         this.data.put(key, val);
     }
 
+    public static Packet createGetMoneyPacket(String username) {
+        HashMap<String, String> moneyData = new HashMap<String, String>();
+        moneyData.put("user", username);
+        return new Packet("get_money", moneyData);
+    }
 }

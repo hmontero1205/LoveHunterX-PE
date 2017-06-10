@@ -55,7 +55,7 @@ public class Assets {
     public static final TextureRegion[] WALK_FRAMES1g = new TextureRegion[8];
 
     static {
-        Texture walks = new Texture(Gdx.files.internal("test.png"));
+        Texture walks = new Texture(Gdx.files.internal("walk1g.png"));
         ;
         TextureRegion[][] tmp = TextureRegion.split(walks, walks.getWidth() / 8, walks.getHeight());
         System.arraycopy(tmp[0], 0, WALK_FRAMES1g, 0, tmp[0].length);
@@ -80,18 +80,20 @@ public class Assets {
     }
 
     public static final Texture SIDE_BAR = new Texture(Gdx.files.internal("tableBack.png"));
+    public static final Texture SHOP = new Texture(Gdx.files.internal("shopBack.png"));
 
-    public static final Animation<TextureRegion> getAnimation() {
-        switch (LoveHunterX.getState().getcSprite()) {
+    public static final TextureRegion[] getAnimation(int sprite) {
+        switch (sprite) {
             case 0:
-                return new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1);
+                return WALK_FRAMES1;
             case 1:
-                return new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1g);
+                return WALK_FRAMES1g;
             case 2:
-                return new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES2);
+                return WALK_FRAMES2;
             case 3:
-                return new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES2g);
-            default: return new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1);
+                return WALK_FRAMES2g;
+            default:
+                return WALK_FRAMES1;
         }
     }
 }

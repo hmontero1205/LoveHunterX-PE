@@ -26,7 +26,8 @@ import io.netty.util.internal.SocketUtils;
 public class Connection {
     //Kevin's: 144.217.84.58
     //Hans's local: 255.255.255.255
-    private static final String HOST = "144.217.84.58";
+
+    private static final String HOST = "255.255.255.255";
     private static final int PORT = 8080;
     private static final InetSocketAddress SERVER_ADDRESS = SocketUtils.socketAddress(HOST, PORT);
     private Channel channel;
@@ -48,7 +49,7 @@ public class Connection {
     }
 
     public void end() {
-        if (channel == null || !channel.isActive()) {
+        if (channel == null) {
             return;
         }
 
@@ -63,13 +64,12 @@ public class Connection {
     }
 
     public boolean send(Packet p) {
-        if (channel == null || !channel.isActive()) {
+        if (channel == null) {
             return false;
         }
 
         ByteBuf buf = Unpooled.copiedBuffer(p.toJSON(), CharsetUtil.UTF_8);
 
-        //Gdx.app.log("Sending: ", p.toJSON());
         try {
             channel.writeAndFlush(new DatagramPacket(buf, SERVER_ADDRESS)).sync();
         } catch (Exception e) {
@@ -95,14 +95,13 @@ public class Connection {
         @Override
         protected void channelRead0(ChannelHandlerContext ctx, DatagramPacket packet) throws Exception {
             String m = (String) packet.content().toString(CharsetUtil.US_ASCII);
-
             Json json = new Json();
             Packet p = json.fromJson(Packet.class, m);
             interpretPacket(p);
         }
 
         private void interpretPacket(final Packet p) {
-            final ArrayList<Listener> responders = listeners.get(p.getAction());
+            ArrayList<Listener> responders = listeners.get(p.getAction());
             if (responders == null) {
                 return;
             }

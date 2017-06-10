@@ -6,8 +6,13 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Group;
+<<<<<<< HEAD
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+=======
+import com.badlogic.gdx.scenes.scene2d.actions.Actions;
+>>>>>>> b207f117cd17cc27f1dc57a029c655d9ccbfd6d2
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -23,23 +28,23 @@ import java.util.ArrayList;
 
 public class Player extends Group {
     private Animation<TextureRegion> walkAnimation;
-    private Image body;
     private float stateTime;
     private int lastDirection = 1;
     private Vector2 velocity;
 
-    public Player(final String name) {
-        if (LoveHunterX.getState().getUsername().equals("Hans")) {
-            walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1);
-        } else {
-            walkAnimation = new Animation<TextureRegion>(0.08f, Assets.WALK_FRAMES1g);
-        }
+    private TextButton tag;
+    private Action saying;
+
+    public Player(final String name, Integer sprite) {
+        walkAnimation = new Animation<TextureRegion>(0.08f, Assets.getAnimation(sprite));
+
+        TextureRegion frame = Assets.getAnimation(sprite)[0];
 
         setName(name);
 
         velocity = new Vector2();
 
-        TextButton tag = new TextButton(name, Assets.SKIN);
+        tag = new TextButton(name, Assets.SKIN);
         tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
         tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
         tag.addListener(new ClickListener() {
@@ -60,8 +65,9 @@ public class Player extends Group {
             });
         addActor(tag);
 
-        LoveHunterX.getConnection().registerListener("move", new Listener() {
+        saying = Actions.sequence(Actions.delay(5), Actions.run(new Runnable() {
             @Override
+<<<<<<< HEAD
             public void handle(Packet packet) {
                 System.out.println("Called: " + packet.toJSON());
                 if (!packet.getData("user").equals(name)) {
@@ -86,17 +92,15 @@ public class Player extends Group {
                 }
 
 
+=======
+            public void run() {
+                tag.setText(getName());
+                tag.setSize(tag.getPrefWidth(), tag.getPrefHeight());
+                tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
+                tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
+>>>>>>> b207f117cd17cc27f1dc57a029c655d9ccbfd6d2
             }
-        });
-
-        LoveHunterX.getConnection().registerListener("leave", new Listener() {
-            @Override
-            public void handle(Packet packet) {
-                if (packet.getData("user").equals(name)) {
-                    remove();
-                }
-            }
-        });
+        }));
     }
 
     public void setVelocityX(float velocityX) {
@@ -105,10 +109,6 @@ public class Player extends Group {
 
     public void setVelocityY(float velocityY) {
         this.velocity.y = velocityY;
-    }
-
-    public void setWalkAnimation(Animation<TextureRegion> animate){
-        this.walkAnimation = animate;
     }
 
     @Override
@@ -133,6 +133,7 @@ public class Player extends Group {
         batch.draw(tex, getX(), getY(), tex.getRegionWidth(), tex.getRegionHeight());
     }
 
+<<<<<<< HEAD
 //    public class PlayerMenu extends Group {
 //        private Table items;
 //        private TextButton close;
@@ -140,4 +141,16 @@ public class Player extends Group {
 //
 //        }
 //    }
+=======
+    public void say(String message) {
+        tag.setText(message);
+        tag.setSize(tag.getPrefWidth(), tag.getPrefHeight());
+        tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
+        tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
+
+        saying.reset();
+        saying.restart();
+        tag.addAction(saying);
+    }
+>>>>>>> b207f117cd17cc27f1dc57a029c655d9ccbfd6d2
 }
