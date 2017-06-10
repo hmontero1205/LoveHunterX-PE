@@ -80,6 +80,7 @@ public class Assets {
     }
 
     public static final Texture SIDE_BAR = new Texture(Gdx.files.internal("tableBack.png"));
+    public static final Texture SHOP = new Texture(Gdx.files.internal("shopBack.png"));
 
     public static final TextureRegion[] getAnimation(int sprite) {
         switch (sprite) {

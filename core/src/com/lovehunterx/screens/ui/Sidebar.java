@@ -56,6 +56,9 @@ public class Sidebar extends Group {
 
         addActor(wrapper);
         addActor(tab);
+
+        container.top();
+        wrapper.top();
     }
 
     public void addItem(String type) {
@@ -81,6 +84,10 @@ public class Sidebar extends Group {
     private void slideIn() {
         MoveByAction act = Actions.moveBy(-wrapper.getWidth() + 3, 0, .25F, Interpolation.smoother);
         addAction(act);
+    }
+
+    public void clear() {
+        container.clear();
     }
 
     public class SidebarItem extends Table {
