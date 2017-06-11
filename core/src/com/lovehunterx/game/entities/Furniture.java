@@ -30,8 +30,6 @@ public class Furniture extends Table {
         setSize(item.getWidth()+options.getWidth(), item.getHeight()+50);
         setName(String.valueOf(uid));
 
-        //item.setSize(170, 150);
-
         item.addListener(new DragListener() {
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
@@ -64,7 +62,7 @@ public class Furniture extends Table {
         item.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (LoveHunterX.getState().isInMode(GameState.Mode.PLAY) || Furniture.this instanceof Door) {
+                if (LoveHunterX.getState().isInMode(GameState.Mode.PLAY)) {
                     Furniture.this.clicked();
                 }
             }
