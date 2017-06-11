@@ -55,11 +55,31 @@ public class Shop extends Group {
         wrapper.bottom();
 
         container.top();
-        container.add(new ShopItem("Love Sofa", "This sofa is mad nice yo buy it please", 6.34));
+        container.add(new ShopItem("Love Sofa", "A sofa to share with your loved ones.", 6.34));
         container.row();
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
-        container.add(new ShopItem("Love Sofa","This sofa is almost mad nice buy it please mad cheap",6.33));
+        container.add(new ShopItem("Double Love Sofa","A really big sofa to share with your loved ones.",6.33));
+        container.row();
+        container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
+        container.row();
+        container.add(new ShopItem("Pie Table","A nice sturdy table that comes pre-installed with a pie and flower vase.",10.21));
+        container.row();
+        container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
+        container.row();
+        container.add(new ShopItem("Small Green Chair","For your small green friends.",15.59));
+        container.row();
+        container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
+        container.row();
+        container.add(new ShopItem("House Tree","A forest inside your apartment.",15.59));
+        container.row();
+        container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
+        container.row();
+        container.add(new ShopItem("Red Stool","Sofas are overrated anyways.",11.29));
+        container.row();
+        container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
+        container.row();
+        container.add(new ShopItem("LHXX Statue","Super cool easter egg for the OG players of the LoveHunterX series. This is a statue that commemorates the protagonists of LoveHunterXX.",419.68));
     }
 
     public void setMoney(double m) {
@@ -78,7 +98,8 @@ public class Shop extends Group {
             this.desc = desc;
             this.price = p;
             Table preview = new Table();
-            preview.add(new Image(new Texture(Gdx.files.internal(name + ".png"))));
+            Image item = new Image(new Texture(Gdx.files.internal(name + ".png")));
+            preview.add(item).maxSize(150,300);
             preview.row();
             preview.add(new Label(n, Assets.SKIN));
             add(preview);
