@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.Array;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.game.GameState;
+import com.lovehunterx.game.entities.Door;
 import com.lovehunterx.game.entities.Furniture;
 import com.lovehunterx.networking.Packet;
 
@@ -100,7 +101,7 @@ public class Sidebar extends Group {
 
     private void toggleFurniture() {
         for (Actor a : LoveHunterX.getState().getWorld().getRoot().getChildren()) {
-            if (!(a instanceof Furniture)) {
+            if (!(a instanceof Furniture) || a instanceof Door) {
                 continue;
             }
 

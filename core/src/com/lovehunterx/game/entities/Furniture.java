@@ -35,7 +35,7 @@ public class Furniture extends Table {
         item.addListener(new DragListener() {
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
-                if (!LoveHunterX.getState().isInMode(GameState.Mode.CONFIG)) {
+                if (!LoveHunterX.getState().isInMode(GameState.Mode.CONFIG) || Furniture.this instanceof Door) {
                     return;
                 }
 
@@ -46,7 +46,7 @@ public class Furniture extends Table {
 
             @Override
             public void dragStop(InputEvent event, float x, float y, int pointer) {
-                if (!LoveHunterX.getState().isInMode(GameState.Mode.CONFIG)) {
+                if (!LoveHunterX.getState().isInMode(GameState.Mode.CONFIG) || Furniture.this instanceof Door) {
                     return;
                 }
 
@@ -64,7 +64,7 @@ public class Furniture extends Table {
         item.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
-                if (LoveHunterX.getState().isInMode(GameState.Mode.PLAY)) {
+                if (LoveHunterX.getState().isInMode(GameState.Mode.PLAY) || Furniture.this instanceof Door) {
                     Furniture.this.clicked();
                 }
             }
