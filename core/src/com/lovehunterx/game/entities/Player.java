@@ -51,6 +51,10 @@ public class Player extends Group {
     }
 
     public void setVelocityX(float velocityX) {
+        if (velocityX != 0) {
+            lastDirection = velocityX > 0 ? -1 : 1;
+        }
+
         this.velocity.x = velocityX;
     }
 

@@ -214,7 +214,6 @@ public class GameState {
             }
         });
 
-
         return b;
     }
 
