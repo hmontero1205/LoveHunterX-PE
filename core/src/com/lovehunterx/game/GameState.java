@@ -119,6 +119,14 @@ public class GameState {
         this.world.addActor(a);
     }
 
+    public void spawnPlayer(Player p) {
+        this.players.addActor(p);
+    }
+
+    public void spawnFurniture(Furniture f) {
+        this.furniture.addActor(f);
+    }
+
     public <T extends Actor> T getEntity(String name) {
         return this.world.getRoot().findActor(name);
     }
