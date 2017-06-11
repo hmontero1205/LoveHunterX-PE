@@ -28,8 +28,6 @@ public class Player extends Group {
     public Player(final String name, Integer sprite) {
         walkAnimation = new Animation<TextureRegion>(0.08f, Assets.getAnimation(sprite));
 
-        TextureRegion frame = Assets.getAnimation(sprite)[0];
-
         setName(name);
 
         velocity = new Vector2();

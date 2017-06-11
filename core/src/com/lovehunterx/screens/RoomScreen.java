@@ -1,42 +1,46 @@
 package com.lovehunterx.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.scenes.scene2d.Action;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
+import com.lovehunterx.game.entities.Player;
 import com.lovehunterx.networking.Packet;
-import com.lovehunterx.screens.ui.FixedGroup;
 import com.lovehunterx.screens.ui.Movepad;
 
 public class RoomScreen extends LHXScreen {
-    public Stage stage;
+    private Stage ui;
+    private Stage stage;
     private long hideTime;
     private String room;
+    private Image back;
 
     @Override
     public void show() {
+        ui = new Stage(new StretchViewport(640, 480));
         stage = new Stage(new StretchViewport(640, 480));
-        LoveHunterX.getState().init(stage);
-        Gdx.input.setInputProcessor(stage);
+        LoveHunterX.getState().init(stage, ui);
 
+        InputMultiplexer inputMultiplexer = new InputMultiplexer();
+        inputMultiplexer.addProcessor(ui);
+        inputMultiplexer.addProcessor(stage);
+        Gdx.input.setInputProcessor(inputMultiplexer);
 
         // background
-        Image back = new Image(new Texture(Gdx.files.internal("roomBack.jpg")));
+        back = new Image(new Texture(Gdx.files.internal("roomBack.jpg")));
         back.setPosition(centerX(back), centerY(back));
         stage.addActor(back);
 
-
-            //test button
+        //test button
             final TextButton button = new TextButton("Select", Assets.SKIN);
             button.setTransform(true);
             button.setScale(1.5f);
@@ -61,17 +65,24 @@ public class RoomScreen extends LHXScreen {
         pad.setX(stage.getWidth() - pad.getWidth() - 10);
         pad.setY(10);
 
-        FixedGroup fixed = new FixedGroup();
-        fixed.addActor(pad);
-        stage.addActor(fixed);
+        LoveHunterX.getState().addUI(pad);
     }
 
     @Override
     public void render(float delta) {
         Gdx.gl.glClearColor(1, 1, 1, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
+        Player player = LoveHunterX.getState().getEntity(LoveHunterX.getState().getUsername());
+        if (player != null) {
+            stage.getCamera().position.x += ((player.getX() + 62) - stage.getCamera().position.x) * delta * 2F;
+            stage.getCamera().update();
+        }
+
+        ui.act(Gdx.graphics.getDeltaTime());
         stage.act(Gdx.graphics.getDeltaTime());
         stage.draw();
+        ui.draw();
     }
 
     @Override

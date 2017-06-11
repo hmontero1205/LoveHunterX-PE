@@ -114,7 +114,6 @@ public class Furniture extends Table {
 
         opts.add(cancel, confirm);
         opts.center();
-        //opts.align(Align.center);
         return opts;
     }
 

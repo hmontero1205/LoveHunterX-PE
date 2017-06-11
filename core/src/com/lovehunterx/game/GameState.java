@@ -16,8 +16,8 @@ import com.lovehunterx.networking.Packet;
 import com.lovehunterx.networking.listeners.ChatListener;
 import com.lovehunterx.networking.listeners.FurnitureRemoveListener;
 import com.lovehunterx.networking.listeners.FurnitureUpdateListener;
-import com.lovehunterx.networking.listeners.InventoryUpdateListener;
 import com.lovehunterx.networking.listeners.GetMoneyListener;
+import com.lovehunterx.networking.listeners.InventoryUpdateListener;
 import com.lovehunterx.networking.listeners.PlayerJoinListener;
 import com.lovehunterx.networking.listeners.PlayerLeaveListener;
 import com.lovehunterx.networking.listeners.PlayerMoveListener;
@@ -33,6 +33,7 @@ public class GameState {
     private String username;
     private String room;
 
+    private Stage ui;
     private Stage world;
     private Sidebar invContainer;
     private int invAmount;
@@ -60,10 +61,9 @@ public class GameState {
         LoveHunterX.getConnection().registerListener("status", new StatusListener());
     }
 
-    public void init(Stage stage) {
+    public void init(Stage stage, Stage ui) {
+        this.ui = ui;
         this.world = stage;
-        this.world.addActor(players);
-        this.world.addActor(furniture);
 
         this.mode = Mode.PLAY;
 
@@ -137,7 +137,7 @@ public class GameState {
 
     public void joinRoom(String room) {
         invContainer.clear();
-        if(invContainer.getIsOpen()) {
+        if (invContainer.getIsOpen()) {
             invContainer.close();
         }
 
@@ -150,16 +150,30 @@ public class GameState {
             }
         }
 
+        Player player = new Player("Hello", 0);
+        player.setX(100);
+        player.setY(0);
+
+        furniture = new Group();
+        this.world.addActor(furniture);
+
+        players = new Group();
+        this.world.addActor(players);
+
         this.room = room;
         if (username.equals(room)) {
-            world.addActor(invContainer);
-            world.addActor(shopButton);
+            ui.addActor(invContainer);
+            ui.addActor(shopButton);
         } else {
             invContainer.remove();
             shopButton.remove();
         }
 
-        world.addActor(chatButton);
+        ui.addActor(chatButton);
+    }
+
+    public void addUI(Actor a) {
+        ui.addActor(a);
     }
 
     private TextButton createShopButton() {
@@ -220,13 +234,13 @@ public class GameState {
     }
 
     private void toggleShop() {
-        if(isInMode(Mode.SHOP)) {
+        if (isInMode(Mode.SHOP)) {
             toggleMode(Mode.PLAY);
             shopContainer.remove();
             shopButton.setText("Open Shop");
-        } else if(isInMode(Mode.PLAY)) {
+        } else if (isInMode(Mode.PLAY)) {
             toggleMode(Mode.SHOP);
-            world.addActor(shopContainer);
+            ui.addActor(shopContainer);
             shopButton.setText("Exit Shop");
 
             Packet getMoneyPacket = Packet.createGetMoneyPacket(getUsername());
@@ -238,11 +252,11 @@ public class GameState {
         return chatting;
     }
 
-    public enum Mode {
-        PLAY, CONFIG, SHOP;
-    }
-
     public void updateMoney(double m) {
         shopContainer.setMoney(m);
+    }
+
+    public enum Mode {
+        PLAY, CONFIG, SHOP;
     }
 }
