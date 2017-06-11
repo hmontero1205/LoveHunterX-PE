@@ -51,6 +51,10 @@ public class Player extends Group {
     }
 
     public void setVelocityX(float velocityX) {
+        if (velocityX != 0) {
+            lastDirection = velocityX > 0 ? 1 : -1;
+        }
+
         this.velocity.x = velocityX;
     }
 
@@ -73,7 +77,9 @@ public class Player extends Group {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
         TextureRegion tex = walkAnimation.getKeyFrame(velocity.x == 0 && velocity.y == 0 || getY() != 0 ? 0.32f : stateTime, true);
-        if ((velocity.x < 0 && !tex.isFlipX()) || (velocity.x >= 0 && tex.isFlipX())) {
+        if ((velocity.x < 0 && !tex.isFlipX()) || (velocity.x > 0 && tex.isFlipX())) {
+            tex.flip(true, false);
+        } else if (velocity.x == 0 && (lastDirection == -1 && !tex.isFlipX() || lastDirection == 1 && tex.isFlipX())) {
             tex.flip(true, false);
         }
 
