@@ -107,4 +107,12 @@ public class Packet {
         moneyData.put("user", username);
         return new Packet("get_money", moneyData);
     }
+
+    public static Packet createPurchasePacket(String username, Double money, String type) {
+        HashMap<String, String> moneyData = new HashMap<String, String>();
+        moneyData.put("user", username);
+        moneyData.put("money", Double.toString(money));
+        moneyData.put("type", type);
+        return new Packet("purchase", moneyData);
+    }
 }
