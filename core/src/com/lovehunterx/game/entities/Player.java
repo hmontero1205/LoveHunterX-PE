@@ -15,6 +15,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.utils.Align;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.networking.Listener;
@@ -47,20 +48,29 @@ public class Player extends Group {
         tag.addListener(new ClickListener() {
                 public void clicked(InputEvent e, float x, float y) {
                     Table menu = new Table();
+                    menu.top();
                     menu.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("tableBack.png")))));
                     menu.setSize(100, 300);
                     float menX = 0;
-                    if (getX() < 100 ) {
-                        menX += 100;
+                    if (getX() < 300 ) {
+                        menX = 150;
                     }
                     else {
-                        menX -= 100;
+                        menX = -100;
                     }
-                    menu.setPosition(menX, 100);
+                    TextButton viewP = new TextButton("View Profile", Assets.SKIN);
+                    viewP.pad(0);
+                    menu.add(viewP).width(menu.getWidth());
+                    menu.row();
+                    TextButton playG = new TextButton("Play Game", Assets.SKIN);
+                    playG.pad(0);
+                    menu.add(playG).width(menu.getWidth());
+                    menu.setPosition(menX, 50);
                     addActor(menu);
                 }
             });
         addActor(tag);
+        Gdx.app.log("", getX()+"");
 
         saying = Actions.sequence(Actions.delay(5), Actions.run(new Runnable() {
             @Override
