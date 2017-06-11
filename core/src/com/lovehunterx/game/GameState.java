@@ -22,6 +22,7 @@ import com.lovehunterx.networking.listeners.PlayerJoinListener;
 import com.lovehunterx.networking.listeners.PlayerLeaveListener;
 import com.lovehunterx.networking.listeners.PlayerMoveListener;
 import com.lovehunterx.networking.listeners.PurchaseListener;
+import com.lovehunterx.networking.listeners.StatusListener;
 import com.lovehunterx.screens.ui.Shop;
 import com.lovehunterx.screens.ui.Sidebar;
 
@@ -56,6 +57,7 @@ public class GameState {
         LoveHunterX.getConnection().registerListener("remove_furniture", new FurnitureRemoveListener());
         LoveHunterX.getConnection().registerListener("get_money", new GetMoneyListener());
         LoveHunterX.getConnection().registerListener("purchase", new PurchaseListener());
+        LoveHunterX.getConnection().registerListener("status", new StatusListener());
     }
 
     public void init(Stage stage) {

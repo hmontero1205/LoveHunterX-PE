@@ -81,10 +81,14 @@ public class RoomScreen extends LHXScreen {
 
     @Override
     public void pause() {
+        System.out.println("PAUSED");
     }
 
     @Override
     public void resume() {
+        System.out.println("RESUMED");
+        Packet statusCheck = new Packet("status");
+        LoveHunterX.getConnection().send(statusCheck);
     }
 
     @Override
