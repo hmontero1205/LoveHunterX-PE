@@ -3,6 +3,7 @@ package com.lovehunterx.networking.listeners;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.lovehunterx.LoveHunterX;
+import com.lovehunterx.game.GameState;
 import com.lovehunterx.game.entities.Door;
 import com.lovehunterx.game.entities.Furniture;
 import com.lovehunterx.networking.Listener;
@@ -29,6 +30,10 @@ public class FurnitureUpdateListener implements Listener {
                 furniture = new Door(dest, x, y, uid);
             } else {
                 furniture = new Furniture(type, x, y, uid);
+            }
+
+            if (LoveHunterX.getState().isInMode(GameState.Mode.CONFIG)) {
+                furniture.toggleConfiguration();
             }
 
             LoveHunterX.getState().spawnEntity(furniture);

@@ -4,13 +4,20 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Group;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lovehunterx.Assets;
+import com.lovehunterx.LoveHunterX;
+import com.lovehunterx.networking.Packet;
+
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 
 /**
  * Created by Hans on 6/10/2017.
@@ -28,8 +35,7 @@ public class Shop extends Group {
         wrapper.setBackground(new TextureRegionDrawable(new TextureRegion(Assets.SHOP)));
         wrapper.setSize(w, h);
         addActor(wrapper);
-
-        wallet = new Label("You have $" + money, Assets.SKIN);
+        wallet = new Label("You have $" + new DecimalFormat("0.00").format(money), Assets.SKIN);
         wallet.setPosition(w / 2 - wallet.getWidth() / 2, h / 2 + 60);
         addActor(wallet);
 
@@ -58,6 +64,8 @@ public class Shop extends Group {
 
     public void setMoney(double m) {
         this.money = m;
+        wallet.setText("You have $" + new DecimalFormat("0.00").format(m));
+        wallet.setPosition(wrapper.getWidth() / 2 - wallet.getWidth() / 2, wrapper.getHeight() / 2 + 60);
     }
 
     private class ShopItem extends Table {
@@ -69,13 +77,29 @@ public class Shop extends Group {
             this.name = n;
             this.desc = desc;
             this.price = p;
-            add(new Image(new Texture(Gdx.files.internal(name + ".png"))));
+            Table preview = new Table();
+            preview.add(new Image(new Texture(Gdx.files.internal(name + ".png"))));
+            preview.row();
+            preview.add(new Label(n, Assets.SKIN));
+            add(preview);
+
             Table info = new Table();
             Label flavorText = new Label(desc, Assets.SKIN);
             flavorText.setWrap(true);
             info.add(flavorText).width(260);
             info.row();
             TextButton purButton = new TextButton("$" + price, Assets.SKIN);
+            purButton.addListener(new ClickListener() {
+                @Override
+                public void clicked(InputEvent event, float x, float y) {
+                    if(money - price > 0) {
+                        money -= price;
+                        setMoney(money);
+                        Packet p = Packet.createPurchasePacket(LoveHunterX.getState().getUsername(), money, name);
+                        LoveHunterX.getConnection().send(p);
+                    }
+                }
+            });
             info.add(purButton);
             info.right();
             add(info).padLeft(30);
