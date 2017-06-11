@@ -24,14 +24,13 @@ public class Furniture extends Table {
     public Furniture(String type, float x, float y, int uid) {
         this.options = createOptions();
         this.startPosition = new Vector2(x, y);
-
         this.type = type;
+        Image item = new Image(new Texture(Gdx.files.internal(type + ".png")));
         setPosition(x, y);
-        setSize(170, 150);
+        setSize(item.getWidth()+options.getWidth(), item.getHeight()+50);
         setName(String.valueOf(uid));
 
-        Image item = new Image(new Texture(Gdx.files.internal(type + ".png")));
-        item.setSize(170, 150);
+        //item.setSize(170, 150);
 
         item.addListener(new DragListener() {
             @Override
@@ -116,18 +115,18 @@ public class Furniture extends Table {
         });
 
         opts.add(cancel, confirm);
-        opts.align(Align.center);
+        opts.center();
+        //opts.align(Align.center);
         return opts;
     }
 
     public void toggleConfiguration() {
         if (LoveHunterX.getState().isInMode(GameState.Mode.PLAY)) {
-            removeActor(options);
+            options.remove();
             saveStart();
         } else if (LoveHunterX.getState().isInMode(GameState.Mode.CONFIG)) {
             add(options);
             row();
-
             setPosition(startPosition.x, startPosition.y);
         }
     }

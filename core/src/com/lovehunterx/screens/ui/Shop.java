@@ -77,7 +77,12 @@ public class Shop extends Group {
             this.name = n;
             this.desc = desc;
             this.price = p;
-            add(new Image(new Texture(Gdx.files.internal(name + ".png"))));
+            Table preview = new Table();
+            preview.add(new Image(new Texture(Gdx.files.internal(name + ".png"))));
+            preview.row();
+            preview.add(new Label(n, Assets.SKIN));
+            add(preview);
+
             Table info = new Table();
             Label flavorText = new Label(desc, Assets.SKIN);
             flavorText.setWrap(true);
