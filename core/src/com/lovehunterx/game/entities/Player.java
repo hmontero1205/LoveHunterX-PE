@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.Action;
+import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
@@ -30,19 +31,16 @@ public class Player extends Group {
     private int lastDirection = 1;
     private Vector2 velocity;
 
-    private TextButton tag;
-    private Action saying;
+    private TextButton message;
 
     public Player(final String name, Integer sprite) {
         walkAnimation = new Animation<TextureRegion>(0.08f, Assets.getAnimation(sprite));
-
-        TextureRegion frame = Assets.getAnimation(sprite)[0];
 
         setName(name);
 
         velocity = new Vector2();
 
-        tag = new TextButton(name, Assets.SKIN);
+        TextButton tag = new TextButton(name, Assets.SKIN);
         tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
         tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
         tag.addListener(new ClickListener() {
@@ -72,6 +70,7 @@ public class Player extends Group {
         addActor(tag);
         Gdx.app.log("", getX()+"");
 
+<<<<<<< HEAD
         saying = Actions.sequence(Actions.delay(5), Actions.run(new Runnable() {
             @Override
 
@@ -82,6 +81,9 @@ public class Player extends Group {
                 tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
             }
         }));
+=======
+        message = new TextButton("", Assets.SKIN);
+>>>>>>> 04f3a35652ab53f4530fc845fa0885d35824266e
     }
 
     public void setVelocityX(float velocityX) {
@@ -120,14 +122,15 @@ public class Player extends Group {
         batch.draw(tex, getX(), getY(), tex.getRegionWidth(), tex.getRegionHeight());
     }
 
-    public void say(String message) {
-        tag.setText(message);
-        tag.setSize(tag.getPrefWidth(), tag.getPrefHeight());
-        tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
-        tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
+    public void say(String msg) {
+        message.remove();
+        message.setText(msg);
+        message.setSize(message.getPrefWidth(), message.getPrefHeight());
+        message.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - message.getWidth() / 2);
+        message.setY(walkAnimation.getKeyFrame(0).getRegionHeight() + 35);
+        message.clearActions();
+        addActor(message);
 
-        saying.reset();
-        saying.restart();
-        tag.addAction(saying);
+        message.addAction(Actions.sequence(Actions.delay(4), Actions.removeActor()));
     }
 }

@@ -36,7 +36,7 @@ public class FurnitureUpdateListener implements Listener {
                 furniture.toggleConfiguration();
             }
 
-            LoveHunterX.getState().spawnEntity(furniture);
+            LoveHunterX.getState().spawnFurniture(furniture);
         } else {
             Actor furn = LoveHunterX.getState().getEntity(String.valueOf(uid));
             furn.setPosition(x, y);

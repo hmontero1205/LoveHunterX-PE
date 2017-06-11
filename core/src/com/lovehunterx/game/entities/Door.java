@@ -13,12 +13,13 @@ public class Door extends Furniture {
 
     public Door(String destination, float x, float y, int uid) {
         super("Door", x, y, uid);
+        setHeight(getHeight() - 170);
+        setWidth(getWidth() - 50);
         this.destination = destination == null ? "Hallway" : destination;
-        setSize(150, 300);
 
         if (destination != null) {
             tag = new TextButton(destination, Assets.SKIN);
-            tag.setPosition((getWidth() / 2) - (tag.getWidth() / 2), getHeight() + 10);
+            tag.setPosition((getWidth() / 2) - (tag.getWidth() / 2), getHeight());
             addActor(tag);
         }
     }
