@@ -70,20 +70,8 @@ public class Player extends Group {
         addActor(tag);
         Gdx.app.log("", getX()+"");
 
-<<<<<<< HEAD
-        saying = Actions.sequence(Actions.delay(5), Actions.run(new Runnable() {
-            @Override
 
-            public void run() {
-                tag.setText(getName());
-                tag.setSize(tag.getPrefWidth(), tag.getPrefHeight());
-                tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
-                tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
-            }
-        }));
-=======
         message = new TextButton("", Assets.SKIN);
->>>>>>> 04f3a35652ab53f4530fc845fa0885d35824266e
     }
 
     public void setVelocityX(float velocityX) {

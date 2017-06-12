@@ -35,4 +35,9 @@ public class Door extends Furniture {
     public boolean allowRemoval() {
         return false;
     }
+
+    @Override
+    public boolean allowEdit() {
+        return false;
+    }
 }

@@ -103,11 +103,7 @@ public class Sidebar extends Group {
     }
 
     private void toggleFurniture() {
-        for (Actor a : LoveHunterX.getState().getWorld().getRoot().getChildren()) {
-            if (!(a instanceof Furniture) || a instanceof Door) {
-                continue;
-            }
-
+        for (Actor a : LoveHunterX.getState().getFurniture()) {
             Furniture f = (Furniture) a;
             f.toggleConfiguration();
         }
@@ -151,7 +147,7 @@ public class Sidebar extends Group {
                 public void clicked(InputEvent e, float x, float y) {
                     LoveHunterX.getState().depleteInventory(SidebarItem.this);
 
-                    Packet packet = Packet.createFurniturePacket(new Furniture(getName(), 200, 30));
+                    Packet packet = Packet.createFurniturePacket(new Furniture(getName(), LoveHunterX.getState().getPlayer().getX(), 30));
                     LoveHunterX.getConnection().send(packet);
                 }
             });

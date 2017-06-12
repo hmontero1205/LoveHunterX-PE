@@ -8,6 +8,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.SnapshotArray;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.game.entities.Furniture;
@@ -45,8 +46,8 @@ public class GameState {
     private TextButton chatButton;
     private boolean chatting;
 
-    private Group players = new Group();
-    private Group furniture = new Group();
+    private Group players;
+    private Group furniture;
 
     public void registerServerListeners() {
         LoveHunterX.getConnection().registerListener("chat", new ChatListener());
@@ -119,14 +120,28 @@ public class GameState {
         this.world.addActor(a);
     }
 
+<<<<<<< HEAD
     public void spawnPlayer(Player p) {
         this.players.addActor(p);
     }
 
+=======
+>>>>>>> 5de2812885b7110514c02b0138efa4c45d7de653
     public void spawnFurniture(Furniture f) {
         this.furniture.addActor(f);
     }
 
+<<<<<<< HEAD
+=======
+    public SnapshotArray<Actor> getFurniture() {
+        return furniture.getChildren();
+    }
+
+    public void spawnPlayer(Player p) {
+        this.players.addActor(p);
+    }
+
+>>>>>>> 5de2812885b7110514c02b0138efa4c45d7de653
     public <T extends Actor> T getEntity(String name) {
         return this.world.getRoot().findActor(name);
     }
@@ -150,17 +165,10 @@ public class GameState {
         }
 
         // remove players/furniture from last room
-        Iterator<Actor> actors = world.getRoot().getChildren().iterator();
-        while (actors.hasNext()) {
-            Actor actor = actors.next();
-            if (actor instanceof Player || actor instanceof Furniture) {
-                actors.remove();
-            }
+        if (furniture != null && players != null) {
+            furniture.clear();
+            players.clear();
         }
-
-        Player player = new Player("Hello", 0);
-        player.setX(100);
-        player.setY(0);
 
         furniture = new Group();
         this.world.addActor(furniture);
@@ -266,5 +274,9 @@ public class GameState {
 
     public enum Mode {
         PLAY, CONFIG, SHOP;
+    }
+
+    public Player getPlayer() {
+        return getEntity(getUsername());
     }
 }

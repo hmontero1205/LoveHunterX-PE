@@ -33,7 +33,7 @@ public class Furniture extends Table {
         item.addListener(new DragListener() {
             @Override
             public void drag(InputEvent event, float x, float y, int pointer) {
-                if (!LoveHunterX.getState().isInMode(GameState.Mode.CONFIG) || Furniture.this instanceof Door) {
+                if (!LoveHunterX.getState().isInMode(GameState.Mode.CONFIG) || !allowEdit()) {
                     return;
                 }
 
@@ -44,14 +44,14 @@ public class Furniture extends Table {
 
             @Override
             public void dragStop(InputEvent event, float x, float y, int pointer) {
-                if (!LoveHunterX.getState().isInMode(GameState.Mode.CONFIG) || Furniture.this instanceof Door) {
+                if (!LoveHunterX.getState().isInMode(GameState.Mode.CONFIG) || !allowEdit()) {
                     return;
                 }
 
-                if (getX() > 470)
-                    setX(470);
-                if (getX() < 0)
-                    setX(0);
+                if (getX() > 950)
+                    setX(950);
+                if (getX() < -550)
+                    setX(-550);
                 if (getY() < 30)
                     setY(30);
                 if (getY() > 60)
@@ -118,19 +118,25 @@ public class Furniture extends Table {
     }
 
     public void toggleConfiguration() {
+        if (!allowEdit()) {
+            return;
+        }
+
         if (LoveHunterX.getState().isInMode(GameState.Mode.PLAY)) {
             options.remove();
-            saveStart();
         } else if (LoveHunterX.getState().isInMode(GameState.Mode.CONFIG)) {
             add(options);
             row();
-            setPosition(startPosition.x, startPosition.y);
         }
+
+        setPosition(startPosition.x, startPosition.y);
     }
 
     public boolean allowRemoval() {
         return true;
     }
+
+    public boolean allowEdit() { return true; }
 
     private void saveStart() {
         startPosition.x = getX();
