@@ -103,11 +103,7 @@ public class Sidebar extends Group {
     }
 
     private void toggleFurniture() {
-        for (Actor a : LoveHunterX.getState().getWorld().getRoot().getChildren()) {
-            if (!(a instanceof Furniture) || a instanceof Door) {
-                continue;
-            }
-
+        for (Actor a : LoveHunterX.getState().getFurniture()) {
             Furniture f = (Furniture) a;
             f.toggleConfiguration();
         }
