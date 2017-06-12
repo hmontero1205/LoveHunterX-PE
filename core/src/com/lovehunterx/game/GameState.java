@@ -2,10 +2,13 @@ package com.lovehunterx.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.SnapshotArray;
@@ -39,11 +42,10 @@ public class GameState {
     private Sidebar invContainer;
     private int invAmount;
 
-    private TextButton shopButton;
-    private boolean showShop;
+    private Button shopButton;
     private Shop shopContainer;
 
-    private TextButton chatButton;
+    private Button chatButton;
     private boolean chatting;
 
     private Group players;
@@ -182,9 +184,9 @@ public class GameState {
         ui.addActor(a);
     }
 
-    private TextButton createShopButton() {
-        TextButton b = new TextButton("Open Shop", Assets.SKIN);
-        b.setPosition(10, world.getHeight() - 50);
+    private Button createShopButton() {
+        Button b = new Button(new Image(new Texture(Gdx.files.internal("cart.png"))), Assets.SKIN);
+        b.setPosition(-8, world.getHeight() - 60);
         b.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
@@ -195,9 +197,9 @@ public class GameState {
         return b;
     }
 
-    private TextButton createChatButton() {
-        TextButton b = new TextButton("Chat", Assets.SKIN);
-        b.setPosition(130, world.getHeight() - 50);
+    private Button createChatButton() {
+        Button b = new Button(new Image(new Texture(Gdx.files.internal("chatbut.png"))), Assets.SKIN);
+        b.setPosition(-20 + shopButton.getWidth(), world.getHeight() - 60);
 
         b.addListener(new ClickListener() {
             @Override
@@ -243,11 +245,11 @@ public class GameState {
         if (isInMode(Mode.SHOP)) {
             toggleMode(Mode.PLAY);
             shopContainer.remove();
-            shopButton.setText("Open Shop");
+           // shopButton.setText("Open Shop");
         } else if (isInMode(Mode.PLAY)) {
             toggleMode(Mode.SHOP);
             ui.addActor(shopContainer);
-            shopButton.setText("Exit Shop");
+            //shopButton.setText("Exit Shop");
 
             Packet getMoneyPacket = Packet.createGetMoneyPacket(getUsername());
             LoveHunterX.getConnection().send(getMoneyPacket);
