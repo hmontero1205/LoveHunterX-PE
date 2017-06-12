@@ -48,10 +48,10 @@ public class Furniture extends Table {
                     return;
                 }
 
-                if (getX() > 470)
-                    setX(470);
-                if (getX() < 0)
-                    setX(0);
+                if (getX() > 950)
+                    setX(950);
+                if (getX() < -550)
+                    setX(-550);
                 if (getY() < 30)
                     setY(30);
                 if (getY() > 60)

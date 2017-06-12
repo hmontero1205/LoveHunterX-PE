@@ -151,7 +151,7 @@ public class Sidebar extends Group {
                 public void clicked(InputEvent e, float x, float y) {
                     LoveHunterX.getState().depleteInventory(SidebarItem.this);
 
-                    Packet packet = Packet.createFurniturePacket(new Furniture(getName(), 200, 30));
+                    Packet packet = Packet.createFurniturePacket(new Furniture(getName(), LoveHunterX.getState().getPlayer().getX(), 30));
                     LoveHunterX.getConnection().send(packet);
                 }
             });

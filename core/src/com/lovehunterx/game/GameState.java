@@ -259,4 +259,8 @@ public class GameState {
     public enum Mode {
         PLAY, CONFIG, SHOP;
     }
+
+    public Player getPlayer() {
+        return getEntity(getUsername());
+    }
 }

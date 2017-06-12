@@ -75,7 +75,14 @@ public class RoomScreen extends LHXScreen {
 
         Player player = LoveHunterX.getState().getEntity(LoveHunterX.getState().getUsername());
         if (player != null) {
-            stage.getCamera().position.x += ((player.getX() + 62) - stage.getCamera().position.x) * delta * 2F;
+            if(player.getX() >= 775)
+                stage.getCamera().position.x = 775 ;
+            else{
+                if(player.getX() <= -210)
+                    stage.getCamera().position.x = -210;
+                else
+                    stage.getCamera().position.x += ((player.getX() + 62) - stage.getCamera().position.x) * delta * 2F;
+            }
             stage.getCamera().update();
         }
 
