@@ -122,10 +122,19 @@ public class GameState {
         this.world.addActor(a);
     }
 
+<<<<<<< HEAD
+    public void spawnPlayer(Player p) {
+        this.players.addActor(p);
+    }
+
+=======
+>>>>>>> 5de2812885b7110514c02b0138efa4c45d7de653
     public void spawnFurniture(Furniture f) {
         this.furniture.addActor(f);
     }
 
+<<<<<<< HEAD
+=======
     public SnapshotArray<Actor> getFurniture() {
         return furniture.getChildren();
     }
@@ -134,6 +143,7 @@ public class GameState {
         this.players.addActor(p);
     }
 
+>>>>>>> 5de2812885b7110514c02b0138efa4c45d7de653
     public <T extends Actor> T getEntity(String name) {
         return this.world.getRoot().findActor(name);
     }

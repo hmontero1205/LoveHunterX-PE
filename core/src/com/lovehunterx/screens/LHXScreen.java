@@ -10,6 +10,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
 
+
 public abstract class LHXScreen implements Screen {
 
     abstract Stage getStage();
