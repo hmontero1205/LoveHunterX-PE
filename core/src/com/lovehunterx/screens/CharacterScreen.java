@@ -14,7 +14,6 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.viewport.StretchViewport;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
-import com.lovehunterx.networking.Listener;
 import com.lovehunterx.networking.Packet;
 
 import java.util.ArrayList;
@@ -112,12 +111,12 @@ public class CharacterScreen extends LHXScreen {
         slot1 = new Image(s1);
         slot1.setWidth(150);
         slot1.setHeight(150);
-        slot1.setPosition(centerX(slot1) - 200, centerY(slot1) + 100);
+        slot1.setPosition(centerX(slot1), centerY(slot1));
 
         slot2 = new Image(s2);
         slot2.setWidth(150);
         slot2.setHeight(150);
-        slot2.setPosition(centerX(slot2), centerY(slot2));
+        slot2.setPosition(centerX(slot2) - 200, centerY(slot2) + 100);
 
         slot3 = new Image(s3);
         slot3.setWidth(150);
@@ -139,12 +138,16 @@ public class CharacterScreen extends LHXScreen {
             slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, 1)))));
             slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, 2)))));
             slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, 3)))));
-            cSprite = cSprite + 1 % sprite.size();
+            cSprite = (cSprite + 1) % sprite.size();
+            Gdx.app.log("test", cSprite +"is the current cSprite");
+            System.out.println("The current sprite is " + cSprite);
         } else {
             slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, -1)))));
             slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, -2)))));
             slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, -3)))));
-            cSprite = cSprite - 1 % sprite.size();
+            cSprite = (cSprite - 1) % sprite.size();
+            Gdx.app.log("test", cSprite +"is the current cSprite");
+            System.out.println("The current sprite is " + cSprite);
         }
     }
 
