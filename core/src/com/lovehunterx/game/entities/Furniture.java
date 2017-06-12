@@ -27,7 +27,7 @@ public class Furniture extends Table {
         this.type = type;
         Image item = new Image(new Texture(Gdx.files.internal(type + ".png")));
         setPosition(x, y);
-        setSize(item.getWidth()+options.getWidth(), item.getHeight()+50);
+        setSize(item.getWidth() + options.getWidth(), item.getHeight() + 50);
         setName(String.valueOf(uid));
 
         item.addListener(new DragListener() {
@@ -136,7 +136,9 @@ public class Furniture extends Table {
         return true;
     }
 
-    public boolean allowEdit() { return true; }
+    public boolean allowEdit() {
+        return true;
+    }
 
     private void saveStart() {
         startPosition.x = getX();

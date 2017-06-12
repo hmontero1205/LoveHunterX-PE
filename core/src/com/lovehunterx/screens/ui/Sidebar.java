@@ -22,11 +22,8 @@ import com.badlogic.gdx.utils.Array;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.game.GameState;
-import com.lovehunterx.game.entities.Door;
 import com.lovehunterx.game.entities.Furniture;
 import com.lovehunterx.networking.Packet;
-
-import javax.swing.GroupLayout;
 
 public class Sidebar extends Group {
     private Table wrapper;
