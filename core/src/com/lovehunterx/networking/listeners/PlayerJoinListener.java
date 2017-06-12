@@ -15,7 +15,7 @@ public class PlayerJoinListener implements Listener {
             return;
         }
 
-        Player player = new Player(packet.getData("user"), 0);
+        Player player = new Player(packet.getData("user"), Integer.valueOf(packet.getData("sprite")));
         player.setX(Float.valueOf(packet.getData("x")));
         player.setY(Float.valueOf(packet.getData("y")));
         LoveHunterX.getState().spawnPlayer(player);

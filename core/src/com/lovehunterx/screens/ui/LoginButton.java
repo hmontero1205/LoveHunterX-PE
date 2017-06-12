@@ -28,8 +28,14 @@ public class LoginButton extends TextButton {
         LoveHunterX.getConnection().registerListener("auth", new Listener() {
             @Override
             public void handle(Packet p) {
+                System.out.println(p.toJSON());
                 if (Boolean.parseBoolean(p.getData("success"))) {
-                    LoveHunterX.changeScreen(LoveHunterX.ROOM_SCREEN);
+                    if (p.getData("require_sprite") != null) {
+                        LoveHunterX.changeScreen(LoveHunterX.CHAR_SCREEN);
+                    } else {
+                        LoveHunterX.changeScreen(LoveHunterX.ROOM_SCREEN);
+                    }
+
                     LoveHunterX.displayNotification("Log in worked dude what's good");
                 } else {
                     LoveHunterX.displayNotification("Log in failed goofy");

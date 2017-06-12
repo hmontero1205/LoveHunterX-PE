@@ -20,6 +20,7 @@ import com.lovehunterx.networking.Packet;
 import java.util.ArrayList;
 
 public class CharacterScreen extends LHXScreen {
+    private boolean shown;
     private final static int NEXT = 0;
     private final static int PREV = 1;
     public Stage stage;
@@ -36,6 +37,23 @@ public class CharacterScreen extends LHXScreen {
 
     @Override
     public void show() {
+        shown = true;
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (shown) {
+                    Packet packet = new Packet("alive");
+                    LoveHunterX.getConnection().send(packet);
+
+                    try {
+                        Thread.sleep(1000);
+                    } catch (InterruptedException e) {
+                    }
+                }
+            }
+        }).start();
+
         //stage setup
         stage = new Stage(new StretchViewport(640, 480));
         Gdx.input.setInputProcessor(stage);
@@ -163,7 +181,7 @@ public class CharacterScreen extends LHXScreen {
 
     @Override
     public void hide() {
-
+        shown = false;
     }
 
     @Override

@@ -33,7 +33,7 @@ public class Player extends Group {
 
     private TextButton message;
 
-    public Player(final String name, Integer sprite) {
+    public Player(final String name, int sprite) {
         walkAnimation = new Animation<TextureRegion>(0.08f, Assets.getAnimation(sprite));
 
         setName(name);

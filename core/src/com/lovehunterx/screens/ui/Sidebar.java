@@ -71,12 +71,6 @@ public class Sidebar extends Group {
 
     public void removeItem(SidebarItem item) {
         container.removeActor(item);
-
-        // check if top item has a bar; if so, remove
-        if (LoveHunterX.getState().getInventoryAmount() > 0) {
-            Array<Cell> cells = container.getCells();
-            System.out.println(cells.size);
-        }
     }
 
     public void open() {
