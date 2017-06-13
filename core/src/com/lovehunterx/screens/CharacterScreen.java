@@ -80,14 +80,14 @@ public class CharacterScreen extends LHXScreen {
 
         left.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                button.setText("left");
+                //button.setText("left");
                 loopSprites(PREV);
             }
         });
 
         button.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                button.setText("clicked");
+                //button.setText("clicked");
                 Packet packet = Packet.createChooseSpritePacket(LoveHunterX.getState().getUsername(),String.valueOf(cSprite));
                 LoveHunterX.getConnection().send(packet);
                 LoveHunterX.changeScreen(LoveHunterX.ROOM_SCREEN);
@@ -96,7 +96,7 @@ public class CharacterScreen extends LHXScreen {
 
         right.addListener(new ClickListener() {
             public void clicked(InputEvent event, float x, float y) {
-                button.setText("right");
+                //button.setText("right");
                 loopSprites(NEXT);
             }
         });

@@ -41,20 +41,20 @@ public class RoomScreen extends LHXScreen {
         stage.addActor(back);
 
         //test button
-            final TextButton button = new TextButton("Select", Assets.SKIN);
-            button.setTransform(true);
-            button.setScale(1.5f);
-            button.setPosition(centerX(button) - 15, centerY(button) + 150);
+//            final TextButton button = new TextButton("Select", Assets.SKIN);
+//            button.setTransform(true);
+//            button.setScale(1.5f);
+//            button.setPosition(centerX(button) - 15, centerY(button) + 150);
+//
+//            button.addListener(new ClickListener() {
+//                public void clicked(InputEvent event, float x, float y) {
+//                    button.setText("clicked");
+//                    CharacterScreen.resetCSprite();
+//                    LoveHunterX.changeScreen(LoveHunterX.CHAR_SCREEN);
+//                }
+//            });
 
-            button.addListener(new ClickListener() {
-                public void clicked(InputEvent event, float x, float y) {
-                    button.setText("clicked");
-                    CharacterScreen.resetCSprite();
-                    LoveHunterX.changeScreen(LoveHunterX.CHAR_SCREEN);
-                }
-            });
-
-            stage.addActor(button);
+//            stage.addActor(button);
 
 
         LoveHunterX.getState().joinRoom(LoveHunterX.getState().getUsername());
@@ -77,7 +77,7 @@ public class RoomScreen extends LHXScreen {
         Player player = LoveHunterX.getState().getEntity(LoveHunterX.getState().getUsername());
         if (player != null) {
             if(player.getX() >= 775)
-                stage.getCamera().position.x = 775 ;
+                stage.getCamera().position.x = 775;
             else{
                 if(player.getX() <= -210)
                     stage.getCamera().position.x = -210;

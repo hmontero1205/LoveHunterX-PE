@@ -12,6 +12,7 @@ import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
@@ -30,6 +31,8 @@ public class Player extends Group {
     private float stateTime;
     private int lastDirection = 1;
     private Vector2 velocity;
+    private boolean menuToggled;
+    private Table playerMenu;
 
     private TextButton message;
 
@@ -43,28 +46,14 @@ public class Player extends Group {
         TextButton tag = new TextButton(name, Assets.SKIN);
         tag.setX(walkAnimation.getKeyFrame(0).getRegionWidth() / 2 - tag.getWidth() / 2);
         tag.setY(walkAnimation.getKeyFrame(0).getRegionHeight());
+
+        playerMenu = createPlayerMenu();
+
         tag.addListener(new ClickListener() {
                 public void clicked(InputEvent e, float x, float y) {
-                    Table menu = new Table();
-                    menu.top();
-                    menu.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("tableBack.png")))));
-                    menu.setSize(100, 300);
-                    float menX = 0;
-                    if (getX() < 300 ) {
-                        menX = 150;
-                    }
-                    else {
-                        menX = -100;
-                    }
-                    TextButton viewP = new TextButton("View Profile", Assets.SKIN);
-                    viewP.pad(0);
-                    menu.add(viewP).width(menu.getWidth());
-                    menu.row();
-                    TextButton playG = new TextButton("Play Game", Assets.SKIN);
-                    playG.pad(0);
-                    menu.add(playG).width(menu.getWidth());
-                    menu.setPosition(menX, 50);
-                    addActor(menu);
+                    if(!getName().equals(LoveHunterX.getState().getUsername()))
+                        toggleMenu();
+
                 }
             });
         addActor(tag);
@@ -74,6 +63,43 @@ public class Player extends Group {
         message = new TextButton("", Assets.SKIN);
     }
 
+    public void toggleMenu() {
+        menuToggled = !menuToggled;
+        if(menuToggled){
+            float menX = 0;
+            if (getX() < 300 ) {
+                menX = 140;
+            }
+            else {
+                menX = -60;
+            }
+
+            playerMenu.setPosition(menX,200);
+            addActor(playerMenu);
+        }
+        else{
+            playerMenu.remove();
+        }
+    }
+
+    private Table createPlayerMenu() {
+        Table menu = new Table();
+        menu.top();
+        menu.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("playermenu.png")))));
+        menu.setSize(100, 150);
+        Label title = new Label("Options", Assets.SKIN);
+        menu.add(title).padTop(5);
+        menu.row();
+        TextButton viewP = new TextButton("View Profile", Assets.SKIN);
+        viewP.pad(0);
+        menu.add(viewP).width(menu.getWidth());
+        menu.row();
+        TextButton playG = new TextButton("Play Game", Assets.SKIN);
+        playG.pad(0);
+        menu.add(playG).width(menu.getWidth());
+
+        return menu;
+    }
     public void setVelocityX(float velocityX) {
         if (velocityX != 0) {
             lastDirection = velocityX > 0 ? 1 : -1;
@@ -95,6 +121,12 @@ public class Player extends Group {
         setY(Math.max(0, getY() + velocity.y * deltaTime * 200));
 
         velocity.y = getY() != 0 ? velocity.y - 2F * deltaTime : 0;
+
+        if(menuToggled && getX() > 300)
+            playerMenu.setX(-60);
+        else
+            if(menuToggled)
+                playerMenu.setX(140);
     }
 
     @Override

@@ -80,6 +80,10 @@ public class Shop extends Group {
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
         container.add(new ShopItem("LHXX Statue","Super cool easter egg for the OG players of the LoveHunterX series. This is a statue that commemorates the protagonists of LoveHunterXX.",419.68));
+        container.row();
+        container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
+        container.row();
+        container.add(new ShopItem("Closet","Change your appearance!!...and also your gender",32.31));
     }
 
     public void setMoney(double m) {

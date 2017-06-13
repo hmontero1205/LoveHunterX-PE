@@ -14,6 +14,7 @@ import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.game.GameState;
 import com.lovehunterx.networking.Packet;
+import com.lovehunterx.screens.CharacterScreen;
 
 public class Furniture extends Table {
     private Table options;
@@ -79,6 +80,10 @@ public class Furniture extends Table {
     }
 
     public void clicked() {
+        if(type.equals("Closet") && LoveHunterX.getState().isInMode(GameState.Mode.PLAY)){
+            CharacterScreen.resetCSprite();
+            LoveHunterX.changeScreen(LoveHunterX.CHAR_SCREEN);
+        }
     }
 
     private Table createOptions() {
