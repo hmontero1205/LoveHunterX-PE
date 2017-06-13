@@ -49,6 +49,7 @@ public class RoomScreen extends LHXScreen {
             button.addListener(new ClickListener() {
                 public void clicked(InputEvent event, float x, float y) {
                     button.setText("clicked");
+                    CharacterScreen.resetCSprite();
                     LoveHunterX.changeScreen(LoveHunterX.CHAR_SCREEN);
                 }
             });

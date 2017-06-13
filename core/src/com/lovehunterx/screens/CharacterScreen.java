@@ -27,11 +27,15 @@ public class CharacterScreen extends LHXScreen {
     private Image slot1;
     private Image slot2;
     private Image slot3;
-    private int cSprite = 0;
+    private static int cSprite = 1;
 
     @Override
     public Stage getStage() {
         return stage;
+    }
+
+    public static void resetCSprite(){
+        cSprite = 1;
     }
 
     @Override
@@ -111,12 +115,12 @@ public class CharacterScreen extends LHXScreen {
         slot1 = new Image(s1);
         slot1.setWidth(150);
         slot1.setHeight(150);
-        slot1.setPosition(centerX(slot1), centerY(slot1));
+        slot1.setPosition(centerX(slot1)-200, centerY(slot1)+100);
 
         slot2 = new Image(s2);
         slot2.setWidth(150);
         slot2.setHeight(150);
-        slot2.setPosition(centerX(slot2) - 200, centerY(slot2) + 100);
+        slot2.setPosition(centerX(slot2), centerY(slot2));
 
         slot3 = new Image(s3);
         slot3.setWidth(150);
@@ -134,20 +138,18 @@ public class CharacterScreen extends LHXScreen {
     }
 
     public void loopSprites(int dir) {
-        if (dir == NEXT) {
-            slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, 1)))));
-            slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, 2)))));
-            slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, 3)))));
-            cSprite = (cSprite + 1) % sprite.size();
-            Gdx.app.log("test", cSprite +"is the current cSprite");
+        if (dir == NEXT) {//this is fine
+            cSprite = correctMod((cSprite + 1),sprite.size());
             System.out.println("The current sprite is " + cSprite);
-        } else {
             slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, -1)))));
-            slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, -2)))));
-            slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, -3)))));
-            cSprite = (cSprite - 1) % sprite.size();
-            Gdx.app.log("test", cSprite +"is the current cSprite");
+            slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(cSprite))));
+            slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, 1)))));
+        } else {
+            cSprite = correctMod((cSprite - 1),sprite.size());
             System.out.println("The current sprite is " + cSprite);
+            slot1.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, 3)))));
+            slot2.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(cSprite))));
+            slot3.setDrawable(new TextureRegionDrawable(new TextureRegion(sprite.get(getNext(cSprite, 1)))));
         }
     }
 
