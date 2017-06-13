@@ -23,6 +23,7 @@ public class RoomScreen extends LHXScreen {
     private long hideTime;
     private String room;
     private Image back;
+    private boolean fixed;
 
     @Override
     public void show() {
@@ -76,13 +77,25 @@ public class RoomScreen extends LHXScreen {
 
         Player player = LoveHunterX.getState().getEntity(LoveHunterX.getState().getUsername());
         if (player != null) {
-            if(player.getX() >= 775)
-                stage.getCamera().position.x = 775;
+            if(player.getX() >= 775) {
+                if (!fixed) {
+                    stage.getCamera().translate(775 - player.getX(), 0, 0);
+                    //stage.getCamera().position.x = 775;
+                    fixed = true;
+                }
+            }
             else{
-                if(player.getX() <= -210)
-                    stage.getCamera().position.x = -210;
-                else
+                if(player.getX() <= -210) {
+                    if(!fixed) {
+                        stage.getCamera().translate(player.getX() - -210, 0, 0);
+                        //stage.getCamera().position.x = -210;
+                        fixed = true;
+                    }
+                }
+                else {
                     stage.getCamera().position.x += ((player.getX() + 62) - stage.getCamera().position.x) * delta * 2F;
+                    fixed = false;
+                }
             }
             stage.getCamera().update();
         }
