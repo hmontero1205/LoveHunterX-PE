@@ -20,15 +20,22 @@ import com.lovehunterx.networking.Packet;
 import com.lovehunterx.networking.listeners.ChatListener;
 import com.lovehunterx.networking.listeners.FurnitureRemoveListener;
 import com.lovehunterx.networking.listeners.FurnitureUpdateListener;
+import com.lovehunterx.networking.listeners.GameEndListener;
+import com.lovehunterx.networking.listeners.GameStartListener;
+import com.lovehunterx.networking.listeners.GameTTTMoveListener;
 import com.lovehunterx.networking.listeners.GetMoneyListener;
 import com.lovehunterx.networking.listeners.InventoryUpdateListener;
+import com.lovehunterx.networking.listeners.InvitationListener;
+import com.lovehunterx.networking.listeners.NotificationListener;
 import com.lovehunterx.networking.listeners.PlayerJoinListener;
 import com.lovehunterx.networking.listeners.PlayerLeaveListener;
 import com.lovehunterx.networking.listeners.PlayerMoveListener;
 import com.lovehunterx.networking.listeners.PurchaseListener;
 import com.lovehunterx.networking.listeners.StatusListener;
+import com.lovehunterx.screens.ui.Invite;
 import com.lovehunterx.screens.ui.Shop;
 import com.lovehunterx.screens.ui.Sidebar;
+import com.lovehunterx.screens.ui.TicTacToe;
 
 public class GameState {
     private Mode mode;
@@ -49,17 +56,28 @@ public class GameState {
     private Group players;
     private Group furniture;
 
+    private Actor game;
+
     public void registerServerListeners() {
         LoveHunterX.getConnection().registerListener("chat", new ChatListener());
         LoveHunterX.getConnection().registerListener("join", new PlayerJoinListener());
         LoveHunterX.getConnection().registerListener("move", new PlayerMoveListener());
         LoveHunterX.getConnection().registerListener("leave", new PlayerLeaveListener());
+
         LoveHunterX.getConnection().registerListener("update_inventory", new InventoryUpdateListener());
         LoveHunterX.getConnection().registerListener("update_furniture", new FurnitureUpdateListener());
         LoveHunterX.getConnection().registerListener("remove_furniture", new FurnitureRemoveListener());
+
         LoveHunterX.getConnection().registerListener("get_money", new GetMoneyListener());
         LoveHunterX.getConnection().registerListener("purchase", new PurchaseListener());
+
         LoveHunterX.getConnection().registerListener("status", new StatusListener());
+        LoveHunterX.getConnection().registerListener("notify", new NotificationListener());
+        LoveHunterX.getConnection().registerListener("invite", new InvitationListener());
+        
+        LoveHunterX.getConnection().registerListener("start_game", new GameStartListener());
+        LoveHunterX.getConnection().registerListener("choose_move", new GameTTTMoveListener());
+        LoveHunterX.getConnection().registerListener("game_end", new GameEndListener());
     }
 
     public void init(Stage stage, Stage ui) {
@@ -178,6 +196,24 @@ public class GameState {
         ui.addActor(chatButton);
     }
 
+    public void startGame(String type, String start) {
+        if (type.equals("ttt")) {
+            game = new TicTacToe(start);
+        }
+
+        this.addUI(game);
+    }
+
+    public Actor getGame() {
+        return game;
+    }
+
+    public void displayInvite(String player) {
+        Invite invite = new Invite(player);
+        invite.setPosition(ui.getWidth() / 2 - invite.getWidth() / 2, ui.getHeight() / 2 - invite.getHeight() / 2);
+        ui.addActor(invite);
+    }
+
     public void addUI(Actor a) {
         ui.addActor(a);
     }
@@ -196,12 +232,13 @@ public class GameState {
     }
 
     private Button createChatButton() {
-        Button b = new Button(new Image(new Texture(Gdx.files.internal("chatbut.png"))), Assets.SKIN);
+        final Button b = new Button(new Image(new Texture(Gdx.files.internal("chatbut.png"))), Assets.SKIN);
         b.setPosition(-20 + shopButton.getWidth(), world.getHeight() - 60);
 
         b.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent event, float x, float y) {
+                b.setChecked(false);
                 chatting = true;
                 new Thread(new Runnable() {
                     @Override
@@ -263,7 +300,7 @@ public class GameState {
     }
 
     public enum Mode {
-        PLAY, CONFIG, SHOP;
+        PLAY, CONFIG, SHOP, INVITE, MINIGAME;
     }
 
     public Player getPlayer() {

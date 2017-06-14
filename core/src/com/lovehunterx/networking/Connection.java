@@ -73,7 +73,7 @@ public class Connection {
         try {
             channel.writeAndFlush(new DatagramPacket(buf, SERVER_ADDRESS)).sync();
         } catch (Exception e) {
-            LoveHunterX.displayNotification("Connected failed u goofy >;(");
+            LoveHunterX.getCurrentScreen().displayNotification("Connected failed u goofy >;(");
         }
         return true;
     }

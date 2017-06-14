@@ -6,25 +6,16 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.scenes.scene2d.Action;
-import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.scenes.scene2d.Group;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.actions.Actions;
-import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
-import com.badlogic.gdx.utils.Align;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
-import com.lovehunterx.networking.Listener;
-import com.lovehunterx.networking.Packet;
-import com.lovehunterx.screens.RoomScreen;
-
-import java.util.ArrayList;
+import com.lovehunterx.game.GameState;
 
 public class Player extends Group {
     private Animation<TextureRegion> walkAnimation;
@@ -50,34 +41,34 @@ public class Player extends Group {
         playerMenu = createPlayerMenu();
 
         tag.addListener(new ClickListener() {
-                public void clicked(InputEvent e, float x, float y) {
-                    if(!getName().equals(LoveHunterX.getState().getUsername()))
-                        toggleMenu();
-
+            public void clicked(InputEvent e, float x, float y) {
+                if (!getName().equals(LoveHunterX.getState().getUsername())) {
+                    toggleMenu();
                 }
-            });
+            }
+        });
         addActor(tag);
-        Gdx.app.log("", getX()+"");
-
 
         message = new TextButton("", Assets.SKIN);
     }
 
     public void toggleMenu() {
+        if (!LoveHunterX.getState().isInMode(GameState.Mode.PLAY)) {
+            return;
+        }
+
         menuToggled = !menuToggled;
-        if(menuToggled){
+        if (menuToggled) {
             float menX = 0;
-            if (getX() < 300 ) {
+            if (getX() < 300) {
                 menX = 140;
-            }
-            else {
+            } else {
                 menX = -60;
             }
 
-            playerMenu.setPosition(menX,200);
+            playerMenu.setPosition(menX, 200);
             addActor(playerMenu);
-        }
-        else{
+        } else {
             playerMenu.remove();
         }
     }
@@ -87,19 +78,32 @@ public class Player extends Group {
         menu.top();
         menu.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("playermenu.png")))));
         menu.setSize(100, 150);
-        Label title = new Label("Options", Assets.SKIN);
-        menu.add(title).padTop(5);
+        TextButton playG = new TextButton("Challenge", Assets.SKIN);
+        playG.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                if (!LoveHunterX.getState().isInMode(GameState.Mode.PLAY)) {
+                    return;
+                }
+
+                LoveHunterX.getState().toggleMode(GameState.Mode.INVITE);
+                toggleMenu();
+                LoveHunterX.getState().displayInvite(getName());
+            }
+        });
+        menu.add(playG).width(menu.getWidth()).pad(0);
         menu.row();
-        TextButton viewP = new TextButton("View Profile", Assets.SKIN);
-        viewP.pad(0);
-        menu.add(viewP).width(menu.getWidth());
+
+        TextButton tip = new TextButton("Tip", Assets.SKIN);
+        menu.add(tip).width(menu.getWidth()).pad(0);
         menu.row();
-        TextButton playG = new TextButton("Play Game", Assets.SKIN);
-        playG.pad(0);
-        menu.add(playG).width(menu.getWidth());
+
+        TextButton visit = new TextButton("Visit", Assets.SKIN);
+        menu.add(visit).width(menu.getWidth()).pad(0);
 
         return menu;
     }
+
     public void setVelocityX(float velocityX) {
         if (velocityX != 0) {
             lastDirection = velocityX > 0 ? 1 : -1;
@@ -122,16 +126,14 @@ public class Player extends Group {
 
         velocity.y = getY() != 0 ? velocity.y - 2F * deltaTime : 0;
 
-        if(menuToggled && getX() > 300)
+        if (menuToggled && getX() > 300)
             playerMenu.setX(-60);
-        else
-            if(menuToggled)
-                playerMenu.setX(140);
+        else if (menuToggled)
+            playerMenu.setX(140);
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
         TextureRegion tex = walkAnimation.getKeyFrame(velocity.x == 0 && velocity.y == 0 || getY() != 0 ? 0.32f : stateTime, true);
         if ((velocity.x < 0 && !tex.isFlipX()) || (velocity.x > 0 && tex.isFlipX())) {
             tex.flip(true, false);
@@ -140,6 +142,7 @@ public class Player extends Group {
         }
 
         batch.draw(tex, getX(), getY(), tex.getRegionWidth(), tex.getRegionHeight());
+        super.draw(batch, parentAlpha);
     }
 
     public void say(String msg) {

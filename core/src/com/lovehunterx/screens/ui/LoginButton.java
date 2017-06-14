@@ -19,7 +19,7 @@ public class LoginButton extends TextButton {
                 Packet p = Packet.createAuthPacket(user.getText(), pass.getText());
                 LoveHunterX.getState().setUsername(user.getText());
                 if (!LoveHunterX.getConnection().send(p)) {
-                    LoveHunterX.displayNotification("Connection to server failed >:(");
+                    LoveHunterX.getCurrentScreen().displayNotification("Connection to server failed >:(");
                 }
             }
 
@@ -36,9 +36,9 @@ public class LoginButton extends TextButton {
                         LoveHunterX.changeScreen(LoveHunterX.ROOM_SCREEN);
                     }
 
-                    LoveHunterX.displayNotification("Log in worked dude what's good");
+                    LoveHunterX.getCurrentScreen().displayNotification("Log in worked dude what's good");
                 } else {
-                    LoveHunterX.displayNotification("Log in failed goofy");
+                    LoveHunterX.getCurrentScreen().displayNotification("Log in failed goofy");
                 }
             }
         });

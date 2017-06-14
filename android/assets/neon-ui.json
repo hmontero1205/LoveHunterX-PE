@@ -217,6 +217,7 @@ com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 com.badlogic.gdx.scenes.scene2d.ui.Button$ButtonStyle: {
 	default: {
 		up: button-c
+		checked: button-pressed-c
 		down: button-pressed-c
 		over: button-over-c
 	}
@@ -282,15 +283,15 @@ com.badlogic.gdx.scenes.scene2d.ui.ImageTextButton$ImageTextButtonStyle: {
 }
 com.badlogic.gdx.scenes.scene2d.ui.Label$LabelStyle: {
 	default: {
-		font: font
+		font: roboto
 		fontColor: text
 	}
 	over: {
-		font: font-over
+		font: roboto
 		fontColor: text
 	}
 	pressed: {
-		font: font-pressed
+		font: roboto
 		fontColor: text
 	}
 }

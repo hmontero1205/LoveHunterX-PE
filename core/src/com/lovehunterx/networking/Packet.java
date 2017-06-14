@@ -3,7 +3,6 @@ package com.lovehunterx.networking;
 import com.badlogic.gdx.utils.Json;
 import com.badlogic.gdx.utils.JsonWriter;
 import com.lovehunterx.game.entities.Furniture;
-import com.lovehunterx.screens.RoomScreen;
 
 import java.util.HashMap;
 
@@ -24,18 +23,18 @@ public class Packet {
     public Packet() {
     }
 
-    public static Packet createChooseSpritePacket(String user, String sprite){
-        HashMap<String, String> regData = new HashMap<String, String>();
-        regData.put("user",user);
-        regData.put("sprite",sprite);
-        return new Packet("choose_sprite",regData);
-    }
-
     public static Packet createAuthPacket(String user, String pass) {
         HashMap<String, String> authData = new HashMap<String, String>();
         authData.put("user", user);
         authData.put("pass", pass);
         return new Packet("auth", authData);
+    }
+
+    public static Packet createChooseSpritePacket(String user, String sprite) {
+        HashMap<String, String> regData = new HashMap<String, String>();
+        regData.put("user", user);
+        regData.put("sprite", sprite);
+        return new Packet("choose_sprite", regData);
     }
 
     public static Packet createRegPacket(String user, String pass) {
@@ -80,8 +79,29 @@ public class Packet {
         return new Packet("join", joinData);
     }
 
+    public static Packet createInvitationPacket(String player, String game) {
+        HashMap<String, String> inviteData = new HashMap<String, String>();
+        inviteData.put("player", player);
+        inviteData.put("game", game);
+        return new Packet("invite", inviteData);
+    }
+
     public static Packet createDisconnectPacket() {
         return new Packet("disconnect", new HashMap<String, String>());
+    }
+
+    public static Packet createGetMoneyPacket(String username) {
+        HashMap<String, String> moneyData = new HashMap<String, String>();
+        moneyData.put("user", username);
+        return new Packet("get_money", moneyData);
+    }
+
+    public static Packet createPurchasePacket(String username, Double money, String type) {
+        HashMap<String, String> moneyData = new HashMap<String, String>();
+        moneyData.put("user", username);
+        moneyData.put("money", Double.toString(money));
+        moneyData.put("type", type);
+        return new Packet("purchase", moneyData);
     }
 
     public String toJSON() {
@@ -102,17 +122,4 @@ public class Packet {
         this.data.put(key, val);
     }
 
-    public static Packet createGetMoneyPacket(String username) {
-        HashMap<String, String> moneyData = new HashMap<String, String>();
-        moneyData.put("user", username);
-        return new Packet("get_money", moneyData);
-    }
-
-    public static Packet createPurchasePacket(String username, Double money, String type) {
-        HashMap<String, String> moneyData = new HashMap<String, String>();
-        moneyData.put("user", username);
-        moneyData.put("money", Double.toString(money));
-        moneyData.put("type", type);
-        return new Packet("purchase", moneyData);
-    }
 }

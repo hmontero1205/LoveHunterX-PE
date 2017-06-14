@@ -18,12 +18,12 @@ public class RegisterButton extends TextButton {
         addListener(new ClickListener() {
             public void clicked(InputEvent e, float x, float y) {
                 if(user.getText().equals("username") || pass.getText().equals("password")){
-                    LoveHunterX.displayNotification("make a legit account please");
+                    LoveHunterX.getCurrentScreen().displayNotification("make a legit account please");
                     return;
                 }
                 Packet p = Packet.createRegPacket(user.getText(), pass.getText());
                 if (!LoveHunterX.getConnection().send(p)) {
-                    LoveHunterX.displayNotification("Connection to server failed >:(");
+                    LoveHunterX.getCurrentScreen().displayNotification("Connection to server failed >:(");
                 }
             }
         });
@@ -32,7 +32,7 @@ public class RegisterButton extends TextButton {
             @Override
             public void handle(Packet p) {
                 String message = (Boolean.parseBoolean(p.getData("success"))) ? "Registration worked dude log in now" : "you goofy this account already exists";
-                LoveHunterX.displayNotification(message);
+                LoveHunterX.getCurrentScreen().displayNotification(message);
             }
         });
     }

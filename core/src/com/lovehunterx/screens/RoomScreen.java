@@ -28,6 +28,7 @@ public class RoomScreen extends LHXScreen {
     @Override
     public void show() {
         ui = new Stage(new StretchViewport(640, 480));
+
         stage = new Stage(new StretchViewport(640, 480));
         LoveHunterX.getState().init(stage, ui);
 
@@ -134,7 +135,7 @@ public class RoomScreen extends LHXScreen {
 
     @Override
     public Stage getStage() {
-        return stage;
+        return ui;
     }
 
     private float centerX(Actor a) {

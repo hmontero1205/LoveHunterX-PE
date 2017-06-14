@@ -30,9 +30,8 @@ public class LoveHunterX extends Game {
         lhx.setScreen(screen);
     }
 
-    public static void displayNotification(String message) {
-        LHXScreen screen = (LHXScreen) lhx.getScreen();
-        screen.displayNotification(message);
+    public static LHXScreen getCurrentScreen() {
+        return (LHXScreen) lhx.getScreen();
     }
 
     @Override
@@ -56,7 +55,7 @@ public class LoveHunterX extends Game {
 //        changeScreen(ROOM_SCREEN);
 
         if (!connected) {
-            displayNotification("Server connection failed >:(");
+            getCurrentScreen().displayNotification("Server connection failed >:(");
         }
     }
 

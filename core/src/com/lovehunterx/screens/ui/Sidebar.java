@@ -128,6 +128,7 @@ public class Sidebar extends Group {
 
             // name
             Label desc = new Label(type, Assets.SKIN);
+            desc.getStyle().font = Assets.SKIN.getFont("font");
             desc.setFontScale(.65f);
             desc.setWrap(true);
             desc.setAlignment(Align.center);
