@@ -280,11 +280,9 @@ public class GameState {
         if (isInMode(Mode.SHOP)) {
             toggleMode(Mode.PLAY);
             shopContainer.remove();
-           // shopButton.setText("Open Shop");
         } else if (isInMode(Mode.PLAY)) {
             toggleMode(Mode.SHOP);
             ui.addActor(shopContainer);
-            //shopButton.setText("Exit Shop");
 
             Packet getMoneyPacket = Packet.createGetMoneyPacket(getUsername());
             LoveHunterX.getConnection().send(getMoneyPacket);

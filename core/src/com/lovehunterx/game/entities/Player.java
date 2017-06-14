@@ -49,7 +49,7 @@ public class Player extends Group {
         });
         addActor(tag);
 
-        message = new TextButton("", Assets.SKIN);
+        message = new TextButton("", Assets.SKIN, "chat");
     }
 
     public void toggleMenu() {

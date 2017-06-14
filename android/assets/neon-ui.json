@@ -35,11 +35,24 @@ com.badlogic.gdx.graphics.Color: {
 		b: .5
 		a: 1
 	}
+	dark-blue: {
+		hex: 7487A7ff
+	}
+	light-blue: {
+		hex: A7B4CBff
+	}
+	super-dark-blue: {
+		hex: 2D4671ff
+	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.Skin$TintedDrawable: {
 	button-c: {
 		name: button
 		color: color
+	}
+	chat-c: {
+		name: button
+		color: dark-blue
 	}
 	button-over-c: {
 		name: button-over
@@ -367,6 +380,12 @@ com.badlogic.gdx.scenes.scene2d.ui.TextButton$TextButtonStyle: {
 		up: button-c
 		down: button-pressed-c
 		over: button-over-c
+	}
+	chat: {
+		font: roboto
+		fontColor: light-blue
+		downFontColor: super-dark-blue
+		up: chat-c
 	}
 }
 com.badlogic.gdx.scenes.scene2d.ui.TextField$TextFieldStyle: {
