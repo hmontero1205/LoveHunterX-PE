@@ -53,6 +53,8 @@ public class GameState {
     private Button chatButton;
     private boolean chatting;
 
+    private Button infoButton;
+
     private Group players;
     private Group furniture;
 
@@ -90,8 +92,9 @@ public class GameState {
         shopContainer = new Shop(80, 57.5f, 480, 365);
         bindInventoryContainer(sidebar);
 
-        this.shopButton = createShopButton();
         this.chatButton = createChatButton();
+        this.shopButton = createShopButton();
+        this.infoButton = createInfoButton();
 
         registerServerListeners();
     }
@@ -194,6 +197,7 @@ public class GameState {
         }
 
         ui.addActor(chatButton);
+        ui.addActor(infoButton);
     }
 
     public void startGame(String type, String start) {
@@ -220,7 +224,7 @@ public class GameState {
 
     private Button createShopButton() {
         Button b = new Button(new Image(new Texture(Gdx.files.internal("cart.png"))), Assets.SKIN);
-        b.setPosition(-8, world.getHeight() - 60);
+        b.setPosition(-20 + chatButton.getWidth(), world.getHeight() - 60);
         b.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
@@ -231,9 +235,24 @@ public class GameState {
         return b;
     }
 
+    private Button createInfoButton() {
+        Button b = new Button(new Image(new Texture(Gdx.files.internal("infobut.png"))), Assets.SKIN);
+        b.setPosition(648 - b.getWidth(), world.getHeight() - 60);
+        b.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent e, float x, float y) {
+                if(isInMode(Mode.PLAY)){
+
+                }
+            }
+        });
+
+        return b;
+    }
+
     private Button createChatButton() {
         final Button b = new Button(new Image(new Texture(Gdx.files.internal("chatbut.png"))), Assets.SKIN);
-        b.setPosition(-20 + shopButton.getWidth(), world.getHeight() - 60);
+        b.setPosition(-8, world.getHeight() - 60);
 
         b.addListener(new ClickListener() {
             @Override
