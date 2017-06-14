@@ -80,7 +80,7 @@ public class Furniture extends Table {
     }
 
     public void clicked() {
-        if(type.equals("Closet") && LoveHunterX.getState().isInMode(GameState.Mode.PLAY)){
+        if(type.equals("Closet") && LoveHunterX.getState().isInMode(GameState.Mode.PLAY) && LoveHunterX.getState().isInRoom(LoveHunterX.getState().getUsername())){
             CharacterScreen.resetCSprite();
             LoveHunterX.changeScreen(LoveHunterX.CHAR_SCREEN);
         }

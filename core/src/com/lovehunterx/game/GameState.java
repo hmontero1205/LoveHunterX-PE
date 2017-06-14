@@ -90,8 +90,8 @@ public class GameState {
         shopContainer = new Shop(80, 57.5f, 480, 365);
         bindInventoryContainer(sidebar);
 
-        this.shopButton = createShopButton();
         this.chatButton = createChatButton();
+        this.shopButton = createShopButton();
 
         registerServerListeners();
     }
@@ -220,7 +220,7 @@ public class GameState {
 
     private Button createShopButton() {
         Button b = new Button(new Image(new Texture(Gdx.files.internal("cart.png"))), Assets.SKIN);
-        b.setPosition(-8, world.getHeight() - 60);
+        b.setPosition(-20 + chatButton.getWidth(), world.getHeight() - 60);
         b.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
@@ -233,7 +233,7 @@ public class GameState {
 
     private Button createChatButton() {
         final Button b = new Button(new Image(new Texture(Gdx.files.internal("chatbut.png"))), Assets.SKIN);
-        b.setPosition(-20 + shopButton.getWidth(), world.getHeight() - 60);
+        b.setPosition(-8, world.getHeight() - 60);
 
         b.addListener(new ClickListener() {
             @Override
