@@ -114,17 +114,17 @@ public class CharacterScreen extends LHXScreen {
 
         slot1 = new Image(s1);
         slot1.setWidth(150);
-        slot1.setHeight(150);
+        slot1.setHeight(250);
         slot1.setPosition(centerX(slot1)-200, centerY(slot1)+100);
 
         slot2 = new Image(s2);
         slot2.setWidth(150);
-        slot2.setHeight(150);
+        slot2.setHeight(250);
         slot2.setPosition(centerX(slot2), centerY(slot2));
 
         slot3 = new Image(s3);
         slot3.setWidth(150);
-        slot3.setHeight(150);
+        slot3.setHeight(250);
         slot3.setPosition(centerX(slot3) + 200, centerY(slot3) + 100);
 
         stage.addActor(right);

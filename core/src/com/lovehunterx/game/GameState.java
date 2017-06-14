@@ -53,6 +53,8 @@ public class GameState {
     private Button chatButton;
     private boolean chatting;
 
+    private Button infoButton;
+
     private Group players;
     private Group furniture;
 
@@ -92,6 +94,7 @@ public class GameState {
 
         this.chatButton = createChatButton();
         this.shopButton = createShopButton();
+        this.infoButton = createInfoButton();
 
         registerServerListeners();
     }
@@ -194,6 +197,7 @@ public class GameState {
         }
 
         ui.addActor(chatButton);
+        ui.addActor(infoButton);
     }
 
     public void startGame(String type, String start) {
@@ -225,6 +229,21 @@ public class GameState {
             @Override
             public void clicked(InputEvent e, float x, float y) {
                 toggleShop();
+            }
+        });
+
+        return b;
+    }
+
+    private Button createInfoButton() {
+        Button b = new Button(new Image(new Texture(Gdx.files.internal("infobut.png"))), Assets.SKIN);
+        b.setPosition(648 - b.getWidth(), world.getHeight() - 60);
+        b.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent e, float x, float y) {
+                if(isInMode(Mode.PLAY)){
+
+                }
             }
         });
 
