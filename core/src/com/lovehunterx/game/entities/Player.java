@@ -90,11 +90,24 @@ public class Player extends Group {
                 menu.remove();
 
                 LoveHunterX.getState().toggleMode(GameState.Mode.INVITE);
-                toggleMenu();
                 LoveHunterX.getState().displayInvite(getName());
             }
         });
         menu.add(playG).width(menu.getWidth()).pad(0);
+        menu.row();
+
+        TextButton tip = new TextButton("Tip", Assets.SKIN);
+        tip.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                Packet packet = new Packet("tip");
+                packet.addData("player", getName());
+                LoveHunterX.getConnection().send(packet);
+
+                menu.remove();
+            }
+        });
+        menu.add(tip).width(menu.getWidth()).pad(0);
         menu.row();
 
         TextButton visit = new TextButton("Visit", Assets.SKIN);

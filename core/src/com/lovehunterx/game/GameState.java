@@ -59,6 +59,8 @@ public class GameState {
     private Group players;
     private Group furniture;
 
+    private double money;
+
     private Actor game;
 
     public void registerServerListeners() {
@@ -327,7 +329,12 @@ public class GameState {
     }
 
     public void updateMoney(double m) {
-        shopContainer.setMoney(m);
+        this.money = m;
+        this.shopContainer.setMoney(m);
+    }
+
+    public double getMoney() {
+        return money;
     }
 
     public enum Mode {
