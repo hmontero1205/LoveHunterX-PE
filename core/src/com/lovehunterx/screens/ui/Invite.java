@@ -47,10 +47,14 @@ public class Invite extends Table {
                     return;
                 }
 
-                Packet invitation = Packet.createInvitationPacket(player, choices.getChecked().getName());
-                LoveHunterX.getConnection().send(invitation);
-
                 LoveHunterX.getState().toggleMode(GameState.Mode.PLAY);
+
+                if (choices.getChecked().getName().equals("wam")) {
+                    LoveHunterX.getCurrentScreen().displayNotification("Whack a Mole is disabled.");
+                } else {
+                    Packet invitation = Packet.createInvitationPacket(player, choices.getChecked().getName());
+                    LoveHunterX.getConnection().send(invitation);
+                }
 
                 remove();
             }

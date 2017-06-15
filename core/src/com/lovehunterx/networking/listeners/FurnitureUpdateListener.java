@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.game.GameState;
+import com.lovehunterx.game.entities.Closet;
 import com.lovehunterx.game.entities.Door;
 import com.lovehunterx.game.entities.Furniture;
 import com.lovehunterx.networking.Listener;
@@ -13,10 +14,6 @@ public class FurnitureUpdateListener implements Listener {
 
     @Override
     public void handle(Packet packet) {
-        Gdx.app.log("furniture", packet.toJSON());
-        Gdx.app.log("", packet.getData("uid"));
-
-        // data
         String type = packet.getData("type");
         float x = Float.parseFloat(packet.getData("x"));
         float y = Float.parseFloat(packet.getData("y"));
@@ -28,9 +25,12 @@ public class FurnitureUpdateListener implements Listener {
             if (type.equals("Door")) {
                 String dest = packet.getData("destination");
                 furniture = new Door(dest, x, y, uid);
+            } else if (type.equals("Closet")) {
+                furniture = new Closet(x, y, uid);
             } else {
                 furniture = new Furniture(type, x, y, uid);
             }
+
 
             if (LoveHunterX.getState().isInMode(GameState.Mode.CONFIG)) {
                 furniture.toggleConfiguration();

@@ -9,7 +9,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.SnapshotArray;
 import com.lovehunterx.Assets;
@@ -78,7 +77,7 @@ public class GameState {
         LoveHunterX.getConnection().registerListener("status", new StatusListener());
         LoveHunterX.getConnection().registerListener("notify", new NotificationListener());
         LoveHunterX.getConnection().registerListener("invite", new InvitationListener());
-        
+
         LoveHunterX.getConnection().registerListener("start_game", new GameStartListener());
         LoveHunterX.getConnection().registerListener("choose_move", new GameTTTMoveListener());
         LoveHunterX.getConnection().registerListener("game_end", new GameEndListener());
@@ -204,6 +203,10 @@ public class GameState {
     }
 
     public void startGame(String type, String start) {
+        if (game != null) {
+            game.remove();
+        }
+
         if (type.equals("ttt")) {
             game = new TicTacToe(start);
         }
