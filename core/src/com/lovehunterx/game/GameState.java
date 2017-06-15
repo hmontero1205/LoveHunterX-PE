@@ -59,6 +59,8 @@ public class GameState {
     private Group players;
     private Group furniture;
 
+    private double money;
+
     private Actor game;
 
     public void registerServerListeners() {
@@ -281,8 +283,12 @@ public class GameState {
                 Gdx.input.getTextInput(new Input.TextInputListener() {
                     @Override
                     public void input(String text) {
-                        Packet chatPacket = Packet.createChatPacket(text);
-                        LoveHunterX.getConnection().send(chatPacket);
+                        if (text.length() <= 50) {
+                            Packet chatPacket = Packet.createChatPacket(text);
+                            LoveHunterX.getConnection().send(chatPacket);
+                        } else {
+                            LoveHunterX.getCurrentScreen().displayNotification("Chat cannot be longer than 50 characters.");
+                        }
 
                         chatting = false;
                     }
@@ -327,7 +333,12 @@ public class GameState {
     }
 
     public void updateMoney(double m) {
-        shopContainer.setMoney(m);
+        this.money = m;
+        this.shopContainer.setMoney(m);
+    }
+
+    public double getMoney() {
+        return money;
     }
 
     public enum Mode {

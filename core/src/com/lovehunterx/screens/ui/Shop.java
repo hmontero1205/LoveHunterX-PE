@@ -17,7 +17,6 @@ import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.networking.Packet;
 
 import java.text.DecimalFormat;
-import java.text.NumberFormat;
 
 /**
  * Created by Hans on 6/10/2017.
@@ -27,7 +26,6 @@ public class Shop extends Group {
     private Table wrapper;
     private Table container;
     private Label wallet;
-    private double money;
 
     public Shop(float x, float y, float w, float h) {
         setPosition(x, y);
@@ -35,7 +33,7 @@ public class Shop extends Group {
         wrapper.setBackground(new TextureRegionDrawable(new TextureRegion(Assets.SHOP)));
         wrapper.setSize(w, h);
         addActor(wrapper);
-        wallet = new Label("You have $" + new DecimalFormat("0.00").format(money), Assets.SKIN);
+        wallet = new Label("You have $" + new DecimalFormat("0.00").format(LoveHunterX.getState().getMoney()), Assets.SKIN);
         wallet.setPosition(w / 2 - wallet.getWidth() / 2, h / 2 + 60);
         addActor(wallet);
 
@@ -59,15 +57,15 @@ public class Shop extends Group {
         container.row();
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
-        container.add(new ShopItem("Double Love Sofa","A really big sofa to share with your loved ones.",6.33));
+        container.add(new ShopItem("Double Love Sofa", "A really big sofa to share with your loved ones.", 6.33));
         container.row();
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
-        container.add(new ShopItem("Pie Table","A nice sturdy table that comes pre-installed with a pie and flower vase.",10.21));
+        container.add(new ShopItem("Pie Table", "A nice sturdy table that comes pre-installed with a pie and flower vase.", 10.21));
         container.row();
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
-        container.add(new ShopItem("Small Green Chair","For your small green friends.",15.59));
+        container.add(new ShopItem("Small Green Chair", "For your small green friends.", 15.59));
         container.row();
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
@@ -75,19 +73,18 @@ public class Shop extends Group {
         container.row();
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
-        container.add(new ShopItem("Red Stool","Sofas are overrated anyways.",11.29));
+        container.add(new ShopItem("Red Stool", "Sofas are overrated anyways.", 11.29));
         container.row();
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
-        container.add(new ShopItem("LHXX Statue","Super cool easter egg for the OG players of the LoveHunterX series. This is a statue that commemorates the protagonists of LoveHunterXX.",419.68));
+        container.add(new ShopItem("LHXX Statue", "Super cool easter egg for the OG players of the LoveHunterX series. This is a statue that commemorates the protagonists of LoveHunterXX.", 419.68));
         container.row();
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
-        container.add(new ShopItem("Closet","Change your appearance!!...and also your gender",32.31));
+        container.add(new ShopItem("Closet", "Change your appearance!!...and also your gender", 32.31));
     }
 
     public void setMoney(double m) {
-        this.money = m;
         wallet.setText("You have $" + new DecimalFormat("0.00").format(m));
         wallet.setPosition(wrapper.getWidth() / 2 - wallet.getWidth() / 2, wrapper.getHeight() / 2 + 60);
     }
@@ -103,7 +100,7 @@ public class Shop extends Group {
             this.price = p;
             Table preview = new Table();
             Image item = new Image(new Texture(Gdx.files.internal(name + ".png")));
-            preview.add(item).maxSize(150,300);
+            preview.add(item).maxSize(150, 300);
             preview.row();
             preview.add(new Label(n, Assets.SKIN));
             add(preview);
@@ -117,10 +114,10 @@ public class Shop extends Group {
             purButton.addListener(new ClickListener() {
                 @Override
                 public void clicked(InputEvent event, float x, float y) {
-                    if(money - price > 0) {
-                        money -= price;
-                        setMoney(money);
-                        Packet p = Packet.createPurchasePacket(LoveHunterX.getState().getUsername(), money, name);
+                    if (LoveHunterX.getState().getMoney() - price > 0) {
+                        LoveHunterX.getState().updateMoney(LoveHunterX.getState().getMoney() - price);
+                        setMoney(LoveHunterX.getState().getMoney());
+                        Packet p = Packet.createPurchasePacket(LoveHunterX.getState().getUsername(), LoveHunterX.getState().getMoney(), name);
                         LoveHunterX.getConnection().send(p);
                     }
                 }

@@ -9,8 +9,6 @@ public class GameEndListener implements Listener {
 
     @Override
     public void handle(Packet packet) {
-        System.out.println(packet.toJSON());
-
         LoveHunterX.getState().getGame().remove();
 
         if (packet.getData("result").equals("dc")) {
