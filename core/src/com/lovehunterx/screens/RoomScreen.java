@@ -40,23 +40,6 @@ public class RoomScreen extends LHXScreen {
         back.setPosition(centerX(back), centerY(back));
         stage.addActor(back);
 
-        //test button
-//            final TextButton button = new TextButton("Select", Assets.SKIN);
-//            button.setTransform(true);
-//            button.setScale(1.5f);
-//            button.setPosition(centerX(button) - 15, centerY(button) + 150);
-//
-//            button.addListener(new ClickListener() {
-//                public void clicked(InputEvent event, float x, float y) {
-//                    button.setText("clicked");
-//                    CharacterScreen.resetCSprite();
-//                    LoveHunterX.changeScreen(LoveHunterX.CHAR_SCREEN);
-//                }
-//            });
-
-//            stage.addActor(button);
-
-
         LoveHunterX.getState().joinRoom(LoveHunterX.getState().getUsername());
         Packet join = Packet.createJoinRoomPacket(LoveHunterX.getState().getUsername());
         LoveHunterX.getConnection().send(join);
@@ -76,22 +59,18 @@ public class RoomScreen extends LHXScreen {
 
         Player player = LoveHunterX.getState().getEntity(LoveHunterX.getState().getUsername());
         if (player != null) {
-            if(player.getX() >= 775) {
+            if (player.getX() >= 775) {
                 if (!fixed) {
                     stage.getCamera().translate(775 - player.getX(), 0, 0);
-                    //stage.getCamera().position.x = 775;
                     fixed = true;
                 }
-            }
-            else{
-                if(player.getX() <= -210) {
-                    if(!fixed) {
+            } else {
+                if (player.getX() <= -210) {
+                    if (!fixed) {
                         stage.getCamera().translate(player.getX() - -210, 0, 0);
-                        //stage.getCamera().position.x = -210;
                         fixed = true;
                     }
-                }
-                else {
+                } else {
                     stage.getCamera().position.x += ((player.getX() + 62) - stage.getCamera().position.x) * delta * 2F;
                     fixed = false;
                 }

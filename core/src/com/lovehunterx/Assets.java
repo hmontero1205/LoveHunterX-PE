@@ -68,6 +68,8 @@ public class Assets {
         SHOP.setFilter(Texture.TextureFilter.Linear, Texture.TextureFilter.Linear);
     }
 
+    public static final Texture INFO = new Texture(Gdx.files.internal("info.png"));
+
     public static final Texture TTT_PIECE_1 = new Texture(Gdx.files.internal("ttt1.png"));
     public static final Texture TTT_PIECE_2 = new Texture(Gdx.files.internal("ttt2.png"));
 

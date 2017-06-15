@@ -16,6 +16,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.lovehunterx.Assets;
 import com.lovehunterx.LoveHunterX;
 import com.lovehunterx.game.GameState;
+import com.lovehunterx.networking.Packet;
 
 public class Player extends Group {
     private Animation<TextureRegion> walkAnimation;
@@ -74,7 +75,7 @@ public class Player extends Group {
     }
 
     private Table createPlayerMenu() {
-        Table menu = new Table();
+        final Table menu = new Table();
         menu.top();
         menu.setBackground(new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("playermenu.png")))));
         menu.setSize(100, 150);
@@ -86,6 +87,8 @@ public class Player extends Group {
                     return;
                 }
 
+                menu.remove();
+
                 LoveHunterX.getState().toggleMode(GameState.Mode.INVITE);
                 toggleMenu();
                 LoveHunterX.getState().displayInvite(getName());
@@ -94,11 +97,15 @@ public class Player extends Group {
         menu.add(playG).width(menu.getWidth()).pad(0);
         menu.row();
 
-        TextButton tip = new TextButton("Tip", Assets.SKIN);
-        menu.add(tip).width(menu.getWidth()).pad(0);
-        menu.row();
-
         TextButton visit = new TextButton("Visit", Assets.SKIN);
+        visit.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                LoveHunterX.getState().joinRoom(getName());
+                Packet join = Packet.createJoinRoomPacket(getName());
+                LoveHunterX.getConnection().send(join);
+            }
+        });
         menu.add(visit).width(menu.getWidth()).pad(0);
 
         return menu;

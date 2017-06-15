@@ -97,6 +97,11 @@ public class Connection {
             String m = (String) packet.content().toString(CharsetUtil.US_ASCII);
             Json json = new Json();
             Packet p = json.fromJson(Packet.class, m);
+
+            if (!p.getAction().equals("move")) {
+                System.out.println("RECEIVING: " + m);
+            }
+
             interpretPacket(p);
         }
 
