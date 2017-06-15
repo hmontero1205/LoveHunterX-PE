@@ -1,7 +1,9 @@
 # LoveHunterX: Pocket Edition
 
 Created for the Brooklyn Tech HS First Annual CS Symposium <br/>
-by Kevin Zheng, Hans Montero, Shoheb Ome, Michael Li
+by Kevin Zheng, Hans Montero, Shoheb Ome, Michael Li<br/>
+Server: https://github.com/kevtehpro35/LoveHunterX-PE-Server.git
+
 
 # Features
 <h3>
