@@ -3,7 +3,7 @@
 Created for the Brooklyn Tech HS First Annual CS Symposium <br/>
 by Kevin Zheng, Hans Montero, Shoheb Ome, Michael Li
 
-<h2>Features</h2>
+# Features
 <h3>
   Be who you want to be! Pick from multiple sprites! 
   <br/> 
