@@ -32,6 +32,7 @@ import com.lovehunterx.networking.listeners.PlayerLeaveListener;
 import com.lovehunterx.networking.listeners.PlayerMoveListener;
 import com.lovehunterx.networking.listeners.PurchaseListener;
 import com.lovehunterx.networking.listeners.StatusListener;
+import com.lovehunterx.screens.ui.Info;
 import com.lovehunterx.screens.ui.Invite;
 import com.lovehunterx.screens.ui.Shop;
 import com.lovehunterx.screens.ui.Sidebar;
@@ -49,6 +50,7 @@ public class GameState {
 
     private Button shopButton;
     private Shop shopContainer;
+    private Info infoContainer;
 
     private Button chatButton;
     private boolean chatting;
@@ -90,6 +92,7 @@ public class GameState {
 
         Sidebar sidebar = new Sidebar(0, 65, 65, 350);
         shopContainer = new Shop(80, 57.5f, 480, 365);
+        infoContainer = new Info(80, 57.5f, 480, 365);
         bindInventoryContainer(sidebar);
 
         this.chatButton = createChatButton();
@@ -241,9 +244,7 @@ public class GameState {
         b.addListener(new ClickListener() {
             @Override
             public void clicked(InputEvent e, float x, float y) {
-                if(isInMode(Mode.PLAY)){
-
-                }
+              toggleInfo();
             }
         });
 
@@ -308,6 +309,16 @@ public class GameState {
         }
     }
 
+    private void toggleInfo(){
+        if (isInMode(Mode.INFO)) {
+            toggleMode(Mode.PLAY);
+            infoContainer.remove();
+        } else if (isInMode(Mode.PLAY)) {
+            toggleMode(Mode.INFO);
+            ui.addActor(infoContainer);
+        }
+    }
+
     public boolean isChatting() {
         return chatting;
     }
@@ -317,7 +328,7 @@ public class GameState {
     }
 
     public enum Mode {
-        PLAY, CONFIG, SHOP, INVITE, MINIGAME;
+        PLAY, CONFIG, SHOP, INFO, INVITE, MINIGAME;
     }
 
     public Player getPlayer() {
