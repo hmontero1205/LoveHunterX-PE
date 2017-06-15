@@ -24,8 +24,10 @@ public class RoomScreen extends LHXScreen {
     @Override
     public void show() {
         ui = new Stage(new StretchViewport(640, 480));
+        ui.setDebugAll(true);
 
         stage = new Stage(new StretchViewport(640, 480));
+        stage.setDebugAll(true);
         LoveHunterX.getState().init(stage, ui);
 
         InputMultiplexer inputMultiplexer = new InputMultiplexer();

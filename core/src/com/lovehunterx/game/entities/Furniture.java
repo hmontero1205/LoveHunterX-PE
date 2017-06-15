@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Button;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.ui.TextButton;
@@ -89,7 +90,7 @@ public class Furniture extends Table {
     private Table createOptions() {
         Table opts = new Table();
 
-        TextButton cancel = new TextButton("X", Assets.SKIN);
+        Button cancel = new Button(new Image(new Texture(Gdx.files.internal("x.png"))), Assets.SKIN);
         cancel.setWidth(35);
         cancel.addListener(new ClickListener() {
             @Override
@@ -105,7 +106,7 @@ public class Furniture extends Table {
             }
         });
 
-        TextButton confirm = new TextButton("/", Assets.SKIN);
+        Button confirm = new Button(new Image(new Texture(Gdx.files.internal("check.png"))), Assets.SKIN);
         confirm.setWidth(35);
         confirm.addListener(new ClickListener() {
             @Override
