@@ -201,6 +201,10 @@ public class GameState {
     }
 
     public void startGame(String type, String start) {
+        if (game != null) {
+            game.remove();
+        }
+
         if (type.equals("ttt")) {
             game = new TicTacToe(start);
         }
