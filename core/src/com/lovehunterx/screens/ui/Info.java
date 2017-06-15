@@ -60,7 +60,7 @@ public class Info extends Group {
         temp2.setAlignment(Align.center);
         container.add(temp2).width(400).colspan(4);
         container.row().padTop(10);
-        Label fHeader = new Label("--------------Furniture Explanation:--------------",Assets.SKIN);
+        Label fHeader = new Label("--------------Furniture--------------",Assets.SKIN);
         fHeader.setAlignment(Align.center);
         container.add(fHeader).width(400).colspan(4);
         container.row().padTop(10);
@@ -70,7 +70,7 @@ public class Info extends Group {
         container.add(temp3).width(400).colspan(4);
         //about us
         container.row().padTop(10);;
-        Label aHeader = new Label("--------------About LoveHunterX-PE:--------------",Assets.SKIN);
+        Label aHeader = new Label("--------------About LoveHunterX: Pocket Edition--------------",Assets.SKIN);
         aHeader.setAlignment(Align.center);
         container.add(aHeader).width(400).colspan(4);
         container.row().padTop(10);;
