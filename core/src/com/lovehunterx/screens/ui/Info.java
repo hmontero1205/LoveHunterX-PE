@@ -43,8 +43,9 @@ public class Info extends Group {
         wrapper.bottom();
 
         container.top();
-        Label temp = new Label("Welcome to LoveHunterX-PE, a place where you can pursue your future love interest. Good luck and go get them xd!",Assets.SKIN);
+        Label temp = new Label("Welcome to LoveHunterX-PE, a place where you can pursue your interests. Good luck and go get them xD!",Assets.SKIN);
         temp.setWrap(true);
+        temp.setAlignment(Align.center);
         container.add(temp).width(400).colspan(4);
         container.row().padTop(10);
         Image chat = new Image(new TextureRegionDrawable(new TextureRegion(new Texture("chatbut.png"))));
@@ -54,21 +55,28 @@ public class Info extends Group {
         container.add(cart);
         container.add(new Label("Click to Shop!",Assets.SKIN));
         container.row().height(100);
-        Label temp2 = new Label("Feel free to explore and find your love and engage in some passionate ;) activities! But don't forget to invite the special one to your personalized room to chill!",Assets.SKIN);
+        Label temp2 = new Label("Feel free to explore and find your love and engage in some passionate activities! But don't forget to invite that special one to your personalized room to chill!",Assets.SKIN);
         temp2.setWrap(true);
+        temp2.setAlignment(Align.center);
         container.add(temp2).width(400).colspan(4);
         container.row().padTop(10);
-        container.add(new Label("--------------Furniture Explanation:--------------",Assets.SKIN)).width(400).colspan(4);
+        Label fHeader = new Label("--------------Furniture Explanation:--------------",Assets.SKIN);
+        fHeader.setAlignment(Align.center);
+        container.add(fHeader).width(400).colspan(4);
         container.row().padTop(10);
         Label temp3 = new Label("On the left side bar, you can open your inventory to toggle build mode. Tapping on the furniture places it into your room. The checkmark saves the position and the x restores it back to your inventory. Closing the inventory exits build mode.",Assets.SKIN);
         temp3.setWrap(true);
+        temp3.setAlignment(Align.center);
         container.add(temp3).width(400).colspan(4);
         //about us
         container.row().padTop(10);;
-        container.add(new Label("--------------About LoveHunterX-PE:--------------",Assets.SKIN)).width(400).colspan(4);
+        Label aHeader = new Label("--------------About LoveHunterX-PE:--------------",Assets.SKIN);
+        aHeader.setAlignment(Align.center);
+        container.add(aHeader).width(400).colspan(4);
         container.row().padTop(10);;
-        Label temp4 = new Label("Created by Kevin Zheng, Hans Montero, Michael Li and Shoheb Ome for Mr.Nockles' Symposium Project.",Assets.SKIN);
+        Label temp4 = new Label("Created by Kevin Zheng, Hans Montero, Michael Li and Shoheb Ome for Brooklyn Tech HS's First Annual CS Symposium. (6/15/2017)",Assets.SKIN);
         temp4.setWrap(true);
+        temp4.setAlignment(Align.center);
         container.add(temp4).width(400).colspan(4);
 
 

@@ -71,7 +71,7 @@ public class Shop extends Group {
         container.row();
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
-        container.add(new ShopItem("House Tree","A forest inside your apartment.",15.59));
+        container.add(new ShopItem("House Tree","A forest inside your apartment.",19.99));
         container.row();
         container.add(new Image(new Texture(Gdx.files.internal("shopsep.png"))));
         container.row();
